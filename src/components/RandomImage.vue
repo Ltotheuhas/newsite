@@ -1,20 +1,13 @@
 <template>
-    <div>
-      <div
-        class="image-container"
-        v-for="(imageSource, index) in imageSources"
-        :key="index"
-      >
-        <img
-          :src="imageSource"
-          :style="{
-            top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
-            left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
-          }"
-        />
-      </div>
+    <div class="random-image-wrapper">
+        <div class="image-container" v-for="(imageSource, index) in imageSources" :key="index">
+            <img :src="imageSource" :style="{
+                top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
+                left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
+            }" />
+        </div>
     </div>
-  </template>  
+</template>
   
 <script>
 export default {
@@ -74,6 +67,15 @@ export default {
 </script>
   
 <style scoped>
+.random-image-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
 .image-container {
     position: relative;
     display: inline-block;
@@ -83,5 +85,6 @@ img {
     position: absolute;
     max-height: 500px;
     max-width: 500px;
+    pointer-events: none;
 }
 </style>
