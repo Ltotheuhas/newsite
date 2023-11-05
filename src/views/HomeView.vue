@@ -53,6 +53,10 @@ export default defineComponent({
   display: none;
 }
 
+[title="next page"], [title="previous page"] {
+    display: table;
+}
+
 .hcb-shadow-r {
   background-color: white;
   opacity: 80%;
