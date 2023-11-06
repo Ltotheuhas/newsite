@@ -37,9 +37,3 @@ export default {
 };
 </script>
   
-<style scoped>
-.comment-box {
-    padding: 100px 20px;
-}
-</style>
-  

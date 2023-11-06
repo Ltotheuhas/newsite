@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mainStuff px-6">
+    <div class="mainStuff">
       <CommentComp></CommentComp>
     </div>
     <RandomImage :numImages="randomNumImages" class="randomimage" />
@@ -41,6 +41,10 @@ export default defineComponent({
 
 
 <style>
+  .mainStuff {
+    padding: 30px 20px;
+  }
+
 .randomimage {
   filter: grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
   -webkit-filter: grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
@@ -53,8 +57,9 @@ export default defineComponent({
   display: none;
 }
 
-[title="next page"], [title="previous page"] {
-    display: table;
+[title="next page"],
+[title="previous page"] {
+  display: table;
 }
 
 .hcb-shadow-r {
@@ -75,5 +80,15 @@ export default defineComponent({
 .mainStuff {
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 670px) {
+  .commentbox {
+    width: 100% !important;
+  }
+
+  .comment img {
+    width: 100%;
+  }
 }
 </style>
