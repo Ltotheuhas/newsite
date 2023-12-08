@@ -2,23 +2,93 @@
   <v-app>
     <NavbarComp />
     <v-main>
-      <router-view />
+      <div :class="{ 'mainStuff': !reveal, 'hidden': reveal }">
+        <router-view />
+      </div>
+      <RandomImage :numImages="randomNumImages" :class="{ 'randomimage': !reveal, 'revealed': reveal }" />
     </v-main>
+    <FooterComp />
   </v-app>
 </template>
 
 <script>
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import NavbarComp from './components/NavbarComp.vue';
+import FooterComp from './components/FooterComp.vue';
+import RandomImage from './components/RandomImage.vue';
 
 export default {
   name: 'App',
 
   components: {
     NavbarComp,
+    FooterComp,
+    RandomImage,
   },
 
-  data: () => ({
-    //
-  }),
+  setup() {
+    const randomNumImages = ref(1);
+    const route = useRoute();
+    const reveal = ref(false);
+
+    const generateRandomNumImages = () => {
+      const min = 1;
+      const max = 50;
+      randomNumImages.value = Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    generateRandomNumImages();
+
+    watch(() => route.name, (newRoute) => {
+      reveal.value = newRoute === 'reveal';
+    });
+
+    return {
+      randomNumImages,
+      generateRandomNumImages,
+      reveal,
+    };
+  }
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+@font-face {
+  font-family: 'Cabazon';
+  src: url('Cabazon.ttf');
+}
+
+* {
+  font-family: 'Play', sans-serif;
+}
+
+.mainStuff {
+  padding: 30px 20px;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.randomimage {
+  filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
+  -webkit-filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
+  -moz-filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
+}
+
+.v-btn {
+  background-color: white;
+  color: black;
+  opacity: 80%;
+}
+
+.hidden {
+  display: none;
+}
+
+.revealed img {
+  pointer-events: all;
+}
+</style>

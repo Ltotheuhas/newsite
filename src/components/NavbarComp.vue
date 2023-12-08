@@ -1,6 +1,8 @@
 <template>
   <v-app-bar app color="#080808" elevation="0" class="nav">
-    <v-img src="../assets/logo.svg" to="home" class="navmg"></v-img>
+    <router-link to="/" class="mx-auto">
+      <img :src="require(`../assets/logo.svg`)" to="/" class="navmg" />
+    </router-link>
   </v-app-bar>
 </template>
 
@@ -19,6 +21,6 @@ export default {
 
 .navmg {
   height: 49px;
-  margin-top: 5px;
+  margin-top: 11.3px;
 }
 </style>
