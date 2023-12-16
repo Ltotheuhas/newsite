@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@egjs/vue-grid": "^1.15.0",
     "@mdi/font": "5.9.55",
     "core-js": "^3.8.3",
     "gsap": "^3.12.3",

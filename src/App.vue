@@ -63,6 +63,23 @@ export default {
 
 * {
   font-family: 'Play', sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff #000000;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #000000;
+  opacity: 50%;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 0px;
+  border: 0px none #ffffff;
 }
 
 .mainStuff {

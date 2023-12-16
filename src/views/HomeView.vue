@@ -38,12 +38,7 @@ const imageLists = [
   },
   {
     routeName: 'reveal',
-    images: [
-      'https://t3.ftcdn.net/jpg/05/76/43/72/360_F_576437228_ZwDb1VwhHVjV0ozQPE3MbWLeOPZT91yg.jpg',
-      'https://t4.ftcdn.net/jpg/05/59/60/85/360_F_559608599_nhZNDbdiTCtQ11JSZrkS5tBHPrMF09jn.jpg',
-      'https://t3.ftcdn.net/jpg/05/73/66/08/360_F_573660893_CD0DKJ4xRYYQ171LVH1fRpY1XVN6PaKj.jpg',
-      // Add more images to the third list as needed
-    ],
+    images: [],
   },
 ];
 
