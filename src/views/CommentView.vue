@@ -67,11 +67,11 @@ export default {
   pointer-events: none;
 }
 
-#comment_16534940 a > img {
+#comment_16534923 a > img {
   display: none;
 }
 
-#comment_16534940 a::before {
+#comment_16534923 a::before {
   content: url(http://176.12.131.175:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER);
 }
 
