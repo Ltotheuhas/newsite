@@ -1,119 +1,171 @@
 <template>
-  <div class="image-viewer-container">
-    <!-- SVG Filter Definition -->
-    <svg class="svg-filters">
-      <defs>
-        <filter id="invertColors">
-          <feComponentTransfer>
-            <feFuncR type="table" tableValues="1 0" />
-            <feFuncG type="table" tableValues="1 0" />
-            <feFuncB type="table" tableValues="1 0" />
-          </feComponentTransfer>
-        </filter>
-      </defs>
-    </svg>
-
-    <!-- Overlay Container for Inversion Effect -->
-    <div class="overlay-container"></div>
-
-    <!-- SVG Overlay with '2023' -->
-    <svg class="overlay-svg" :width="svgWidth" :height="svgHeight" viewBox="0 0 181.642 61.77"
-      xmlns="http://www.w3.org/2000/svg">
-      <g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#000" stroke-width="0.25mm"
-        fill="#000" style="stroke:#000;stroke-width:0.25mm;fill:#000">
-        <path
-          d="M 37.744 45.167 L 37.012 60.304 L 1.416 60.304 L 0 56.691 A 1201.24 1201.24 0 0 0 4.124 51.866 Q 10.016 44.935 14.136 39.845 A 265.274 265.274 0 0 0 17.326 35.83 Q 20.567 31.662 22.632 28.59 A 63.059 63.059 0 0 0 24.33 25.931 Q 25.89 23.338 26.696 21.308 A 18.597 18.597 0 0 0 26.807 21.022 A 19.439 19.439 0 0 0 27.648 18.196 A 14.461 14.461 0 0 0 27.979 15.187 A 15.259 15.259 0 0 0 27.591 11.663 A 11.367 11.367 0 0 0 25.879 7.765 A 6.647 6.647 0 0 0 22.167 5.163 Q 20.997 4.817 19.569 4.753 A 14.834 14.834 0 0 0 18.896 4.738 A 7.596 7.596 0 0 0 16.328 5.16 A 6.788 6.788 0 0 0 14.282 6.325 A 10.195 10.195 0 0 0 11.353 10.255 Q 10.479 12.3 10.479 14.344 A 9.591 9.591 0 0 0 10.498 14.943 A 26.367 26.367 0 0 1 7.623 16.321 A 29.884 29.884 0 0 1 6.909 16.603 A 16.573 16.573 0 0 1 3.328 17.511 A 18.649 18.649 0 0 1 2.783 17.579 L 1.318 15.48 A 8.102 8.102 0 0 1 1.808 12.772 Q 2.172 11.741 2.807 10.675 A 14.848 14.848 0 0 1 3.052 10.28 A 19.018 19.018 0 0 1 5.618 7.113 A 24.363 24.363 0 0 1 7.739 5.226 A 25.207 25.207 0 0 1 13.965 1.625 A 28.254 28.254 0 0 1 14.429 1.442 A 21.461 21.461 0 0 1 22.217 0.001 A 20.875 20.875 0 0 1 27.065 0.536 A 15.092 15.092 0 0 1 32.886 3.273 Q 36.996 6.456 37.106 12.969 A 21.364 21.364 0 0 1 37.109 13.331 A 16.275 16.275 0 0 1 36.429 17.91 A 20.237 20.237 0 0 1 35.669 20.045 Q 34.229 23.488 31.03 27.955 Q 27.832 32.423 22.583 38.6 Q 17.334 44.777 9.717 53.517 L 29.834 53.517 A 3.225 3.225 0 0 0 31.219 53.226 Q 31.944 52.887 32.471 52.15 A 9.892 9.892 0 0 0 33.709 49.773 A 11.706 11.706 0 0 0 33.96 49 A 27.25 27.25 0 0 0 34.32 47.621 Q 34.542 46.663 34.644 45.851 L 34.814 44.484 L 37.744 45.167 Z M 134.033 45.167 L 133.301 60.304 L 97.705 60.304 L 96.289 56.691 A 1201.24 1201.24 0 0 0 100.414 51.866 Q 106.305 44.935 110.425 39.845 A 265.274 265.274 0 0 0 113.615 35.83 Q 116.856 31.662 118.921 28.59 A 63.059 63.059 0 0 0 120.619 25.931 Q 122.179 23.338 122.985 21.308 A 18.597 18.597 0 0 0 123.096 21.022 A 19.439 19.439 0 0 0 123.937 18.196 A 14.461 14.461 0 0 0 124.268 15.187 A 15.259 15.259 0 0 0 123.88 11.663 A 11.367 11.367 0 0 0 122.168 7.765 A 6.647 6.647 0 0 0 118.456 5.163 Q 117.287 4.817 115.858 4.753 A 14.834 14.834 0 0 0 115.186 4.738 A 7.596 7.596 0 0 0 112.617 5.16 A 6.788 6.788 0 0 0 110.571 6.325 A 10.195 10.195 0 0 0 107.642 10.255 Q 106.768 12.3 106.768 14.344 A 9.591 9.591 0 0 0 106.787 14.943 A 26.367 26.367 0 0 1 103.912 16.321 A 29.884 29.884 0 0 1 103.198 16.603 A 16.573 16.573 0 0 1 99.617 17.511 A 18.649 18.649 0 0 1 99.072 17.579 L 97.607 15.48 A 8.102 8.102 0 0 1 98.097 12.772 Q 98.461 11.741 99.096 10.675 A 14.848 14.848 0 0 1 99.341 10.28 A 19.018 19.018 0 0 1 101.907 7.113 A 24.363 24.363 0 0 1 104.028 5.226 A 25.207 25.207 0 0 1 110.254 1.625 A 28.254 28.254 0 0 1 110.718 1.442 A 21.461 21.461 0 0 1 118.506 0.001 A 20.875 20.875 0 0 1 123.354 0.536 A 15.092 15.092 0 0 1 129.175 3.273 Q 133.285 6.456 133.395 12.969 A 21.364 21.364 0 0 1 133.398 13.331 A 16.275 16.275 0 0 1 132.718 17.91 A 20.237 20.237 0 0 1 131.958 20.045 Q 130.518 23.488 127.319 27.955 Q 124.121 32.423 118.872 38.6 Q 113.623 44.777 106.006 53.517 L 126.123 53.517 A 3.225 3.225 0 0 0 127.508 53.226 Q 128.233 52.887 128.76 52.15 A 9.892 9.892 0 0 0 129.998 49.773 A 11.706 11.706 0 0 0 130.249 49 A 27.25 27.25 0 0 0 130.609 47.621 Q 130.831 46.663 130.933 45.851 L 131.104 44.484 L 134.033 45.167 Z M 143.359 54.249 L 145.117 50.49 Q 149.561 53.761 152.808 55.006 A 19.13 19.13 0 0 0 159.717 56.251 A 14.328 14.328 0 0 0 164.06 55.62 A 11.73 11.73 0 0 0 168.726 52.833 Q 172.266 49.415 172.266 43.165 Q 172.266 38.429 170.386 35.573 A 12.32 12.32 0 0 0 168.301 33.127 A 10.046 10.046 0 0 0 165.771 31.471 A 14.209 14.209 0 0 0 162.81 30.482 A 11.675 11.675 0 0 0 160.4 30.226 Q 159.033 30.226 158.691 30.275 A 19.661 19.661 0 0 0 158.522 30.3 Q 158.102 30.364 157.026 30.537 A 700.621 700.621 0 0 0 156.836 30.568 L 156.104 27.15 A 41.91 41.91 0 0 0 159.393 26.136 Q 162.826 24.91 164.795 23.366 A 16.403 16.403 0 0 0 166.517 21.821 Q 167.36 20.941 167.917 20.04 A 7.845 7.845 0 0 0 168.555 18.776 Q 169.482 16.408 169.482 14.406 A 12.318 12.318 0 0 0 168.687 10.094 A 13.962 13.962 0 0 0 168.628 9.938 Q 167.773 7.716 165.991 6.251 Q 164.252 4.822 161.468 4.787 A 11.173 11.173 0 0 0 161.328 4.786 A 8.032 8.032 0 0 0 158.908 5.133 A 6.284 6.284 0 0 0 155.835 7.252 Q 153.857 9.718 154.541 13.038 A 22.208 22.208 0 0 1 151.259 14.438 A 24.695 24.695 0 0 1 150.757 14.601 A 19.664 19.664 0 0 1 147.287 15.342 A 22.404 22.404 0 0 1 146.436 15.431 L 144.971 13.429 A 6.775 6.775 0 0 1 145.466 10.962 Q 146.103 9.328 147.559 7.57 A 19.418 19.418 0 0 1 151.243 4.177 A 25.804 25.804 0 0 1 154.468 2.223 A 20.262 20.262 0 0 1 162.392 0.061 A 24.389 24.389 0 0 1 164.111 0.001 A 22.461 22.461 0 0 1 167.47 0.238 Q 170.452 0.69 172.583 2.003 A 13.375 13.375 0 0 1 175.612 4.516 A 11.523 11.523 0 0 1 177.344 7.106 A 14.47 14.47 0 0 1 178.857 13.527 A 10.121 10.121 0 0 1 177.779 18.001 A 14.685 14.685 0 0 1 176.025 20.729 A 17.594 17.594 0 0 1 170.723 25.137 A 22.07 22.07 0 0 1 168.457 26.222 A 14.041 14.041 0 0 1 175.244 28.834 Q 178.223 31.007 179.932 34.376 A 15.957 15.957 0 0 1 181.641 41.701 Q 181.641 47.169 179.15 51.735 A 18.738 18.738 0 0 1 171.973 59.035 A 19.467 19.467 0 0 1 165.884 61.282 A 27.299 27.299 0 0 1 160.596 61.769 Q 156.738 61.769 152.246 60.109 A 21.964 21.964 0 0 1 147.778 57.814 Q 145.557 56.349 143.359 54.249 Z M 87.249 40.746 A 45.323 45.323 0 0 0 88.281 30.91 A 58.832 58.832 0 0 0 88.004 25.117 A 47.181 47.181 0 0 0 86.035 15.382 Q 83.789 8.351 79.37 4.176 A 14.92 14.92 0 0 0 74.445 1.045 A 16.423 16.423 0 0 0 68.506 0.001 Q 62.061 0.001 57.227 4.225 A 24.678 24.678 0 0 0 52.819 9.327 A 31.621 31.621 0 0 0 49.731 15.48 Q 47.07 22.511 47.07 30.91 A 56.794 56.794 0 0 0 47.317 36.271 A 46.183 46.183 0 0 0 49.365 46.315 A 32.455 32.455 0 0 0 51.576 51.549 A 23.868 23.868 0 0 0 56.055 57.545 A 14.837 14.837 0 0 0 60.824 60.663 A 15.99 15.99 0 0 0 66.846 61.769 Q 73.242 61.769 78.052 57.545 Q 82.861 53.322 85.571 46.315 A 38.569 38.569 0 0 0 87.249 40.746 Z M 78.711 32.716 A 81.518 81.518 0 0 0 78.431 25.716 Q 77.822 18.67 75.886 14.112 A 20.387 20.387 0 0 0 75.171 12.599 A 21.071 21.071 0 0 0 73.383 9.73 Q 70.472 5.861 66.846 5.861 A 7.414 7.414 0 0 0 60.818 8.867 A 13.043 13.043 0 0 0 59.351 11.207 A 18.589 18.589 0 0 0 58.064 14.761 Q 57.039 18.671 56.778 24.567 A 96.354 96.354 0 0 0 56.689 28.81 A 87.889 87.889 0 0 0 56.95 35.82 Q 57.517 42.884 59.318 47.508 A 21.984 21.984 0 0 0 59.985 49.049 A 18.876 18.876 0 0 0 61.754 52.051 Q 64.587 55.91 68.506 55.91 A 7.459 7.459 0 0 0 74.606 52.869 A 12.946 12.946 0 0 0 76.074 50.49 Q 78.23 46.059 78.623 36.994 A 98.87 98.87 0 0 0 78.711 32.716 Z"
-          vector-effect="non-scaling-stroke" />
-      </g>
-    </svg>
-
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" xxl="1" v-for="image in displayedImages" :key="image.id">
-          <v-img :src="image.url"></v-img>
-        </v-col>
-      </v-row>
-    </v-container>
+  <div v-if="smAndUp">
+    <div v-for="(image, index) in shuffledImageSources" :key="image.routeName" class="draggable-item"
+      @mousedown="startDragging($event, index)" @dragstart="preventNativeDrag" :style="{
+        top: `${randomPositions[index].top}px`,
+        left: `${randomPositions[index].left}px`,
+      }">
+      <router-link v-show="!isDraggingVisible && totalDistance < clickThreshold" :to="`/${image.routeName}`">
+        <img :src="image.url" alt="Draggable Image" class="draggable-image" />
+      </router-link>
+      <img v-show="isDraggingVisible || totalDistance >= clickThreshold" :src="image.url" class="draggable-image" />
+    </div>
+  </div>
+  <div v-if="xs">
+    <v-row class="mx-auto" style="width: 80%;">
+      <v-col v-for="(imageSource, index) in shuffledImageSources" :key="index" cols="12" sm="6" md="4">
+        <router-link :to="`/${imageSource.routeName}`">
+          <img class="gridmg" :src="imageSource.url" />
+        </router-link>
+      </v-col>
+    </v-row>
   </div>
 </template>
+  
+<script setup>
+import { ref } from 'vue';
+import { useDisplay } from 'vuetify';
+const { xs, smAndUp } = useDisplay();
 
-<script>
-export default {
-  name: 'MyImageViewer',
-  data() {
-    return {
-      svgWidth: '100vw', // Initial width
-      svgHeight: '100vh', // Initial height
-      images: [],
-      displayedImages: [],
-      originalOrder: [],
-      scrollTimeout: null,
-    };
+const imageLists = [
+  {
+    routeName: 'test',
+    images: [],
   },
-  methods: {
-    shuffleImages() {
-      this.displayedImages = [...this.images].sort(() => Math.random() - 0.5);
-    },
-    resetOrder() {
-      this.displayedImages = [...this.originalOrder];
-    },
-    handleScroll() {
-      clearTimeout(this.scrollTimeout);
-      this.shuffleImages();
-      this.scrollTimeout = setTimeout(this.resetOrder, 0); // Adjust time as needed
-    },
-
-    adjustSvgSize() {
-      this.svgWidth = window.innerWidth + 'px';
-      this.svgHeight = window.innerHeight + 'px';
-    }
+  {
+    routeName: 'comments',
+    images: [],
   },
-  mounted() {
-    const context = require.context('@/assets/2023/', false, /\.(jpg|jpeg)$/);
-    const filenames = context.keys();
-
-    this.images = filenames.map((filename, index) => ({
-      id: index,
-      url: context(filename)
-    }));
-
-    this.originalOrder = [...this.images];
-    this.displayedImages = [...this.images];
-
-    window.addEventListener('scroll', this.handleScroll);
-
-    this.adjustSvgSize();
-    window.addEventListener('resize', this.adjustSvgSize);
+  {
+    routeName: 'reveal',
+    images: [],
   },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+];
 
-    window.removeEventListener('resize', this.adjustSvgSize);
+const meImageContext = require.context('@/assets/me/', false, /\.jpg$/);
+const meImageFilenames = meImageContext.keys();
+const meImages = meImageFilenames.map((filename) => {
+  return {
+    name: filename,
+    url: meImageContext(filename),
+  };
+});
+imageLists[0].images = meImages;
+
+const youImageContext = require.context('@/assets/you/', false, /\.jpg$/);
+const youImageFilenames = youImageContext.keys();
+const youImages = youImageFilenames.map((filename) => {
+  return {
+    name: filename,
+    url: youImageContext(filename),
+  };
+});
+imageLists[1].images = youImages;
+
+const otherImageContext = require.context('@/assets/other/', false, /\.jpg$/);
+const otherImageFilenames = otherImageContext.keys();
+const otherImages = otherImageFilenames.map((filename) => {
+  return {
+    name: filename,
+    url: otherImageContext(filename),
+  };
+});
+imageLists[2].images = otherImages;
+
+const shuffledImageLists = imageLists.map(({ routeName, images }) => ({
+  routeName,
+  url: images.sort(() => Math.random() - 0.5)[0].url,
+}));
+
+const shuffledImageSources = ref(
+  shuffledImageLists.map(({ routeName, url }) => ({ routeName, url }))
+);
+
+shuffledImageSources.value.sort(() => Math.random() - 0.5);
+
+const randomPositions = ref([]);
+
+const getRandomImages = () => {
+  for (let i = 0; i < shuffledImageSources.value.length; i++) {
+    randomPositions.value[i] = generateRandomPosition();
   }
 };
+
+const generateRandomPosition = () => {
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  const maxTop = windowHeight - 400;
+  const maxLeft = windowWidth - 400;
+
+  const randomTop = Math.floor(Math.random() * maxTop);
+  const randomLeft = Math.floor(Math.random() * maxLeft);
+
+  return { top: randomTop, left: randomLeft };
+};
+
+let dragging = null;
+
+const isDraggingVisible = ref(false);
+let totalDistance = 0;
+let clickThreshold = 5;
+
+const startDragging = (event, index) => {
+  dragging = { index, startX: event.clientX, startY: event.clientY };
+  window.addEventListener('mousemove', onDragging);
+  window.addEventListener('mouseup', stopDragging);
+};
+
+const onDragging = (event) => {
+  if (dragging !== null) {
+    const { index, startX, startY } = dragging;
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+
+    randomPositions.value[index].left += deltaX;
+    randomPositions.value[index].top += deltaY;
+
+    dragging.startX = event.clientX;
+    dragging.startY = event.clientY;
+
+    const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+    totalDistance += distance;
+
+    if (totalDistance >= clickThreshold) {
+      isDraggingVisible.value = true;
+    }
+  }
+};
+
+const stopDragging = () => {
+  if (dragging !== null) {
+    window.removeEventListener('mousemove', onDragging);
+    window.removeEventListener('mouseup', stopDragging);
+    dragging = null;
+    totalDistance = 0;
+    isDraggingVisible.value = false;
+  }
+};
+
+const preventNativeDrag = (event) => {
+  event.preventDefault();
+};
+
+getRandomImages();
 </script>
-
-<style>
-.svg-filters {
-  height: 0;
+  
+<style scoped>
+.draggable-item {
+  position: absolute;
+  cursor: grab;
 }
 
-.overlay-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: transparent;
-  filter: url(#invertColors);
-  pointer-events: none;
-  z-index: 10;
+.draggable-image {
+  max-height: 400px;
+  max-width: 400px;
+  object-fit: cover;
 }
 
-.overlay-svg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+img.gridmg {
+  width: 100%;
 }
 </style>
