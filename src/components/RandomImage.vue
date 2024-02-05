@@ -1,13 +1,17 @@
 <template>
     <div class="random-image-wrapper">
-        <div class="image-container" v-for="(imageSource, index) in imageSources" :key="index">
-            <img :src="imageSource" :style="{
+        <div class="image-container" v-for="(imageSource, index) in imageSources" :key="index"
+            @mousedown="startDragging($event, index)" @touchstart="startDragging($event, index)"
+            @mousemove="onDragging($event, index)" @mouseup="stopDragging" @touchend="stopDragging" :style="{
                 top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
                 left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
-            }" />
+                zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
+            }">
+            <img :src="imageSource" @dragstart.prevent="preventNativeDrag" />
         </div>
     </div>
 </template>
+
   
 <script>
 export default {
@@ -18,6 +22,9 @@ export default {
         return {
             imageSources: [],
             randomPositions: [],
+            dragging: null,
+            startCoordinates: { x: 0, y: 0 },
+            highestZIndex: 0,
         };
     },
     methods: {
@@ -59,6 +66,42 @@ export default {
 
             return { top: randomTop, left: randomLeft };
         },
+        startDragging(event, index) {
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+            this.dragging = index;
+            this.startCoordinates.x = clientX;
+            this.startCoordinates.y = clientY;
+            this.highestZIndex++;
+            this.randomPositions[index].z = this.highestZIndex;
+
+            // Add touch event listeners
+            window.addEventListener('touchmove', (e) => this.onDragging(e, index));
+            window.addEventListener('touchend', this.stopDragging);
+        },
+        onDragging(event, index) {
+            if (this.dragging === index) {
+                const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+                const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+                const deltaX = clientX - this.startCoordinates.x;
+                const deltaY = clientY - this.startCoordinates.y;
+                this.randomPositions[index].top += deltaY;
+                this.randomPositions[index].left += deltaX;
+                this.startCoordinates.x = clientX;
+                this.startCoordinates.y = clientY;
+            }
+        },
+        stopDragging() {
+            this.dragging = null;
+            // Remove touch event listeners
+            window.removeEventListener('touchmove', this.onDragging);
+            window.removeEventListener('touchend', this.stopDragging);
+        },
+        preventNativeDrag(event) {
+            event.preventDefault();
+        }
     },
     created() {
         this.getRandomImages();
@@ -77,14 +120,15 @@ export default {
 }
 
 .image-container {
-    position: relative;
-    display: inline-block;
+    position: absolute;
+    cursor: grab;
+    /* To indicate it's draggable */
 }
 
 img {
-    position: absolute;
     max-height: 500px;
     max-width: 500px;
-    pointer-events: none;
+    object-fit: cover;
 }
 </style>
+

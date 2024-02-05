@@ -67,14 +67,6 @@ export default {
   pointer-events: none;
 }
 
-#comment_16534923 a > img {
-  display: none;
-}
-
-#comment_16534923 a::before {
-  content: url(http://176.12.131.175:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER);
-}
-
 @media (max-width: 670px) {
   .commentbox {
     width: 100% !important;

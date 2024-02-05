@@ -1,9 +1,11 @@
 <template>
   <div v-if="smAndUp">
     <div v-for="(image, index) in shuffledImageSources" :key="image.routeName" class="draggable-item"
-      @mousedown="startDragging($event, index)" @dragstart="preventNativeDrag" :style="{
+      @mousedown="startDragging($event, index)" @touchstart="startDragging($event, index)" @dragstart="preventNativeDrag"
+      :style="{
         top: `${randomPositions[index].top}px`,
         left: `${randomPositions[index].left}px`,
+        zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
       }">
       <router-link v-show="!isDraggingVisible && totalDistance < clickThreshold" :to="`/${image.routeName}`">
         <img :src="image.url" alt="Draggable Image" class="draggable-image" />
@@ -108,24 +110,37 @@ let dragging = null;
 const isDraggingVisible = ref(false);
 let totalDistance = 0;
 let clickThreshold = 5;
+const highestZIndex = ref(0);
 
 const startDragging = (event, index) => {
-  dragging = { index, startX: event.clientX, startY: event.clientY };
+  const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+  const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+  dragging = { index, startX: clientX, startY: clientY };
   window.addEventListener('mousemove', onDragging);
+  window.addEventListener('touchmove', onDragging);
   window.addEventListener('mouseup', stopDragging);
+  window.addEventListener('touchend', stopDragging);
+
+  highestZIndex.value++;
+  randomPositions.value[index].z = highestZIndex.value;
 };
 
 const onDragging = (event) => {
   if (dragging !== null) {
-    const { index, startX, startY } = dragging;
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
+    const { index } = dragging;
+
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+    const deltaX = clientX - dragging.startX;
+    const deltaY = clientY - dragging.startY;
 
     randomPositions.value[index].left += deltaX;
     randomPositions.value[index].top += deltaY;
 
-    dragging.startX = event.clientX;
-    dragging.startY = event.clientY;
+    dragging.startX = clientX;
+    dragging.startY = clientY;
 
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
     totalDistance += distance;
@@ -139,7 +154,9 @@ const onDragging = (event) => {
 const stopDragging = () => {
   if (dragging !== null) {
     window.removeEventListener('mousemove', onDragging);
+    window.removeEventListener('touchmove', onDragging);
     window.removeEventListener('mouseup', stopDragging);
+    window.removeEventListener('touchend', stopDragging);
     dragging = null;
     totalDistance = 0;
     isDraggingVisible.value = false;

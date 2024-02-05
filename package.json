@@ -11,6 +11,7 @@
   "dependencies": {
     "@egjs/vue-grid": "^1.15.0",
     "@mdi/font": "5.9.55",
+    "@yeger/vue-masonry-wall": "^5.0.3",
     "core-js": "^3.8.3",
     "gsap": "^3.12.3",
     "roboto-fontface": "*",
