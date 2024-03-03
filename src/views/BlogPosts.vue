@@ -1,12 +1,14 @@
 <template>
-  <div class="blog-posts">
-    <ul>
-      <li v-for="post in posts" :key="post._id">
-        <p>{{ formatDate(post.publishedAt) }}</p>
-        <p>{{ post.body }}</p>
-      </li>
-    </ul>
-  </div>
+  <v-list class="blog-posts">
+    <v-list-item-group>
+      <v-list-item class="mb-4" v-for="post in posts" :key="post._id" two-line>
+        <v-list-item-content>
+          <v-list-item-title v-text="formatDate(post.publishedAt)"></v-list-item-title>
+          <p>{{ post.body }}</p>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list-item-group>
+  </v-list>
 </template>
 
 <script>
@@ -39,7 +41,19 @@ export default {
     }
   },
   async created() {
-    this.posts = await getPosts();
+    let posts = await getPosts();
+    posts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    this.posts = posts;
   },
 }
 </script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+}
+
+.v-list {
+  background-color: transparent !important;
+}
+</style>

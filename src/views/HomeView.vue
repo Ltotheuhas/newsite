@@ -31,7 +31,7 @@ const { xs, smAndUp } = useDisplay();
 
 const imageLists = [
   {
-    routeName: 'test',
+    routeName: 'myspace',
     images: [],
   },
   {

@@ -1,5 +1,6 @@
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+import {createClient} from '@sanity/client'
+// Import using ESM URL imports in environments that supports it:
+// import {createClient} from 'https://esm.sh/@sanity/client'
 
 export const client = createClient({
   projectId: '1s0at5ry',
@@ -9,20 +10,10 @@ export const client = createClient({
   // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
 })
 
+// uses GROQ to query content: https://www.sanity.io/docs/groq
 export async function getPosts() {
-  const query = `
-  *[_type == "post"]{
-    _id,
-    title,
-    "author": author->name,
-    "categories": categories[]->title,
-    publishedAt,
-    mainImage,
-    body
-  }
-`;
-  const posts = await client.fetch(query);
-  return posts;
+  const posts = await client.fetch('*[_type == "post"]')
+  return posts
 }
 
 export async function createPost(post) {
@@ -31,13 +22,6 @@ export async function createPost(post) {
 }
 
 export async function updateDocumentTitle(_id, title) {
-  const result = await client.patch(_id).set({ title });
+  const result = await client.patch(_id).set({title});
   return result;
-}
-
-const builder = imageUrlBuilder(client);
-
-// Function to generate URL for a given source image
-export function urlFor(source) {
-  return builder.image(source);
 }

@@ -7,6 +7,7 @@
     </template>
   </MasonryWall>
 </template>
+
 <script>
 import MasonryWall from '@yeger/vue-masonry-wall';
 import { defineComponent, ref, nextTick } from 'vue';
