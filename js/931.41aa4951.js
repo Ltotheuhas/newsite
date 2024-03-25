@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunknew_luhas_site"]=self["webpackChunknew_luhas_site"]||[]).push([[931],{2931:function(e,n,u){function t(e,n){return" wip "}u.r(n),u.d(n,{default:function(){return c}});var r=u(89);const s={},a=(0,r.Z)(s,[["render",t]]);var c=a}}]);
-//# sourceMappingURL=931.41aa4951.js.map
