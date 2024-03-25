@@ -1,8 +1,9 @@
 <template>
   <MasonryWall :items="images" :ssr-columns="1" :column-width="200" :gap="10">
     <template #default="{ item }">
-      <div :style="{ paddingTop: `${(1 / item.aspectRatio) * 100}%` }" class="image-container">
-        <img :src="item.url" alt="Image" class="image" />
+      <div class="image-container" @click="navigateToDetail(item.name)">
+        <img :src="item.primary" :alt="`Image of ${item.name}`" class="image"
+          @load="event => onImageLoad(event, item)" />
       </div>
     </template>
   </MasonryWall>
@@ -10,13 +11,16 @@
 
 <script>
 import MasonryWall from '@yeger/vue-masonry-wall';
-import { defineComponent, ref, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
+import { defineComponent, ref, onMounted } from 'vue';
+import { portfolioItems } from '@/data/portfolioItems';
 
 export default defineComponent({
   components: {
     MasonryWall,
   },
   setup() {
+    const router = useRouter();
     const images = ref([]);
 
     const shuffleArray = (array) => {
@@ -26,48 +30,41 @@ export default defineComponent({
       }
     };
 
-    const loadImages = () => {
-      const gridImageContext = require.context('@/assets/grid/', false, /\.(jpg|jpeg|png|gif)$/);
-      const gridImageFilenames = gridImageContext.keys();
+    onMounted(() => {
+      const shuffledItems = [...portfolioItems];
+      shuffleArray(shuffledItems);
+      images.value = shuffledItems.map(item => ({
+        ...item,
+      }));
+    });
 
-      const imageLoadPromises = gridImageFilenames.map((filename) => {
-        return new Promise((resolve) => {
-          const url = gridImageContext(filename);
-          const img = new Image();
-          img.onload = () => {
-            const aspectRatio = img.naturalWidth / img.naturalHeight;
-            resolve({ url, aspectRatio });
-          };
-          img.src = url;
-        });
-      });
-
-      Promise.all(imageLoadPromises).then((loadedImages) => {
-        shuffleArray(loadedImages); // Shuffle the array of images
-        nextTick(() => {
-          images.value = loadedImages;
-        });
-      });
+    const onImageLoad = (event, item) => {
+      const width = event.target.naturalWidth;
+      const height = event.target.naturalHeight;
+      const aspectRatio = width / height;
+      const imageItem = images.value.find(i => i.name === item.name);
+      if (imageItem) {
+        imageItem.aspectRatio = aspectRatio;
+      }
     };
 
-    loadImages();
-    return { images };
+    const navigateToDetail = (itemId) => {
+      router.push({ name: 'details', params: { id: itemId } });
+    };
+
+    return { images, navigateToDetail, onImageLoad };
   },
 });
 </script>
 
 <style scoped>
 .image-container {
-  position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
 }
 </style>

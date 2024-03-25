@@ -8,8 +8,11 @@
                     <v-card-text>
                         "{{ currentMessage }}"<br>I eat poopy babies
                     </v-card-text>
-                    <v-card-text class="online"><img src="https://static.spacehey.net/img/green_person.svg"
-                            aria-hidden="true" alt="Online icon" loading="lazy"> ONLINE!</v-card-text>
+                    <router-link to="home">
+                        <v-card-text class="online">
+                            <img src="https://static.spacehey.net/img/green_person.svg" aria-hidden="true"
+                                alt="Online icon" loading="lazy"> ONLINE!</v-card-text>
+                    </router-link>
                 </v-card>
 
                 <v-card>
@@ -30,9 +33,9 @@
 ║╔╗║╔╗║║║║║╩╣
 ╚╝╚╩╝╚╩╩╩╩╩═╝
 
-☻/ This is bob. Copy and
-/▌ paste him so he can
-/\ take over luhas.neocities.org.
+☻/ This is bob. Copy and paste
+/▌ him so he can take over
+/\ luhas.neocities.org.
       </pre>
                     </v-card-text>
                     <v-card-text>
@@ -59,13 +62,13 @@
                             Music
                         </v-col>
                         <v-col cols="8">
-                            I listen to Laurel Halo, Ayesha Erotica, Full of Hell, Tom Tom Club, Felix da Housecat,
+                            I listen to Laurel Halo, Amnesia Scanner, Full of Hell, James Ferraro, Felix da Housecat,
                             LUCY,
                             Sonic Youth, SpaceGhostPurrp, Elliott Smith, Yung Lean, The Microphones, Coil, Faust, Three
                             6 Mafia,
-                            Goreshit, Deftones, Jim O'Rourke, Connie Converse, Kleenex Girl Wonder, Schwefelgelb,
+                            Goreshit, Snot, Jim O'Rourke, Dean Blunt, Kleenex Girl Wonder, Schwefelgelb,
                             Sd Laika, Venetian Snares, Grauzone, Psychic TV, Leonard Cohen, The Mars Volta, Speaker
-                            Knockerz, Tek Lintowe, Unwound, Death Insurance, Sonny & The Sunsets, Blackhandpath, And
+                            Knockerz, S280F, Unwound, Death Insurance, Sonny & The Sunsets, Blackhandpath, And
                             much more but I kinda
                             forgot XP
                             <v-img :src="require('@/assets/myspace/musicislife.gif')" class="h-auto my-4"></v-img>
@@ -106,7 +109,10 @@
 
             <v-col cols="12" md="8">
                 <v-card>
-                    <v-card-title>Luhas' Latest Blog Entries [<router-link to="blog">View
+                    <v-card-title class="d-none d-sm-block">Luhas' Latest Blog Entries [<router-link to="blog">View
+                            Blog</router-link>]</v-card-title>
+                    <v-card-title class="d-sm-none pb-0">Luhas' Latest Blog Entries</v-card-title>
+                    <v-card-title class="d-sm-none pt-0">[<router-link to="blog">View
                             Blog</router-link>]</v-card-title>
                     <v-card-text>
                         <BlogComp :limit="3"></BlogComp>
@@ -129,7 +135,10 @@
                 </v-card>
 
                 <v-card>
-                    <v-card-title>My Artwork :3 [<router-link to="test">View
+                    <v-card-title class="d-none d-sm-block">My Artwork :3 [<router-link to="test">View
+                            Full Portfolio</router-link>]</v-card-title>
+                    <v-card-title class="d-sm-none pb-0">My Artwork :3</v-card-title>
+                    <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                             Full Portfolio</router-link>]</v-card-title>
                     <v-card-text>
                         tbd

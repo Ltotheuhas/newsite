@@ -8,8 +8,16 @@ const routes = [
     component: HomeView
   },*/
   {
-    path: '/',
+    path: '/home',
     name: 'home',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/HomeView.vue')
+  },
+  {
+    path: '/',
+    name: 'myspace',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -32,14 +40,6 @@ const routes = [
     component: () => import('../views/TestView.vue')
   },
   {
-    path: '/myspace',
-    name: 'myspace',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/MySpace.vue')
-  },
-  {
     path: '/blog',
     name: 'blog',
     // route level code-splitting
@@ -52,14 +52,11 @@ const routes = [
     name: 'reveal',
   },
   {
-    path: '/image/:id',
-    name: 'ImageDetails',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/ImageDetails.vue')
+    path: '/test/:id',
+    name: 'details',
+    component: () => import('../views/DetailView.vue'),
+    props: true
   },
-
 ]
 
 const router = createRouter({
