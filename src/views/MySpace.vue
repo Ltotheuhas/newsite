@@ -1,9 +1,25 @@
 <template>
     <v-row>
-        <v-col cols="12" lg="2" md="4">
+        <v-col cols="12" lg="2" md="4" sm="5">
             <v-card>
                 <v-img cover :src="picOfMe" class="pfp"></v-img>
-                <v-card-text>
+                <router-link to="reveal">
+                    <v-card-text class="online">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            style="isolation:isolate" viewBox="550.27 1317.664 124 266.636" width="124pt"
+                            height="266.636pt">
+                            <g>
+                                <rect x="550.27" y="1477.664" width="124" height="106.636"
+                                    transform="matrix(1,0,0,1,0,0)" fill="var(--dynamic-color)" />
+                                <circle vector-effect="non-scaling-stroke" cx="612.2698473648846"
+                                    cy="1479.6641707465344" r="62" fill="var(--dynamic-color)" />
+                                <circle vector-effect="non-scaling-stroke" cx="612.269847364884" cy="1362.664170746536"
+                                    r="45" fill="var(--dynamic-color)" />
+                            </g>
+                        </svg>
+                        ONLINE!</v-card-text>
+                </router-link>
+                <v-card-text class="pt-0">
                     {{ currentMessage }}<br>I make shit
                 </v-card-text>
                 <v-card-text class="py-0">
@@ -15,11 +31,6 @@
                             loading="lazy">
                     </a>
                 </v-card-text>
-                <router-link to="reveal">
-                    <v-card-text class="online">
-                        <img :src="require('@/assets/myspace/green_person.svg')" aria-hidden="true" alt="Online icon"
-                            loading="lazy"> ONLINE!</v-card-text>
-                </router-link>
                 <v-card-text>
                     <pre>
 ╔╗
@@ -43,7 +54,7 @@
             </v-card>
         </v-col>
 
-        <v-col cols="12" md="8" lg="5">
+        <v-col cols="12" lg="5" md="8" sm="7">
             <v-card>
                 <v-card-title class="d-none d-sm-block">Latest Blog Entries [<router-link to="blog">View
                         Blog</router-link>]</v-card-title>
@@ -77,23 +88,24 @@
                 <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                         Full Portfolio</router-link>]</v-card-title>
                 <router-link :to="`/test/${randomPortfolioItem.name}`">
-                    <v-img :src="randomPortfolioItem.primary" class="mx-auto w-50 h-auto"></v-img>
+                    <v-img :src="randomPortfolioItem.primary" class="mx-auto w-75 h-auto"></v-img>
                 </router-link>
             </v-card>
 
-            <v-card v-if="windowWidth < 1200" class="d-lg-none">
+            <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
                 <CommentComp></CommentComp>
             </v-card>
         </v-col>
 
-        <v-col v-if="windowWidth >= 1200" class="d-none d-lg-flex" cols="12" md="8" lg="5">
+        <v-col v-if="windowWidth >= 1280" class="d-none d-lg-flex" cols="12" lg="5" md="8">
             <v-card style="width: 100%;">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
                 <CommentComp></CommentComp>
             </v-card>
         </v-col>
     </v-row>
+    <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="windowWidth >= 1280" loading="lazy"></v-img>
 </template>
 
 <script>
@@ -138,6 +150,7 @@ export default {
         this.$nextTick(() => {
             window.addEventListener('resize', this.onResize);
         });
+        this.applyRandomHue();
     },
 
     beforeUnmount() {
@@ -204,6 +217,17 @@ export default {
             const randomIndex = Math.floor(Math.random() * portfolioItems.length);
             this.randomPortfolioItem = portfolioItems[randomIndex];
         },
+
+        applyRandomHue() {
+            const hue = Math.floor(Math.random() * 360);
+            const color = `hsl(${hue}, 30%, 70%)`;
+
+            const titles = document.querySelectorAll('.v-card-title');
+            titles.forEach(title => {
+                title.style.color = color;
+            });
+            document.documentElement.style.setProperty('--dynamic-color', color);
+        },
     },
 };
 </script>
@@ -228,15 +252,15 @@ export default {
 
 .v-card-title {
     font-weight: bold;
-    color: #FF6BBF;
 }
 
 .v-card-text {
     color: white;
 }
 
-.online img {
+.online svg {
     height: 1.5em;
+    width: 1em;
     margin-right: 5px;
     animation: blink 1s linear infinite;
 }
@@ -257,8 +281,14 @@ a:hover {
 .give-me-your-money {
     font-family: 'Cabazon', sans-serif;
     font-size: 1.2em;
+    text-align: center;
     display: flex;
     align-items: center;
+}
+
+.reimu {
+    max-width: 400px;
+    margin-top: -400px
 }
 
 @keyframes blink {

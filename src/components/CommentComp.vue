@@ -49,7 +49,13 @@ export default {
 }
 
 .comment img {
+    width: 80%;
+}
+
+@media only screen and (max-width: 576px) {
+  .comment img {
     width: 100%;
+}
 }
 
 [title="next page"],
