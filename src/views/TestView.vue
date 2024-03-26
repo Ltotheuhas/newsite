@@ -1,5 +1,5 @@
 <template>
-  <MasonryWall :items="images" :ssr-columns="1" :column-width="200" :gap="10">
+  <MasonryWall :items="images" :column-width="columnWidths" :gap="10" :min-columns="2">
     <template #default="{ item }">
       <div class="image-container" @click="navigateToDetail(item.name)">
         <img :src="item.primary" :alt="`Image of ${item.name}`" class="image"
@@ -30,6 +30,17 @@ export default defineComponent({
       }
     };
 
+    const generateRandomWidths = () => {
+        const widths = [];
+        for (let i = 0; i < 10; i++) {
+            const randomWidth = Math.floor(Math.random() * (30 - 10 + 1) + 10) * 10;
+            widths.push(randomWidth);
+        }
+        return widths;
+    };
+
+    const columnWidths = ref(generateRandomWidths());
+
     onMounted(() => {
       const shuffledItems = [...portfolioItems];
       shuffleArray(shuffledItems);
@@ -52,7 +63,7 @@ export default defineComponent({
       router.push({ name: 'details', params: { id: itemId } });
     };
 
-    return { images, navigateToDetail, onImageLoad };
+    return { images, navigateToDetail, onImageLoad, columnWidths };
   },
 });
 </script>

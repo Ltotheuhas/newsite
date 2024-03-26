@@ -2,7 +2,7 @@
     <v-row>
         <v-col cols="12" lg="2" md="4" sm="5">
             <v-card>
-                <v-img cover :src="picOfMe" class="pfp"></v-img>
+                <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
                 <router-link to="reveal">
                     <v-card-text class="online">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -87,9 +87,7 @@
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                         Full Portfolio</router-link>]</v-card-title>
-                <router-link :to="`/test/${randomPortfolioItem.name}`">
-                    <v-img :src="randomPortfolioItem.primary" class="mx-auto w-75 h-auto"></v-img>
-                </router-link>
+                <v-img @click="selectRandomPortfolioItem" :src="randomPortfolioItem.primary" class="mx-auto w-75 h-auto"></v-img>
             </v-card>
 
             <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">

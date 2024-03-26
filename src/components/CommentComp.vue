@@ -4,7 +4,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 export default {
   name: 'CommentBox',
@@ -41,45 +41,44 @@ export default {
 .home-desc,
 .hcb-like,
 #HCB_comment_box h3 {
-    display: none;
+  display: none;
 }
 
 .comment-box {
-    padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .comment img {
-    width: 80%;
+  width: 80%;
 }
 
 @media only screen and (max-width: 576px) {
   .comment img {
     width: 100%;
-}
+  }
 }
 
 [title="next page"],
 [title="previous page"] {
-    display: table;
+  display: table;
 }
 
 .hcb-shadow-r {
-    background-color: white;
-    opacity: 80%;
-    border-radius: 3px;
+  background-color: white;
+  opacity: 80%;
+  border-radius: 3px;
 }
 
 .btn {
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 .commentbox {
-    resize: none;
-    width: 100% !important;
+  resize: none;
+  width: 100% !important;
 }
 
 .comment>a {
-    pointer-events: none;
+  pointer-events: none;
 }
 </style>
-  

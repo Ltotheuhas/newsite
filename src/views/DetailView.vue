@@ -1,21 +1,50 @@
 <template>
   <div v-if="item" class="detail-view">
-    <h2>{{ item.name }}</h2>
-    <img :src="item.primary" :alt="`Primary image of ${item.name}`" class="primary-image" />
+    <img v-if="item.type !== 'clothes'" :src="item.primary" :alt="`${item.name}`" class="primary-image" />
     <div v-if="item.secondary && item.secondary.length" class="secondary-images">
-      <img v-for="(image, index) in item.secondary" :key="index" :src="image" :alt="`Secondary image of ${item.name} ${index}`" />
+      <img v-for="(image, index) in item.secondary" :key="index" :src="image"
+        :alt="`${item.name} secondary ${index}`" />
     </div>
-    <p>{{ item.description }}</p>
+    <div class="description">
+      <span v-for="(part, index) in normalizedDescription" :key="index">
+        <template v-if="part.type === 'html'">
+          <span v-html="part.content"></span>
+        </template>
+        <template v-else-if="part.type === 'link' && part.isExternal">
+          <a :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.content }}</a>
+        </template>
+        <template v-else-if="part.type === 'link'">
+          <router-link :to="part.to">{{ part.content }}</router-link>
+        </template>
+        <template v-else>
+          {{ part.content }}
+        </template>
+      </span>
+    </div>
+    <div v-if="item.embedUrls && item.embedUrls.length" class="video-embed">
+      <div class="video-container" v-for="(url, index) in item.embedUrls" :key="index">
+        <iframe :src="url" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
   </div>
-  <div v-else>
-    <p>Item not found.</p>
+  <div class="detail-view" v-else>
+    <img :src="require('@/assets/404.gif')" loading="lazy">
+    <h2>oopsieeeee !!!!!! &gt;////////////&lt;</h2>
+    <p>it seem liek there is nothing here..... empty web page.....</p>
+    <p>الورشة بالفشل</p>
   </div>
+  <router-link class="back" to="/test">
+    <p>back</p>
+  </router-link>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { portfolioItems } from '@/data/portfolioItems'; 
+import { portfolioItems } from '@/data/portfolioItems';
 
 export default {
   setup() {
@@ -30,7 +59,17 @@ export default {
       }
     });
 
-    return { item };
+    const normalizedDescription = computed(() => {
+      const description = item.value?.description;
+      if (typeof description === 'string') {
+        return [{ type: 'html', content: description }];
+      } else if (Array.isArray(description)) {
+        return description;
+      }
+      return [];
+    });
+
+    return { item, normalizedDescription };
   },
 };
 </script>
@@ -40,9 +79,76 @@ export default {
   text-align: center;
 }
 
-.primary-image, .secondary-images img {
+.primary-image,
+.secondary-images img {
   max-width: 100%;
-  height: auto;
+  max-height: 700px;
   margin-bottom: 20px;
+}
+
+.video-embed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+.video-container {
+  width: 50%;
+  margin-bottom: 20px;
+  position: relative;
+  padding-top: 28.125%;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.description {
+  font-size: 20px;
+  width: 52%;
+  margin: 0 auto 20px;
+}
+
+.back {
+  color: lightgray;
+  text-align: center;
+}
+
+.back:hover {
+  text-decoration: line-through;
+}
+
+@media only screen and (max-width: 992px) {
+  .video-container {
+    width: 75%;
+    padding-top: 42.1875%;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .video-container {
+    width: 100%;
+    padding-top: 56.25%;
+  }
+
+  .item-text {
+    width: 100%;
+  }
+}
+</style>
+
+<style>
+.description a {
+  color: lightgray;
+}
+
+.description a:hover {
+  text-decoration: line-through;
 }
 </style>
