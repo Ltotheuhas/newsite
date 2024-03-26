@@ -23,11 +23,10 @@ export default {
     const item = ref(null);
 
     onMounted(() => {
-      // Use 'id' to match the route parameter name
-      const itemId = route.params.id; // Changed from itemName to itemId
+      const itemId = route.params.id;
       const foundItem = portfolioItems.find(i => i.name === itemId);
       if (foundItem) {
-        item.value = foundItem; // No need to require images here if paths are correctly set up in portfolioItems.js
+        item.value = foundItem;
       }
     });
 

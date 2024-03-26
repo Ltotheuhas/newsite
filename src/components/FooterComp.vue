@@ -1,9 +1,9 @@
 <template>
     <v-footer app style="background: none; padding: 0;">
-        <v-container fluid style="padding: 10px 15px;">
+        <v-container fluid class="py-1 px-2">
             <v-row no-gutters>
-                <v-col cols="12" sm="6">
-                    <a style="all: unset; cursor: pointer;" href="mailto:ltotheuhas@gmail.com" target="_blank">
+                <v-col class="unlicensed" cols="12" sm="6">
+                    <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
                         <p>Luhas © Unlicensed Product ☻☺☻ {{ currentYear }}</p>
                     </a>
                 </v-col>
@@ -17,21 +17,42 @@
     </v-footer>
 </template>
 
-  
 <script>
-import { useDisplay } from 'vuetify'
-
 export default {
     data() {
         return {
             currentYear: new Date().getFullYear(),
-            currentCursor: 0,
-            isSmAndUp: false,
         };
-    },
-    created() {
-        const display = useDisplay();
-        this.isSmAndUp = display.smAndUp;
     },
 };
 </script>
+
+<style scoped>
+@media only screen and (max-width: 600px) {
+    .unlicensed {
+        margin-bottom: -22px;
+    }
+
+    .counter img {
+        width: 60px;
+        height: 20px;
+        object-fit: cover;
+        object-position: 100% 0;
+    }
+}
+
+.email-link {
+    all: unset;
+    cursor: pointer;
+}
+
+.py-1 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.px-2 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+</style>

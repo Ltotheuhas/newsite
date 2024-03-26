@@ -1,24 +1,27 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="12" md="4">
-                <v-card>
-                    <v-img :src="require('@/assets/myspace/square.png')" class="spinning-image"></v-img>
-                    <v-card-title>Luhas>_&lt;</v-card-title>
-                    <v-card-text>
-                        "{{ currentMessage }}"<br>I eat poopy babies
-                    </v-card-text>
-                    <router-link to="home">
-                        <v-card-text class="online">
-                            <img src="https://static.spacehey.net/img/green_person.svg" aria-hidden="true"
-                                alt="Online icon" loading="lazy"> ONLINE!</v-card-text>
-                    </router-link>
-                </v-card>
-
-                <v-card>
-                    <v-card-title>Mood: :3</v-card-title>
-                    <v-card-text>
-                        <pre>
+    <v-row>
+        <v-col cols="12" lg="2" md="4">
+            <v-card>
+                <v-img cover :src="picOfMe" class="pfp"></v-img>
+                <v-card-text>
+                    {{ currentMessage }}<br>I make shit
+                </v-card-text>
+                <v-card-text class="py-0">
+                    <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
+                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro" aria-hidden="true"
+                            loading="lazy">
+                        Give me your money
+                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro pl-1" aria-hidden="true"
+                            loading="lazy">
+                    </a>
+                </v-card-text>
+                <router-link to="reveal">
+                    <v-card-text class="online">
+                        <img :src="require('@/assets/myspace/green_person.svg')" aria-hidden="true" alt="Online icon"
+                            loading="lazy"> ONLINE!</v-card-text>
+                </router-link>
+                <v-card-text>
+                    <pre>
 ╔╗
 ║║
 ║║
@@ -35,128 +38,68 @@
 
 ☻/ This is bob. Copy and paste
 /▌ him so he can take over
-/\ luhas.neocities.org.
-      </pre>
-                    </v-card-text>
-                    <v-card-text>
-                        View my: <router-link to="blog">Blog</router-link> | <router-link
-                            to="test">Portfolio</router-link>
-                    </v-card-text>
-                </v-card>
+/\ luhas.neocities.org.</pre>
+                </v-card-text>
+            </v-card>
+        </v-col>
 
-                <v-card>
-                    <v-card-title>My Interests x3</v-card-title>
-                    <v-row class="about">
-                        <v-col cols="4">
-                            General
-                        </v-col>
-                        <v-col cols="8">
-                            I like things that sound cool and things that look cool, I
-                            also like redbull and salt n vinegar chips :D OH ALSO I LOVE HORROR GAMES (especially cry of
-                            fear) and I have 274 Synthesisers :D
-                            <v-img :src="require('@/assets/myspace/skvll.gif')" class="h-auto my-4"></v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row class="about">
-                        <v-col cols="4">
-                            Music
-                        </v-col>
-                        <v-col cols="8">
-                            I listen to Laurel Halo, Amnesia Scanner, Full of Hell, James Ferraro, Felix da Housecat,
-                            LUCY,
-                            Sonic Youth, SpaceGhostPurrp, Elliott Smith, Yung Lean, The Microphones, Coil, Faust, Three
-                            6 Mafia,
-                            Goreshit, Snot, Jim O'Rourke, Dean Blunt, Kleenex Girl Wonder, Schwefelgelb,
-                            Sd Laika, Venetian Snares, Grauzone, Psychic TV, Leonard Cohen, The Mars Volta, Speaker
-                            Knockerz, S280F, Unwound, Death Insurance, Sonny & The Sunsets, Blackhandpath, And
-                            much more but I kinda
-                            forgot XP
-                            <v-img :src="require('@/assets/myspace/musicislife.gif')" class="h-auto my-4"></v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row class="about">
-                        <v-col cols="4">
-                            Movies
-                        </v-col>
-                        <v-col cols="8">
-                            I really like David Lynch movies and alot of surrealist films but my favorite movie has to
-                            be spirited away
-                            <v-img :src="require('@/assets/myspace/horror.gif')" class="h-auto my-4"></v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row class="about">
-                        <v-col cols="4">
-                            Books
-                        </v-col>
-                        <v-col cols="8">
-                            Junji ito books (i have alot), Drifting classroom, Berzerk, Revolutionary Demonology,
-                            Goodnight Pun
-                            Pun, The Archetypes and the Collective Unconscious, The Society of the Spectacle,
-                            Homunoculus, A Methodology of Possession, ALOT OF MANGA BASICALLY
-                            <v-img :src="require('@/assets/myspace/cccp.jpg')" class="h-auto my-4"></v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row class="about">
-                        <v-col cols="4">
-                            Heroes
-                        </v-col>
-                        <v-col cols="8">
-                            myself X3
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
+        <v-col cols="12" md="8" lg="5">
+            <v-card>
+                <v-card-title class="d-none d-sm-block">Latest Blog Entries [<router-link to="blog">View
+                        Blog</router-link>]</v-card-title>
+                <v-card-title class="d-sm-none pb-0">Latest Blog Entries</v-card-title>
+                <v-card-title class="d-sm-none pt-0">[<router-link to="blog">View
+                        Blog</router-link>]</v-card-title>
+                <v-card-text>
+                    <BlogComp :limit="3"></BlogComp>
+                </v-card-text>
+            </v-card>
 
-            <v-col cols="12" md="8">
-                <v-card>
-                    <v-card-title class="d-none d-sm-block">Luhas' Latest Blog Entries [<router-link to="blog">View
-                            Blog</router-link>]</v-card-title>
-                    <v-card-title class="d-sm-none pb-0">Luhas' Latest Blog Entries</v-card-title>
-                    <v-card-title class="d-sm-none pt-0">[<router-link to="blog">View
-                            Blog</router-link>]</v-card-title>
-                    <v-card-text>
-                        <BlogComp :limit="3"></BlogComp>
-                    </v-card-text>
-                </v-card>
+            <v-card>
+                <v-card-title>About Me ;D</v-card-title>
+                <v-card-text>
+                    IM LUHAS IM AN IT/ITS/THEY/HE AND IM {{ calculateAge() }} YEARS OLD AND I MAKE COOL VISUAL AND AUDIO
+                    WORKS HAHAA!! X33333 I'm from former yugoslavia and currently live in vienna! :3 говорим немачки,
+                    енглески и српскохрватски OHH!!! ALSO MY FAV VOCALOID IS LEN!!! :3
+                </v-card-text>
+                <v-img :src="require('@/assets/myspace/len.gif')" class="mx-auto w-25 h-auto"></v-img>
+                <v-card-text>
+                    This page serves as a general hub for expression for me as well as an archive of everything I've
+                    ever been involved in. More info on the latter can be found in my <router-link to="test"
+                        style="text-decoration: underline;">portfolio.</router-link>
+                </v-card-text>
+            </v-card>
 
-                <v-card>
-                    <v-card-title>About Me ;D</v-card-title>
-                    <v-card-text>
-                        I LOOOOOOOOOOOVE TACOSSSS! IM A GIRLLLL AND IM {{ calculateAge() }} AND I HAVE ADHD XDD!! OHH!
-                        AND I ALSO PLAY
-                        GUITAR!! X33333 And I loooooove to go rollerskating! :3 I ALSO HAVE 2 BUNNIES (s'more, & fizzy),
-                        2 GUINEA PIGS (sebastian, & barry), AND A DOG NAMED BRONCO! AND MY FAV VOCALOID IS LEN!!! :3
-                    </v-card-text>
-                    <v-img :src="require('@/assets/myspace/len.gif')" class="mx-auto w-25 h-auto"></v-img>
-                    <v-card-title>Who I'd like to meet:</v-card-title>
-                    <v-card-text>
-                        hmmm probablyyy the pig destroyer band cuz they seem really cool and i like their music :3
-                    </v-card-text>
-                </v-card>
+            <v-card>
+                <v-card-title class="d-none d-sm-block">My Portfolio :3 [<router-link to="test">View
+                        Full Portfolio</router-link>]</v-card-title>
+                <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
+                <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
+                        Full Portfolio</router-link>]</v-card-title>
+                <router-link :to="`/test/${randomPortfolioItem.name}`">
+                    <v-img :src="randomPortfolioItem.primary" class="mx-auto w-50 h-auto"></v-img>
+                </router-link>
+            </v-card>
 
-                <v-card>
-                    <v-card-title class="d-none d-sm-block">My Artwork :3 [<router-link to="test">View
-                            Full Portfolio</router-link>]</v-card-title>
-                    <v-card-title class="d-sm-none pb-0">My Artwork :3</v-card-title>
-                    <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
-                            Full Portfolio</router-link>]</v-card-title>
-                    <v-card-text>
-                        tbd
-                    </v-card-text>
-                </v-card>
+            <v-card v-if="windowWidth < 1200" class="d-lg-none">
+                <v-card-title>Comments (o≧∇≦)o</v-card-title>
+                <CommentComp></CommentComp>
+            </v-card>
+        </v-col>
 
-                <v-card>
-                    <v-card-title>Comments (o≧∇≦)o</v-card-title>
-                    <CommentComp></CommentComp>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+        <v-col v-if="windowWidth >= 1200" class="d-none d-lg-flex" cols="12" md="8" lg="5">
+            <v-card style="width: 100%;">
+                <v-card-title>Comments (o≧∇≦)o</v-card-title>
+                <CommentComp></CommentComp>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
 import BlogComp from '@/components/BlogComp.vue';
 import CommentComp from '@/components/CommentComp.vue';
+import { portfolioItems } from '@/data/portfolioItems';
 
 export default {
     name: 'MySpace',
@@ -169,40 +112,42 @@ export default {
     data() {
         return {
             dailyMessages: [
-                "Off from school 2day :3",
+                "I WANT THE ROOF",
                 "Just chilling with some music...",
-                "Homework overload ><",
-                "TGIF! Ready for the weekend!",
-                "Mood: 🎮",
-                "Listening to My Chemical Romance and feeling the feels. </3",
+                "The Bees Made Honey in the Lion's Skull",
+                "Ѭ̶̍͐ ☈𓁹ᐂϮ𒀱↬𓆉᳇⬳⸸☾ᙷ",
                 "Rawr means I love you in dinosaur. XD",
-                "Is it just me or does Panic! At The Disco understand life?",
                 "Feeling so random today... holds up spork",
-                "Can't wait for Warped Tour this summer. Who's going?",
-                "Currently: Wishing I was at a Fall Out Boy concert.",
-                "Studded belts and skinny jeans are life.",
-                "Dreaming of Hot Topic shopping sprees.",
-                "Life's not a garden, so stop being a hoe.",
-                "Glitter, neon, and dreams of being on MTV.",
-                "Mood: Invisible by Ashlee Simpson",
-                "Why fit in when you were born to stand out? scene queen",
-                "Friend requests are cool, but have you ever had someone dedicate a Dashboard Confessional song to you?",
-                "Wishing life was as simple as adding a cool new MySpace layout.",
-                "Looking for my Edward Cullen in a world full of Jacob Blacks.",
-                "Convincing my mom to let me dye my hair pink. Wish me luck!",
-                "Lost in a sea of LiveJournal entries and MSN messenger chats.",
-                "Current obsession: Making the perfect MySpace playlist.",
-                "If I could just meet Gerard Way, my life would be complete.",
-                "Drowning in homework, but there's always time for Neopets.",
+                "Why fit in when you were born to stand out? fuck governments",
+                "-_-",
+                "Дуго живео наш маршал Тито!",
+                "https://www.cia.gov/readingroom/docs/CIA-RDP83-00415R006900190006-9.pdf",
+                "On Computar",
             ],
             currentMessage: "",
+            picOfMe: "",
+            windowWidth: window.innerWidth,
+            randomPortfolioItem: null,
         };
     },
 
     mounted() {
         this.loadCommentBoxScript();
         this.chooseDailyMessage();
+        this.selectRandomMeImage();
+        this.$nextTick(() => {
+            window.addEventListener('resize', this.onResize);
+        });
     },
+
+    beforeUnmount() {
+        window.removeEventListener('resize', this.onResize);
+    },
+
+    created() {
+        this.selectRandomPortfolioItem();
+    },
+
     methods: {
         loadCommentBoxScript() {
             if (!window.hcb_user) {
@@ -228,7 +173,7 @@ export default {
         chooseDailyMessage() {
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            const index = dayOfYear % this.dailyMessages.length; // Use modulo to cycle through the array
+            const index = dayOfYear % this.dailyMessages.length;
             this.currentMessage = this.dailyMessages[index];
         },
 
@@ -241,46 +186,44 @@ export default {
                 age--;
             }
             return age;
-        }
+        },
+
+        selectRandomMeImage() {
+            const meImageContext = require.context('@/assets/me/', false, /\.jpg$/);
+            const meImageFilenames = meImageContext.keys();
+            const meImages = meImageFilenames.map(filename => meImageContext(filename));
+            const randomIndex = Math.floor(Math.random() * meImages.length);
+            this.picOfMe = meImages[randomIndex];
+        },
+
+        onResize() {
+            this.windowWidth = window.innerWidth;
+        },
+
+        selectRandomPortfolioItem() {
+            const randomIndex = Math.floor(Math.random() * portfolioItems.length);
+            this.randomPortfolioItem = portfolioItems[randomIndex];
+        },
     },
 };
 </script>
 
 <style scoped>
-@keyframes speen {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(-360deg);
-    }
-}
-
-.spinning-image {
-    animation: speen 6s linear infinite;
-    margin: 40px auto;
-    width: 50%;
-}
-
-.v-container {
-    max-width: 1000px;
+.pfp {
+    animation: shake 0.1s infinite;
+    margin-left: 20px;
+    width: 170px;
+    height: 170px;
 }
 
 .v-row.about {
     margin: 0;
 }
 
-.v-card {
-    border: double #FF6BBF 4px;
-    margin-bottom: 24px;
-}
-
-.v-img {
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 4px;
+.v-card,
+.v-list {
+    background: none;
+    box-shadow: none;
 }
 
 .v-card-title {
@@ -290,22 +233,6 @@ export default {
 
 .v-card-text {
     color: white;
-}
-
-.v-img img {
-    object-fit: cover;
-}
-
-@keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
 }
 
 .online img {
@@ -321,5 +248,74 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.euro {
+    height: 1.8em;
+}
+
+.give-me-your-money {
+    font-family: 'Cabazon', sans-serif;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    10% {
+        transform: translate(-2px, -2px);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    30% {
+        transform: translate(2px, -2px);
+    }
+
+    40% {
+        transform: translate(2px, 2px);
+    }
+
+    50% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(-2px, 2px);
+    }
+
+    70% {
+        transform: translate(2px, -2px);
+    }
+
+    80% {
+        transform: translate(2px, 2px);
+    }
+
+    90% {
+        transform: translate(-2px, -2px);
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
 }
 </style>
