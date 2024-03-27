@@ -23,9 +23,8 @@
                     {{ currentMessage }}<br>I make shit
                 </v-card-text>
                 <v-card-text>
-                    Favorite song currently:<br>{{ topSongName }} - {{ topSongArtist }}
+                    Fav song rn:<br>{{ favSong }}
                 </v-card-text>
-
                 <v-card-text class="py-0">
                     <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
                         <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro" aria-hidden="true"
@@ -138,18 +137,34 @@ export default {
                 "Дуго живео наш маршал Тито!",
                 "https://www.cia.gov/readingroom/docs/CIA-RDP83-00415R006900190006-9.pdf",
                 "On Computar",
-                "In NY I Billy Bob",
                 "Fuckin",
                 "Was",
                 "Auf Drogas",
                 "Nazis raus aus dem Netz",
+                "stupid baka life",
+                "Avant Garde Grandpa",
+                "AscendinG",
+                "lol",
+                "...",
+                "kek",
+                "I found another one",
+                "Leonard Cohen speak to me!!!!",
+                "You now breathe and blink and puke manually",
+                "entered the",
+                "How come every time you come around my london b",
+                "OBLIVION TRANSCENDER",
+                "Du bist schon iwie komisch...",
+                "If I know you personally stop looking at this website",
+                "流れてく時の中ででも 気だるさが",
+                "piss drawer coded sksks",
+                "I don't make shit",
+                "You can click on that pic of me and the pic shown at the portfolio section to change those images"
             ],
             currentMessage: "",
             picOfMe: "",
             windowWidth: window.innerWidth,
             randomPortfolioItem: null,
-            topSongName: '',
-            topSongArtist: '',
+            favSong: ''
         };
     },
 
@@ -250,8 +265,8 @@ export default {
                 const data = await response.json();
                 if (data.toptracks && data.toptracks.track.length > 0) {
                     const topTrack = data.toptracks.track[0];
-                    this.topSongName = topTrack.name;
-                    this.topSongArtist = topTrack.artist.name;
+                    this.favSong = topTrack.artist.name + " - " + topTrack.name;
+                    this.favSong = this.favSong.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                 } else {
                     console.log('No top song found');
                 }
