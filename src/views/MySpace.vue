@@ -70,7 +70,7 @@
                 <v-card-title>About Me ;D</v-card-title>
                 <v-card-text>
                     IM LUHAS IM AN IT/ITS/THEY/HE AND IM {{ calculateAge() }} YEARS OLD AND I MAKE COOL VISUAL AND AUDIO
-                    WORKS HAHAA!! X33333 I'm from former yugoslavia and currently live in vienna! :3 говорим немачки,
+                    WORKS HAHAA!! X33333 I'm from bosnia and currently live in vienna! :3 говорим немачки,
                     енглески и српскохрватски OHH!!! ALSO MY FAV VOCALOID IS LEN!!! :3
                 </v-card-text>
                 <v-img :src="require('@/assets/myspace/len.gif')" class="mx-auto w-25 h-auto"></v-img>
@@ -133,6 +133,11 @@ export default {
                 "Дуго живео наш маршал Тито!",
                 "https://www.cia.gov/readingroom/docs/CIA-RDP83-00415R006900190006-9.pdf",
                 "On Computar",
+                "In NY I Billy Bob",
+                "Fuckin",
+                "Was",
+                "Auf Drogas",
+                "Nazis raus aus dem Netz",
             ],
             currentMessage: "",
             picOfMe: "",

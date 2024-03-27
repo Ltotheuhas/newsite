@@ -10,11 +10,8 @@
         <template v-if="part.type === 'html'">
           <span v-html="part.content"></span>
         </template>
-        <template v-else-if="part.type === 'link' && part.isExternal">
-          <a :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.content }}</a>
-        </template>
         <template v-else-if="part.type === 'link'">
-          <router-link :to="part.to">{{ part.content }}</router-link>
+          <a :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.content }}</a>
         </template>
         <template v-else>
           {{ part.content }}
@@ -137,7 +134,7 @@ export default {
     padding-top: 56.25%;
   }
 
-  .item-text {
+  .description {
     width: 100%;
   }
 }

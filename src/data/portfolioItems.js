@@ -2,12 +2,6 @@
 
 export const portfolioItems = [
   {
-    name: "911",
-    primary: require("@/assets/grid/911.png"),
-    description: "9/11 takin over",
-    embedUrls: ["https://www.youtube.com/embed/_uGDQB4GIBw?si=hQXOhMiZG2Sfp-Dm"]
-  },
-  {
     name: "absolute",
     primary: require("@/assets/grid/absolute.png"),
     secondary: [require("@/assets/grid/absolute_.png")]
@@ -22,15 +16,18 @@ export const portfolioItems = [
     primary: require("@/assets/grid/aethernet.jpg"),
     description: [
       { type: 'html', content: 'Aethernet by Fax Gang<br>Online album release party<br>Visualizers made for ' },
-      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/rqN1PSC1Z1Y?si=CaXiY0CtBBBLOf8L', isExternal: true },
+      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/rqN1PSC1Z1Y?si=CaXiY0CtBBBLOf8L'},
       { type: 'text', content: ' and ' },
-      { type: 'link', content: 'Acetantina/Kaizo Slumber', to: '911' }
+      { type: 'link', content: 'Acetantina/Kaizo Slumber', href: 'https://youtu.be/_uGDQB4GIBw?si=aNcRX8UzLwmonCxj'}
     ]
   },
   {
     name: "april",
     primary: require("@/assets/grid/april.png"),
-    description: "Vessel Pilot by Murrumur<br>Single cover art<br><a href='https://soundcloud.com/murrumur/vessel-pilot?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing' target='_blank'>Listen</a>",
+    description: [
+      { type: 'html', content: 'Vessel Pilot by Murrumur<br>Single cover art<br>' },
+      { type: 'link', content: 'Listen', href: 'https://soundcloud.com/murrumur/vessel-pilot?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'}
+    ]
   },
   {
     name: "avenade",
@@ -161,13 +158,13 @@ export const portfolioItems = [
     primary: require("@/assets/grid/mechafest2021.jpg"),
     description: [
       { type: 'text', content: 'Visualizers made for ' },
-      { type: 'link', content: 'nobodyis', href: 'https://youtu.be/ag5rp3sdnI4?si=B2-nnEiISYA0YsER', isExternal: true },
+      { type: 'link', content: 'nobodyis', href: 'https://youtu.be/ag5rp3sdnI4?si=B2-nnEiISYA0YsER'},
       { type: 'text', content: ', ' },
-      { type: 'link', content: 'bliss3three', href: 'https://youtu.be/OofzFAxu08w?si=69Hat-hxFqQwkiFB', isExternal: true },
+      { type: 'link', content: 'bliss3three', href: 'https://youtu.be/OofzFAxu08w?si=69Hat-hxFqQwkiFB'},
       { type: 'text', content: ', ' },
-      { type: 'link', content: 'BROKEN_CANYON', href: 'https://youtu.be/cVPx1oxdGIE?si=1ZfOC-hrGAcHOm4F', isExternal: true },
+      { type: 'link', content: 'BROKEN_CANYON', href: 'https://youtu.be/cVPx1oxdGIE?si=1ZfOC-hrGAcHOm4F'},
       { type: 'text', content: ', Secret Webcam Girl, Prismadoll, Acetantina/Kaizo Slumber, ' },
-      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/YKv3hB1s5bE?si=BVeOzRss-PiaRBtv', isExternal: true },
+      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/YKv3hB1s5bE?si=BVeOzRss-PiaRBtv'},
       { type: 'html', content: " and Mixed Matches<br>I performed there too<br><a href='https://twitter.com/themechafest/status/1369041200322383875' target='_blank'>More info</a>" }
     ]
   },
@@ -244,42 +241,49 @@ export const portfolioItems = [
   {
     name: "shirt1",
     primary: require("@/assets/grid/shirt1.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt1_.png")],
     description: ""
   },
   {
     name: "shirt2",
     primary: require("@/assets/grid/shirt2.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt2_.png")],
     description: ""
   },
   {
     name: "shirt3",
     primary: require("@/assets/grid/shirt3.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt3_.png")],
     description: ""
   },
   {
     name: "shirt4",
     primary: require("@/assets/grid/shirt4.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt4_.png")],
     description: ""
   },
   {
     name: "shirt5",
     primary: require("@/assets/grid/shirt5.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt5_.png")],
     description: ""
   },
   {
     name: "shirt6",
     primary: require("@/assets/grid/shirt6.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt6_.png")],
     description: ""
   },
   {
     name: "shirt7",
     primary: require("@/assets/grid/shirt7.png"),
+    type: "clothes",
     secondary: [require("@/assets/grid/shirt7_.png")],
     description: ""
   },

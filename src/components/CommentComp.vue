@@ -49,12 +49,12 @@ export default {
 }
 
 .comment img {
-  width: 80%;
+  max-width: 80%;
 }
 
 @media only screen and (max-width: 576px) {
   .comment img {
-    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -75,7 +75,7 @@ export default {
 
 .commentbox {
   resize: none;
-  width: 100% !important;
+  max-width: 600px;
 }
 
 .comment>a {
