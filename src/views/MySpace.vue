@@ -19,9 +19,13 @@
                         </svg>
                         ONLINE!</v-card-text>
                 </router-link>
-                <v-card-text class="pt-0">
+                <v-card-text class="py-0">
                     {{ currentMessage }}<br>I make shit
                 </v-card-text>
+                <v-card-text>
+                    Favorite song currently:<br>{{ topSongName }} - {{ topSongArtist }}
+                </v-card-text>
+
                 <v-card-text class="py-0">
                     <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
                         <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro" aria-hidden="true"
@@ -87,7 +91,8 @@
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                         Full Portfolio</router-link>]</v-card-title>
-                <v-img @click="selectRandomPortfolioItem" :src="randomPortfolioItem.primary" class="mx-auto w-75 h-auto"></v-img>
+                <v-img @click="selectRandomPortfolioItem" :src="randomPortfolioItem.primary"
+                    class="mx-auto w-75 h-auto"></v-img>
             </v-card>
 
             <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">
@@ -143,6 +148,8 @@ export default {
             picOfMe: "",
             windowWidth: window.innerWidth,
             randomPortfolioItem: null,
+            topSongName: '',
+            topSongArtist: '',
         };
     },
 
@@ -154,6 +161,7 @@ export default {
             window.addEventListener('resize', this.onResize);
         });
         this.applyRandomHue();
+        this.fetchTopSong();
     },
 
     beforeUnmount() {
@@ -230,6 +238,26 @@ export default {
                 title.style.color = color;
             });
             document.documentElement.style.setProperty('--dynamic-color', color);
+        },
+
+        async fetchTopSong() {
+            const userName = 'Ltotheuhas';
+            const apiKey = '5b76a7a11283ba1fbe8d1871b9756514';
+            const url = `http://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${userName}&api_key=${apiKey}&format=json&period=7day`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.toptracks && data.toptracks.track.length > 0) {
+                    const topTrack = data.toptracks.track[0];
+                    this.topSongName = topTrack.name;
+                    this.topSongArtist = topTrack.artist.name;
+                } else {
+                    console.log('No top song found');
+                }
+            } catch (error) {
+                console.error('Error fetching top song:', error);
+            }
         },
     },
 };
