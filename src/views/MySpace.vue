@@ -243,7 +243,7 @@ export default {
         async fetchTopSong() {
             const userName = 'Ltotheuhas';
             const apiKey = '5b76a7a11283ba1fbe8d1871b9756514';
-            const url = `http://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${userName}&api_key=${apiKey}&format=json&period=7day`;
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${userName}&api_key=${apiKey}&format=json&period=7day`;
 
             try {
                 const response = await fetch(url);
