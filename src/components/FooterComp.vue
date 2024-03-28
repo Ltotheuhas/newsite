@@ -4,7 +4,9 @@
             <v-row no-gutters>
                 <v-col class="unlicensed" cols="12" sm="6">
                     <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
-                        <p>Luhas © Unlicensed Product &#9787;&#xFE0E;&#9786;&#xFE0E;&#9787;&#xFE0E; {{ currentYear }}</p>
+                        <p>Luhas © Unlicensed Product ☻<span class="emoji">☺</span><span class="emoji">☻</span>
+                        {{ currentYear }}
+                        </p>
                     </a>
                 </v-col>
                 <v-col cols="12" sm="6" class="d-flex justify-end">
@@ -17,6 +19,7 @@
     </v-footer>
 </template>
 
+
 <script>
 export default {
     data() {
@@ -28,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 599px) {
     .unlicensed {
         margin-bottom: -22px;
     }
@@ -38,6 +41,10 @@ export default {
         height: 20px;
         object-fit: cover;
         object-position: 100% 0;
+    }
+
+    .emoji {
+        display: none;
     }
 }
 
