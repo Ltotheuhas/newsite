@@ -4,7 +4,7 @@
             <v-row no-gutters>
                 <v-col class="unlicensed" cols="12" sm="6">
                     <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
-                        <p>Luhas © Unlicensed Product &#9787;&#9786;&#9787; {{ currentYear }}</p>
+                        <p>Luhas © Unlicensed Product &#9787;&#xFE0E;&#9786;&#xFE0E;&#9787;&#xFE0E; {{ currentYear }}</p>
                     </a>
                 </v-col>
                 <v-col cols="12" sm="6" class="d-flex justify-end">
