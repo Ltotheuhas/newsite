@@ -54,6 +54,8 @@
 /▌ him so he can take over
 /\ luhas.neocities.org.</pre>
                 </v-card-text>
+                <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp ml-4 mt-4 rounded-lg"
+                    :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
             </v-card>
         </v-col>
 
@@ -164,7 +166,8 @@ export default {
             picOfMe: "",
             windowWidth: window.innerWidth,
             randomPortfolioItem: null,
-            favSong: ''
+            favSong: '',
+            hue: 0
         };
     },
 
@@ -245,8 +248,8 @@ export default {
         },
 
         applyRandomHue() {
-            const hue = Math.floor(Math.random() * 360);
-            const color = `hsl(${hue}, 30%, 70%)`;
+            this.hue = Math.floor(Math.random() * 360);
+            const color = `hsl(${this.hue}, 30%, 70%)`;
 
             const titles = document.querySelectorAll('.v-card-title');
             titles.forEach(title => {
@@ -254,6 +257,7 @@ export default {
             });
             document.documentElement.style.setProperty('--dynamic-color', color);
         },
+
 
         async fetchTopSong() {
             const userName = 'Ltotheuhas';
@@ -335,6 +339,16 @@ a:hover {
 .reimu {
     max-width: 400px;
     margin-top: -400px
+}
+
+.cccp {
+    width: 80%;
+}
+
+@media only screen and (max-width: 576px) {
+    .cccp {
+        width: 60%;
+    }
 }
 
 @keyframes blink {
