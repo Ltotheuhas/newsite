@@ -81,4 +81,8 @@ export default {
 .comment>a {
   pointer-events: none;
 }
+
+.hcb-comment-body a {
+  color: white;
+}
 </style>
