@@ -52,7 +52,7 @@
 
 ☻/ This is bob. Copy and paste
 /▌ him so he can take over
-/\ luhas.neocities.org.</pre>
+/\ luhas.neocities.org</pre>
                 </v-card-text>
                 <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp ml-4 mt-4 rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
@@ -165,7 +165,7 @@ export default {
                 "Feeding frenzy, it's contagious",
                 "PURITY",
                 "shamefroze",
-                "*reluctently puts on the cat ears*",
+                "*reluctantly puts on the cat ears*",
                 "$400,000,000",
                 "literally discombobulate",
                 "You will not last.",
