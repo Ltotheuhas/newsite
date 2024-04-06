@@ -56,6 +56,8 @@
                 </v-card-text>
                 <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp ml-4 mt-4 rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
+                <v-img :src="require('@/assets/myspace/rat.png')" class="cccp ml-4 mt-4 rounded-lg"
+                    :style="{ filter: `grayscale(40%) hue-rotate(${hue + 250}deg)` }"></v-img>
             </v-card>
         </v-col>
 
@@ -185,7 +187,16 @@ export default {
                 "ham",
                 "yes",
                 "They Drove In",
-                "and?"
+                "and?",
+                "2021 was the best year of my fucking life",
+                "druf free website",
+                "Sitting @ my laptop doing thngs....",
+                "this thing is annoying",
+                "Reply · Flag",
+                "MILLIONS NOW LIVING WILL NEVER DIE",
+                "ich habe swag hater haben hepatitis b",
+                "These pictures are so embarrassing",
+                "touhoufan2009"
             ],
             currentMessage: "",
             picOfMe: "",
