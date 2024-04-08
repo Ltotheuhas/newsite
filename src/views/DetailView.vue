@@ -1,5 +1,6 @@
 <template>
   <div v-if="item" class="detail-view">
+    <div class="year-display" v-if="item.year">{{ item.year }}</div>
     <img v-if="item.type !== 'clothes'" :src="item.primary" :alt="`${item.name}`" class="primary-image" />
     <div v-if="item.secondary && item.secondary.length" class="secondary-images">
       <img v-for="(image, index) in item.secondary" :key="index" :src="image"
@@ -74,6 +75,7 @@ export default {
 <style scoped>
 .detail-view {
   text-align: center;
+  padding-top: 15px;
 }
 
 .primary-image,
@@ -121,6 +123,19 @@ export default {
   text-decoration: line-through;
 }
 
+.description {
+    width: 100%;
+  }
+
+.year-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 15px;
+  letter-spacing: 2rem;
+  font-style: italic;
+}
+
 @media only screen and (max-width: 992px) {
   .video-container {
     width: 75%;
@@ -132,10 +147,6 @@ export default {
   .video-container {
     width: 100%;
     padding-top: 56.25%;
-  }
-
-  .description {
-    width: 100%;
   }
 }
 </style>
