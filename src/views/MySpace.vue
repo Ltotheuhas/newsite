@@ -196,7 +196,8 @@ export default {
                 "MILLIONS NOW LIVING WILL NEVER DIE",
                 "ich habe swag hater haben hepatitis b",
                 "These pictures are so embarrassing",
-                "touhoufan2009"
+                "touhoufan2009",
+                "ANTI PSYTRANCE ACTION"
             ],
             currentMessage: "",
             picOfMe: "",
