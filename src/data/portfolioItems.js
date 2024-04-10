@@ -223,9 +223,7 @@ export const portfolioItems = [
   },
   {
     name: "notebook",
-    note: "book",
-    primary: require("@/assets/grid/notebook.png"),
-    description: ""
+    primary: require("@/assets/grid/notebook.png")
   },
   {
     name: "panda",
@@ -387,4 +385,3 @@ export const portfolioItems = [
     description: ""
   },
 ];
-

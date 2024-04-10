@@ -57,6 +57,16 @@ const routes = [
     component: () => import('../views/DetailView.vue'),
     props: true
   },
+  {
+    path: '/notebook',
+    name: 'notebook',
+    component: () => import('../views/NotebookView.vue')
+  },
+  {
+    path: '/evahakai',
+    name: 'evahakai',
+    component: () => import('../views/EvaView.vue')
+  },
 ]
 
 const router = createRouter({

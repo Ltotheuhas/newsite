@@ -31,12 +31,12 @@ export default defineComponent({
     };
 
     const generateRandomWidths = () => {
-        const widths = [];
-        for (let i = 0; i < 10; i++) {
-            const randomWidth = Math.floor(Math.random() * (30 - 10 + 1) + 10) * 10;
-            widths.push(randomWidth);
-        }
-        return widths;
+      const widths = [];
+      for (let i = 0; i < 10; i++) {
+        const randomWidth = Math.floor(Math.random() * (30 - 10 + 1) + 10) * 10;
+        widths.push(randomWidth);
+      }
+      return widths;
     };
 
     const columnWidths = ref(generateRandomWidths());
@@ -60,8 +60,15 @@ export default defineComponent({
     };
 
     const navigateToDetail = (itemId) => {
-      router.push({ name: 'details', params: { id: itemId } });
+      if (itemId === "notebook") {
+        router.push({ name: 'notebook' });
+      } else if (itemId === "evaGif") {
+        router.push({ name: 'evahakai' });
+      } else {
+        router.push({ name: 'details', params: { id: itemId } });
+      }
     };
+
 
     return { images, navigateToDetail, onImageLoad, columnWidths };
   },
