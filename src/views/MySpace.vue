@@ -94,8 +94,11 @@
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                         Full Portfolio</router-link>]</v-card-title>
-                <v-img @click="selectRandomPortfolioItem" :src="randomPortfolioItem.primary"
-                    class="mx-auto w-75 h-auto"></v-img>
+                <transition name="fade" mode="out-in">
+                    <v-img v-if="!imageIsLoading" :key="randomPortfolioItemKey" :src="randomPortfolioItem.primary"
+                        class="mx-auto w-75 h-auto"></v-img>
+                </transition>
+
             </v-card>
 
             <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">
@@ -160,7 +163,7 @@ export default {
                 "If I know you personally stop looking at this website",
                 "流れてく時の中ででも 気だるさが",
                 "I don't make shit",
-                "You can click on that pic of me and the pic shown at the portfolio section to change those images",
+                "You can click on that pic of me to change the image",
                 "Find it",
                 "swag",
                 "WITTA ROCKET LAUNCHER",
@@ -203,6 +206,9 @@ export default {
             picOfMe: "",
             windowWidth: window.innerWidth,
             randomPortfolioItem: null,
+            randomPortfolioItemKey: Date.now(),
+            intervalId: null,
+            imageIsLoading: true,
             favSong: '',
             hue: 0
         };
@@ -217,10 +223,16 @@ export default {
         });
         this.applyRandomHue();
         this.fetchTopSong();
+        this.intervalId = setInterval(() => {
+            this.selectRandomPortfolioItem();
+        }, 6000);
     },
 
     beforeUnmount() {
         window.removeEventListener('resize', this.onResize);
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     },
 
     created() {
@@ -281,7 +293,17 @@ export default {
 
         selectRandomPortfolioItem() {
             const randomIndex = Math.floor(Math.random() * portfolioItems.length);
-            this.randomPortfolioItem = portfolioItems[randomIndex];
+            const newItem = portfolioItems[randomIndex];
+
+            this.imageIsLoading = true;
+
+            const image = new Image();
+            image.onload = () => {
+                this.randomPortfolioItem = newItem;
+                this.randomPortfolioItemKey = Date.now();
+                this.imageIsLoading = false;
+            };
+            image.src = newItem.primary;
         },
 
         applyRandomHue() {
@@ -314,6 +336,11 @@ export default {
             } catch (error) {
                 console.error('Error fetching top song:', error);
             }
+        },
+
+        resetTimer() {
+            clearInterval(this.intervalId);
+            this.intervalId = setInterval(this.selectRandomPortfolioItem, 6000);
         },
     },
 };
@@ -380,6 +407,19 @@ a:hover {
 
 .cccp {
     width: 80%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+    {
+    opacity: 0;
 }
 
 @media only screen and (max-width: 576px) {
