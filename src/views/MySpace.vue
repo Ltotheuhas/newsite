@@ -94,11 +94,12 @@
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="test">View
                         Full Portfolio</router-link>]</v-card-title>
-                <transition name="fade" mode="out-in">
-                    <v-img v-if="!imageIsLoading" :key="randomPortfolioItemKey" :src="randomPortfolioItem.primary"
-                        class="mx-auto w-75 h-auto"></v-img>
-                </transition>
-
+                <div class="image-container mx-auto w-75">
+                    <transition name="fade" mode="out-in">
+                        <v-img v-if="!imageIsLoading" :key="randomPortfolioItemKey"
+                            :src="randomPortfolioItem.primary"></v-img>
+                    </transition>
+                </div>
             </v-card>
 
             <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">
@@ -314,9 +315,12 @@ export default {
             titles.forEach(title => {
                 title.style.color = color;
             });
-            document.documentElement.style.setProperty('--dynamic-color', color);
-        },
 
+            document.documentElement.style.setProperty('--dynamic-color', color);
+            const adjustedHue = (this.hue + 254) % 360;
+            document.documentElement.style.setProperty('--dynamic-hue-counter', `${adjustedHue}deg`);
+            document.documentElement.style.setProperty('--dynamic-hue-arrow', `${this.hue}deg`);
+        },
 
         async fetchTopSong() {
             const userName = 'Ltotheuhas';
@@ -409,6 +413,14 @@ a:hover {
     width: 80%;
 }
 
+.image-container {
+    height: 340px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -484,5 +496,19 @@ a:hover {
     100% {
         transform: translate(0px, 0px);
     }
+}
+</style>
+
+<style>
+#HCB_comment_box .hcb-comment-tb button {
+    color: var(--dynamic-color) !important;
+}
+
+#HCB_comment_box .hcb-icon {
+    filter: grayscale(60%) hue-rotate(var(--dynamic-hue-arrow));
+}
+
+.counter img {
+    filter: grayscale(80%) hue-rotate(var(--dynamic-hue-counter));
 }
 </style>
