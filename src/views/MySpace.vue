@@ -209,6 +209,7 @@ export default {
             randomPortfolioItem: null,
             randomPortfolioItemKey: Date.now(),
             intervalId: null,
+            recentIndices: [],
             imageIsLoading: true,
             favSong: '',
             hue: 0
@@ -293,9 +294,20 @@ export default {
         },
 
         selectRandomPortfolioItem() {
-            const randomIndex = Math.floor(Math.random() * portfolioItems.length);
-            const newItem = portfolioItems[randomIndex];
+            let randomIndex;
+            let attempts = 0;
 
+            do {
+                randomIndex = Math.floor(Math.random() * portfolioItems.length);
+                attempts++;
+            } while (this.recentIndices.includes(randomIndex) && attempts < 100);
+
+            if (attempts >= 100) {
+                console.error('oops x_x');
+                return;
+            }
+
+            const newItem = portfolioItems[randomIndex];
             this.imageIsLoading = true;
 
             const image = new Image();
@@ -303,6 +315,16 @@ export default {
                 this.randomPortfolioItem = newItem;
                 this.randomPortfolioItemKey = Date.now();
                 this.imageIsLoading = false;
+
+                clearInterval(this.intervalId);
+                this.intervalId = setInterval(() => {
+                    this.selectRandomPortfolioItem();
+                }, 6000);
+
+                if (this.recentIndices.length >= 3) {
+                    this.recentIndices.shift();
+                }
+                this.recentIndices.push(randomIndex);
             };
             image.src = newItem.primary;
         },
@@ -340,11 +362,6 @@ export default {
             } catch (error) {
                 console.error('Error fetching top song:', error);
             }
-        },
-
-        resetTimer() {
-            clearInterval(this.intervalId);
-            this.intervalId = setInterval(this.selectRandomPortfolioItem, 6000);
         },
     },
 };
