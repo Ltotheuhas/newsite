@@ -322,7 +322,7 @@ export const portfolioItems = [
     year: "2021",
     primary: require("@/assets/grid/shirt6.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt6_.png")],
+    secondary: [require("@/assets/grid/shirt6_.png"), require("@/assets/grid/subshirt.jpeg")],
     description: "Shirt designed and printed for 5ubaruu<br><a href='https://5ubaruu.bandcamp.com/merch/5ubaruu-blue-on-black-t-shirt' target='_blank'>Link</a>",
   },
   {

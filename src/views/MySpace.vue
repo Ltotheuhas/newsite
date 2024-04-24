@@ -3,8 +3,8 @@
         <v-col cols="12" lg="2" md="4" sm="5">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
-                <router-link to="reveal">
-                    <v-card-text class="online">
+                <v-card-text class="online">
+                    <router-link to="reveal">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             style="isolation:isolate" viewBox="550.27 1317.664 124 266.636" width="124pt"
                             height="266.636pt">
@@ -17,8 +17,9 @@
                                     r="45" fill="var(--dynamic-color)" />
                             </g>
                         </svg>
-                        ONLINE!</v-card-text>
-                </router-link>
+                        ONLINE!
+                    </router-link>
+                </v-card-text>
                 <v-card-text class="py-0">
                     {{ currentMessage }}<br>I make shit
                 </v-card-text>
