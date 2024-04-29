@@ -330,7 +330,7 @@ export const portfolioItems = [
     year: "2022",
     primary: require("@/assets/grid/shirt7.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt7_.png")],
+    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/abdi.jpg")],
     description: ""
   },
   {

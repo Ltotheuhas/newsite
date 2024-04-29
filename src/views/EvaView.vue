@@ -1,57 +1,38 @@
 <template>
-    <v-container class="showcase">
+    <v-container>
         <v-row>
-            <v-col cols="12" class="eva">
-                <a :href="links.evaBandcamp" target="_blank">
-                    eva logo w shifting hue here
+            <v-col cols="12">
+                <a :href="links.evaBandcamp" target="_blank" class="mx-auto">
+                    <v-img :src="require('@/assets/evaChrome.png')" class="rgbeva"></v-img>
                 </a>
             </v-col>
-            <v-col cols="12" class="infobox">
+            <v-col cols="12">
                 <h1>Eva Hakai is {{ evaIs }}</h1>
             </v-col>
-            <v-col cols="12" class="info">
+            <v-col cols="12">
                 Eva Hakai was first established on May 26th 2020 and then set into stone and announced with its original
                 member list on June 17th.
             </v-col>
-            <v-col cols="12" class="info">
-                The team was composed of <a v-for="(artist, index) in artists" :key="index" :href="artist.link"
-                    class="artist" target="_blank">{{ artist.name }}</a>.
-            </v-col>
-            <v-col cols="12" class="info">
+            <v-col cols="12">
                 After that point, Eva Hakai has used its platform to produce cassette tapes for three of the members'
                 most recent albums.
             </v-col>
-            <v-col cols="12" id="tapeFloat">
-                <div class="tapes" v-for="(tape, index) in tapes" :key="index">
-                    <a :href="tape.link" target="_blank">
-                        <v-img :src="tape.image"></v-img>
-                    </a>
-                </div>
-            </v-col>
-            <v-col cols="12" class="info">
-                On October 9th, Eva Hakai released its first compilation album "<a :href="links.evaVol1" class="artist"
+            <v-col cols="12">
+                On October 9th, Eva Hakai released its first compilation album "<a :href="links.evaVol1"
                     target="_blank">Eva Vol. 1</a>", featuring previously unreleased tracks from each of the members.
             </v-col>
-            <v-col cols="12" class="eva">
+            <v-col cols="12">
                 <a :href="links.evaVol1" target="_blank">
-                    <v-img class="selfie" src="https://f4.bcbits.com/img/a0843754287_10.jpg"></v-img>
+                    <v-img src="https://f4.bcbits.com/img/a0843754287_10.jpg" class="coolimage"></v-img>
                 </a>
             </v-col>
-            <v-col cols="12" class="info">
+            <v-col cols="12">
                 On November 18th, Eva Hakai has merged itself into the music label and multimedia art collective <a
-                    :href="links.noAgreements" class="artist" target="_blank">No Agreements</a>.
+                    :href="links.noAgreements" target="_blank">No Agreements</a>.
             </v-col>
-            <v-col cols="12" class="eva">
-                <a :href="links.noAgreements" target="_blank">
-                    no agreements dog here but maybe actually not
-                </a>
-            </v-col>
-            <v-col cols="12" class="info">
+            <v-col cols="12">
                 Since then most of the members have continued their operations under that label, while a few others have
                 split up from the project and continued either independently or under a different group.
-            </v-col>
-            <v-col cols="12" class="info">
-                guy in wiiu here
             </v-col>
         </v-row>
     </v-container>
@@ -96,15 +77,7 @@ export default {
                 evaBandcamp: 'http://evahakai.bandcamp.com/',
                 evaVol1: 'https://evahakai.bandcamp.com/album/eva-vol-1',
                 noAgreements: 'https://noagreements.bandcamp.com/'
-            },
-            artists: [
-                { name: 'Avenade', link: 'https://avenade.bandcamp.com/' },
-                // Add other artists here...
-            ],
-            tapes: [
-                { link: 'https://neupink.bandcamp.com/album/fluorescent-art?label=271419794&tab=merch', image: '@/assets/neuTape.png' },
-                // Add other tapes here...
-            ]
+            }
         }
     },
     mounted() {
@@ -129,21 +102,22 @@ export default {
 </script>
 
 <style scoped>
-.showcase {
-    display: block;
+a {
+    animation: hue-rotation 5s infinite linear;
 }
 
-.eva .selfie {
-    max-width: 100%;
+.coolimage {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.infobox h1 {
-    /* Styling for the h1 inside infobox */
-}
+@keyframes hue-rotation {
+    0% {
+        filter: hue-rotate(0deg);
+    }
 
-.artist {
-    /* Styling for artist links */
+    100% {
+        filter: hue-rotate(360deg);
+    }
 }
-
-/* Add more custom styles here */
 </style>
