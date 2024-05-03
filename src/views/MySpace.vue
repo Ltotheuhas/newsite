@@ -202,7 +202,11 @@ export default {
                 "ich habe swag hater haben hepatitis b",
                 "These pictures are so embarrassing",
                 "touhoufan2009",
-                "ANTI PSYTRANCE ACTION"
+                "ANTI PSYTRANCE ACTION",
+                "пронађи своју срећу и одјеби",
+                "Смрт фашизму, слобода народу!",
+                "guy debord would HATE this",
+                "guy debord would LOVE this"
             ],
             currentMessage: "",
             picOfMe: "",
@@ -358,10 +362,10 @@ export default {
                     this.favSong = topTrack.artist.name + " - " + topTrack.name;
                     this.favSong = this.favSong.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                 } else {
-                    console.log('No top song found');
+                    this.favSong = 'idk :3';
                 }
             } catch (error) {
-                console.error('Error fetching top song:', error);
+                this.favSong = 'idk x_x';
             }
         },
     },

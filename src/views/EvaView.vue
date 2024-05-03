@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row class="mb-6">
             <v-col cols="12">
                 <a :href="links.evaBandcamp" target="_blank" class="mx-auto">
                     <v-img :src="require('@/assets/evaChrome.png')" class="rgbeva"></v-img>
@@ -22,9 +22,9 @@
                     target="_blank">Eva Vol. 1</a>", featuring previously unreleased tracks from each of the members.
             </v-col>
             <v-col cols="12">
-                <a :href="links.evaVol1" target="_blank">
+                <router-link to="test/eva1">
                     <v-img src="https://f4.bcbits.com/img/a0843754287_10.jpg" class="coolimage"></v-img>
-                </a>
+                </router-link>
             </v-col>
             <v-col cols="12">
                 On November 18th, Eva Hakai has merged itself into the music label and multimedia art collective <a
@@ -35,6 +35,9 @@
                 split up from the project and continued either independently or under a different group.
             </v-col>
         </v-row>
+        <router-link class="back" to="/test">
+            <p>back</p>
+        </router-link>
     </v-container>
 </template>
 
@@ -109,6 +112,14 @@ a {
 .coolimage {
     max-width: 600px;
     margin: 0 auto;
+}
+
+.back {
+    text-align: center;
+}
+
+.back:hover {
+    text-decoration: line-through;
 }
 
 @keyframes hue-rotation {

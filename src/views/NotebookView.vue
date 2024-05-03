@@ -3,6 +3,9 @@
         <v-img v-for="(image, index) in notebookImages" :key="index" :src="image" class="page mx-auto my-3"
             :class="{ 'last-page': index === notebookImages.length - 1 }">
         </v-img>
+        <router-link class="back" to="/test">
+            <p>back</p>
+        </router-link>
     </div>
 </template>
 
@@ -44,6 +47,15 @@ export default {
 
 .last-page {
     width: 25%;
+}
+
+.back {
+    color: lightgray;
+    text-align: center;
+}
+
+.back:hover {
+    text-decoration: line-through;
 }
 
 @media only screen and (max-width: 992px) {

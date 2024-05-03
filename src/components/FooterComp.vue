@@ -3,11 +3,12 @@
         <v-container fluid class="py-1 px-2">
             <v-row no-gutters>
                 <v-col class="unlicensed" cols="12" sm="6">
-                    <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
-                        <p>Luhas © Unlicensed Product ☻<span class="emoji">☺</span><span class="emoji">☻</span>
-                        {{ currentYear }}
-                        </p>
-                    </a>
+                    <p style="width: fit-content">
+                        <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
+                            Luhas © Unlicensed Product ☻<span class="emoji">☺</span><span class="emoji">☻</span>
+                            {{ currentYear }}
+                        </a>
+                    </p>
                 </v-col>
                 <v-col cols="12" sm="6" class="d-flex justify-end">
                     <div class="counter">

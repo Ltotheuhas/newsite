@@ -102,8 +102,7 @@ export const portfolioItems = [
   {
     name: "evaGif",
     year: "2020",
-    primary: require("@/assets/grid/evaGif.gif"),
-    description: ""
+    primary: require("@/assets/grid/evaGif.gif")
   },
   {
     name: "femtanyl",
@@ -121,6 +120,7 @@ export const portfolioItems = [
     name: "flucc",
     year: "2023",
     primary: require("@/assets/grid/flucc.jpg"),
+    secondary: [require("@/assets/mqdefault_6s.webp")],
     description: "Live performance at Megaworld.xyz 360° festival 5/10/2023 @ Flucc Wien",
     embedUrls: ["https://www.youtube.com/embed/i34S4SZv8qE?si=DEKEtGdWxbRcMJGF"]
   },
