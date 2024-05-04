@@ -35,6 +35,7 @@ export default {
 @media only screen and (max-width: 599px) {
     .unlicensed {
         margin-bottom: -22px;
+        z-index: 0;
     }
 
     .counter img {
