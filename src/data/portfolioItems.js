@@ -201,7 +201,8 @@ export const portfolioItems = [
     name: "mega22",
     year: "2022",
     primary: require("@/assets/grid/mega22.png"),
-    description: ""
+    description: "Live performance @ Megaworld.xyz festival 1/7/2022",
+    embedUrls: ["https://www.youtube.com/embed/uY7Dyw1KcT4?si=AICBuaz2yyMnBWY2"]
   },
   {
     name: "murTape",

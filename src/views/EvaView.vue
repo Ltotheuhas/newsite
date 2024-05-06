@@ -1,12 +1,12 @@
 <template>
     <v-container>
-        <v-row class="mb-6">
-            <v-col cols="12">
-                <a :href="links.evaBandcamp" target="_blank" class="mx-auto">
-                    <v-img :src="require('@/assets/evaChrome.png')" class="rgbeva"></v-img>
+        <v-row class="mb-6 justify-center">
+            <v-col cols="12" class="coolimg1">
+                <a :href="links.evaBandcamp" class="imglnk" target="_blank">
+                    <v-img :src="require('@/assets/evaChrome.png')" class="coolimg1"></v-img>
                 </a>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" class="evais">
                 <h1>Eva Hakai is {{ evaIs }}</h1>
             </v-col>
             <v-col cols="12">
@@ -21,9 +21,9 @@
                 On October 9th, Eva Hakai released its first compilation album "<a :href="links.evaVol1"
                     target="_blank">Eva Vol. 1</a>", featuring previously unreleased tracks from each of the members.
             </v-col>
-            <v-col cols="12">
-                <router-link to="test/eva1">
-                    <v-img src="https://f4.bcbits.com/img/a0843754287_10.jpg" class="coolimage"></v-img>
+            <v-col cols="12" class="coolimg2">
+                <router-link to="test/eva1" class="imglnk">
+                    <v-img class="coolimg2" src="https://f4.bcbits.com/img/a0843754287_10.jpg"></v-img>
                 </router-link>
             </v-col>
             <v-col cols="12">
@@ -109,9 +109,21 @@ a {
     animation: hue-rotation 5s infinite linear;
 }
 
-.coolimage {
+.v-container {
+    text-align: center;
+}
+
+.coolimg1 {
+    max-width: 1200px;
+}
+
+.coolimg2 {
     max-width: 600px;
-    margin: 0 auto;
+}
+
+.evais {
+    text-align: left;
+    height: 200px;
 }
 
 .back {

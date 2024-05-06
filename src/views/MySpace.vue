@@ -208,7 +208,9 @@ export default {
                 "guy debord would HATE this",
                 "guy debord would LOVE this",
                 "shoutout charli xcx",
-                "no space is safe"
+                "no space is safe",
+                "NEVER FORGET SREBRENICA",
+                "I like powerviolence and crust punk"
             ],
             currentMessage: "",
             picOfMe: "",

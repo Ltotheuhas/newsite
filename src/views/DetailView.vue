@@ -1,7 +1,7 @@
 <template>
   <div v-if="item" class="detail-view">
     <div class="year-display" v-if="item.year">{{ item.year }}</div>
-    <img v-if="item.type !== 'clothes'" :src="item.primary" :alt="`${item.name}`" class="primary-image" />
+    <img  :src="item.primary" :alt="`${item.name}`" class="primary-image" />
     <div v-if="item.secondary && item.secondary.length" class="secondary-images">
       <img v-for="(image, index) in item.secondary" :key="index" :src="image"
         :alt="`${item.name} secondary ${index}`" />
