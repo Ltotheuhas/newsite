@@ -35,9 +35,11 @@
                 split up from the project and continued either independently or under a different group.
             </v-col>
         </v-row>
-        <router-link class="back" to="/test">
-            <p>back</p>
-        </router-link>
+        <p class="back">
+            <router-link class="back" to="/test">
+                back
+            </router-link>
+        </p>
     </v-container>
 </template>
 
@@ -127,7 +129,8 @@ a {
 }
 
 .back {
-    text-align: center;
+    margin: auto;
+    width: fit-content;
 }
 
 .back:hover {

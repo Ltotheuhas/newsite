@@ -27,6 +27,11 @@
         </iframe>
       </div>
     </div>
+    <div v-if="item.bcembed && item.bcembed.length" class="ma-auto">
+      <iframe class="bcembed"
+        src="https://bandcamp.com/EmbeddedPlayer/album=3777107319/size=large/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/"
+        seamless></iframe>
+    </div>
   </div>
   <div class="detail-view" v-else>
     <img :src="require('@/assets/404.gif')" loading="lazy">
@@ -34,9 +39,11 @@
     <p>it seem liek there is nothing here..... empty web page.....</p>
     <p>الورشة بالفشل</p>
   </div>
-  <router-link class="back" to="/test">
-    <p>back</p>
-  </router-link>
+  <p class="back">
+    <router-link class="back" to="/test">
+      back
+    </router-link>
+  </p>
 </template>
 
 <script>
@@ -116,7 +123,8 @@ export default {
 
 .back {
   color: lightgray;
-  text-align: center;
+  margin: auto;
+  width: fit-content;
 }
 
 .back:hover {
@@ -124,8 +132,8 @@ export default {
 }
 
 .description {
-    width: 100%;
-  }
+  width: 100%;
+}
 
 .year-display {
   position: absolute;
@@ -134,6 +142,13 @@ export default {
   margin: 15px;
   letter-spacing: 2rem;
   font-style: italic;
+}
+
+.bcembed {
+  border: 0;
+  width: 100%;
+  max-width: 480px;
+  height: 210px;
 }
 
 @media only screen and (max-width: 992px) {

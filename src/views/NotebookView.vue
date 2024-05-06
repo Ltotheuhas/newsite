@@ -3,9 +3,11 @@
         <v-img v-for="(image, index) in notebookImages" :key="index" :src="image" class="page mx-auto my-3"
             :class="{ 'last-page': index === notebookImages.length - 1 }">
         </v-img>
-        <router-link class="back" to="/test">
-            <p>back</p>
-        </router-link>
+        <p class="back">
+            <router-link class="back" to="/test">
+                back
+            </router-link>
+        </p>
     </div>
 </template>
 
@@ -51,7 +53,8 @@ export default {
 
 .back {
     color: lightgray;
-    text-align: center;
+    margin: auto;
+    width: fit-content;
 }
 
 .back:hover {

@@ -56,7 +56,7 @@ export const portfolioItems = [
     name: "bullet",
     year: "2022",
     primary: require("@/assets/grid/bullet.png"),
-    description: "<a href='https://nextyearssnow.bandcamp.com/album/bite-the-bullet-and-let-it-take-you-wherever' target='_blank'>Listen</a>"
+    bcembed: "3777107319"
   },
   {
     name: "carmen",
@@ -173,7 +173,8 @@ export const portfolioItems = [
     name: "magic",
     year: "2021",
     primary: require("@/assets/grid/magic.jpg"),
-    description: ""
+    description: "Magic for Beginners by Murrumur<br>Production on track 6",
+    bcembed: "2304555952"
   },
   {
     name: "mecha2022",
