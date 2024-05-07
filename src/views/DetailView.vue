@@ -29,8 +29,8 @@
     </div>
     <div v-if="item.bcembed && item.bcembed.length" class="ma-auto">
       <iframe class="bcembed"
-        src="https://bandcamp.com/EmbeddedPlayer/album=3777107319/size=large/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/"
-        seamless></iframe>
+        :src="`https://bandcamp.com/EmbeddedPlayer/album=${item.bcembed}/size=large/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/`"
+        seamless allow="encrypted-media"></iframe>
     </div>
   </div>
   <div class="detail-view" v-else>

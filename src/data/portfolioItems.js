@@ -19,9 +19,9 @@ export const portfolioItems = [
     primary: require("@/assets/grid/aethernet.jpg"),
     description: [
       { type: 'html', content: 'Aethernet by Fax Gang<br>Online album release party<br>Visualizers made for ' },
-      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/rqN1PSC1Z1Y?si=CaXiY0CtBBBLOf8L'},
+      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/rqN1PSC1Z1Y?si=CaXiY0CtBBBLOf8L' },
       { type: 'text', content: ' and ' },
-      { type: 'link', content: 'Acetantina/Kaizo Slumber', href: 'https://youtu.be/_uGDQB4GIBw?si=aNcRX8UzLwmonCxj'}
+      { type: 'link', content: 'Acetantina/Kaizo Slumber', href: 'https://youtu.be/_uGDQB4GIBw?si=aNcRX8UzLwmonCxj' }
     ]
   },
   {
@@ -30,7 +30,7 @@ export const portfolioItems = [
     primary: require("@/assets/grid/april.png"),
     description: [
       { type: 'html', content: 'Vessel Pilot by Murrumur<br>Single cover art<br>' },
-      { type: 'link', content: 'Listen', href: 'https://soundcloud.com/murrumur/vessel-pilot?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'}
+      { type: 'link', content: 'Listen', href: 'https://soundcloud.com/murrumur/vessel-pilot?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing' }
     ]
   },
   {
@@ -188,13 +188,13 @@ export const portfolioItems = [
     primary: require("@/assets/grid/mechafest2021.jpg"),
     description: [
       { type: 'text', content: 'Visualizers made for ' },
-      { type: 'link', content: 'nobodyis', href: 'https://youtu.be/ag5rp3sdnI4?si=B2-nnEiISYA0YsER'},
+      { type: 'link', content: 'nobodyis', href: 'https://youtu.be/ag5rp3sdnI4?si=B2-nnEiISYA0YsER' },
       { type: 'text', content: ', ' },
-      { type: 'link', content: 'bliss3three', href: 'https://youtu.be/OofzFAxu08w?si=69Hat-hxFqQwkiFB'},
+      { type: 'link', content: 'bliss3three', href: 'https://youtu.be/OofzFAxu08w?si=69Hat-hxFqQwkiFB' },
       { type: 'text', content: ', ' },
-      { type: 'link', content: 'BROKEN_CANYON', href: 'https://youtu.be/cVPx1oxdGIE?si=1ZfOC-hrGAcHOm4F'},
+      { type: 'link', content: 'BROKEN_CANYON', href: 'https://youtu.be/cVPx1oxdGIE?si=1ZfOC-hrGAcHOm4F' },
       { type: 'text', content: ', Secret Webcam Girl, Prismadoll, Acetantina/Kaizo Slumber, ' },
-      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/YKv3hB1s5bE?si=BVeOzRss-PiaRBtv'},
+      { type: 'link', content: 'MIMIDEATH', href: 'https://youtu.be/YKv3hB1s5bE?si=BVeOzRss-PiaRBtv' },
       { type: 'html', content: " and Mixed Matches<br>I performed there too<br><a href='https://twitter.com/themechafest/status/1369041200322383875' target='_blank'>More info</a>" }
     ]
   },
@@ -231,46 +231,40 @@ export const portfolioItems = [
     name: "panda",
     year: "2022",
     primary: require("@/assets/grid/panda.png"),
-    secondary: [require("@/assets/grid/panda_.png"), require("@/assets/grid/panda__.png")],
+    secondary: [require("@/assets/grid/panda_.png"), require("@/assets/grid/panda__.png")]
   },
   {
     name: "patch",
     year: "2020",
-    primary: require("@/assets/grid/patch.png"),
-    description: ""
+    primary: require("@/assets/grid/patch.png")
   },
   {
     name: "pomputer",
     year: "2022",
     primary: require("@/assets/grid/pomputer.png"),
-    secondary: [require("@/assets/grid/pomputer_.png"), require("@/assets/grid/pomputer__.png")],
-    description: ""
+    secondary: [require("@/assets/grid/pomputer_.png"), require("@/assets/grid/pomputer__.png")]
   },
   {
     name: "quarantainment2",
     year: "2021",
-    primary: require("@/assets/grid/quarantainment2.jpg"),
-    description: ""
+    primary: require("@/assets/grid/quarantainment2.jpg")
   },
   {
     name: "rust",
     year: "2021",
     primary: require("@/assets/grid/rust.png"),
-    secondary: [require("@/assets/grid/rust_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/rust_.png")]
   },
   {
     name: "ryan",
     year: "2021",
-    primary: require("@/assets/grid/ryan.jpg"),
-    description: ""
+    primary: require("@/assets/grid/ryan.jpg")
   },
   {
     name: "saya",
     year: "2021",
     primary: require("@/assets/grid/saya.png"),
-    secondary: [require("@/assets/grid/saya_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/saya_.png")]
   },
   {
     name: "seaweed",
@@ -284,24 +278,22 @@ export const portfolioItems = [
     year: "2020",
     primary: require("@/assets/grid/shirt1.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt1_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/shirt1_.png"), require("@/assets/testcat.jpg")],
+    description: "Eva Split Striped Shirt<br>Cut, sown and printed by hand<br>2/2"
   },
   {
     name: "shirt2",
     year: "2020",
     primary: require("@/assets/grid/shirt2.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt2_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/virus.jpg")]
   },
   {
     name: "shirt3",
     year: "2021",
     primary: require("@/assets/grid/shirt3.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt3_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/shirt3_.png"), require("@/assets/fabi1.jpg"), require("@/assets/fabi2.jpg")]
   },
   {
     name: "shirt4",
@@ -309,15 +301,14 @@ export const portfolioItems = [
     primary: require("@/assets/grid/shirt4.png"),
     type: "clothes",
     secondary: [require("@/assets/grid/shirt4_.png")],
-    description: ""
+    description: "Shirt designed for bliss3three under No Agreements<br>For the release of <a href='https://bliss3three.bandcamp.com/album/im-gonna-miss-you' target='_blank'>I'm Gonna Miss You</a>",
   },
   {
     name: "shirt5",
     year: "2021",
     primary: require("@/assets/grid/shirt5.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt5_.png")],
-    description: ""
+    description: "Shirt designed for No Agreements to go along with the No More Dead Dogs movie"
   },
   {
     name: "shirt6",
@@ -332,8 +323,7 @@ export const portfolioItems = [
     year: "2022",
     primary: require("@/assets/grid/shirt7.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/abdi.jpg")],
-    description: ""
+    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/abdi.jpg")]
   },
   {
     name: "slumber",
@@ -345,14 +335,12 @@ export const portfolioItems = [
   {
     name: "soul",
     year: "2019",
-    primary: require("@/assets/grid/soul.jpg"),
-    description: ""
+    primary: require("@/assets/grid/soul.jpg")
   },
   {
     name: "sp404",
     year: "2022",
-    primary: require("@/assets/grid/sp404.png"),
-    description: ""
+    primary: require("@/assets/grid/sp404.png")
   },
   {
     name: "ss",
@@ -363,27 +351,23 @@ export const portfolioItems = [
   {
     name: "swordflower",
     year: "2020",
-    primary: require("@/assets/grid/swordflower.jpg"),
-    description: ""
+    primary: require("@/assets/grid/swordflower.jpg")
   },
   {
     name: "thing",
     year: "2022",
     primary: require("@/assets/grid/thing.png"),
-    secondary: [require("@/assets/grid/thing_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/thing_.png")]
   },
   {
     name: "webmaker",
     year: "2021",
-    primary: require("@/assets/grid/webmaker.jpg"),
-    description: ""
+    primary: require("@/assets/grid/webmaker.jpg")
   },
   {
     name: "yena",
     year: "xxxx",
     primary: require("@/assets/grid/yena.png"),
-    secondary: [require("@/assets/grid/yena_.png")],
-    description: ""
+    secondary: [require("@/assets/grid/yena_.png")]
   },
 ];

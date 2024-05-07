@@ -273,9 +273,10 @@ export default {
         },
 
         chooseDailyMessage() {
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            const index = dayOfYear % this.dailyMessages.length;
+            let seed = new Date().getDate();
+            seed = (seed * 9301 + 49297) % 233280;
+            const random = seed / 233280;
+            const index = Math.floor(random * this.dailyMessages.length);
             this.currentMessage = this.dailyMessages[index];
         },
 
