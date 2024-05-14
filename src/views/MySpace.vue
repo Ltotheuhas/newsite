@@ -532,10 +532,10 @@ a:hover {
 }
 
 #HCB_comment_box .hcb-icon {
-    filter: grayscale(60%) hue-rotate(var(--dynamic-hue-arrow));
+    filter: grayscale(80%) brightness(120%) hue-rotate(var(--dynamic-hue-arrow));
 }
 
 .counter img {
-    filter: grayscale(80%) hue-rotate(var(--dynamic-hue-counter));
+    filter: grayscale(80%) brightness(80%) hue-rotate(var(--dynamic-hue-counter));
 }
 </style>
