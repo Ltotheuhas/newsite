@@ -278,7 +278,7 @@ export const portfolioItems = [
     year: "2020",
     primary: require("@/assets/grid/shirt1.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt1_.png"), require("@/assets/testcat.jpg")],
+    secondary: [require("@/assets/grid/shirt1_.png"), require("@/assets/grid/testcat.jpg")],
     description: "Eva Split Striped Shirt<br>Cut, sown and printed by hand<br>2/2"
   },
   {
@@ -286,14 +286,14 @@ export const portfolioItems = [
     year: "2020",
     primary: require("@/assets/grid/shirt2.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/virus.jpg")]
+    secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/grid/virus.jpg")]
   },
   {
     name: "shirt3",
     year: "2021",
     primary: require("@/assets/grid/shirt3.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt3_.png"), require("@/assets/fabi1.jpg"), require("@/assets/fabi2.jpg")]
+    secondary: [require("@/assets/grid/shirt3_.png"), require("@/assets/grid/fabi1.jpg"), require("@/assets/grid/fabi2.jpg")]
   },
   {
     name: "shirt4",
@@ -323,7 +323,7 @@ export const portfolioItems = [
     year: "2022",
     primary: require("@/assets/grid/shirt7.png"),
     type: "clothes",
-    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/abdi.jpg")]
+    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/grid/abdi.jpg")]
   },
   {
     name: "slumber",

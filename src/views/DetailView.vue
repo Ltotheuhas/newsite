@@ -1,10 +1,21 @@
 <template>
   <div v-if="item" class="detail-view">
     <div class="year-display" v-if="item.year">{{ item.year }}</div>
-    <img :src="item.primary" :alt="`${item.name}`" class="primary-image" />
-    <div v-if="item.secondary && item.secondary.length" class="secondary-images">
-      <img v-for="(image, index) in item.secondary" :key="index" :src="image"
-        :alt="`${item.name} secondary ${index}`" />
+    <div v-if="item.type === 'clothes'" class="clothes-container">
+      <img :src="item.primary" :alt="`${item.name}`" class="primary-image" />
+      <img v-if="item.secondary && item.secondary.length" :src="item.secondary[0]" :alt="`${item.name} secondary 0`"
+        class="secondary-image" />
+      <div class="additional-secondary-images" v-if="item.secondary && item.secondary.length > 1">
+        <img v-for="(image, index) in item.secondary.slice(1)" :key="index" :src="image"
+          :alt="`${item.name} secondary ${index + 1}`" />
+      </div>
+    </div>
+    <div v-else>
+      <img :src="item.primary" :alt="`${item.name}`" class="primary-image" />
+      <div v-if="item.secondary && item.secondary.length" class="secondary-images">
+        <img v-for="(image, index) in item.secondary" :key="index" :src="image"
+          :alt="`${item.name} secondary ${index}`" />
+      </div>
     </div>
     <div class="description">
       <span v-for="(part, index) in normalizedDescription" :key="index">
@@ -23,8 +34,7 @@
       <div class="video-container" v-for="(url, index) in item.embedUrls" :key="index">
         <iframe :src="url" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+          allowfullscreen></iframe>
       </div>
     </div>
     <div v-if="item.bcembed && item.bcembed.length" class="ma-auto">
@@ -40,9 +50,7 @@
     <p>الورشة بالفشل</p>
   </div>
   <p class="back">
-    <router-link class="back" to="/test">
-      back
-    </router-link>
+    <router-link class="back" to="/test">back</router-link>
   </p>
 </template>
 
@@ -173,5 +181,52 @@ export default {
 
 .description a:hover {
   text-decoration: line-through;
+}
+
+.clothes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.clothes-container .primary-image,
+.clothes-container .secondary-image {
+  max-width: 45%;
+  margin: 5px;
+}
+
+.additional-secondary-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.additional-secondary-images img {
+  max-width: 45%;
+  margin: 5px;
+}
+
+@media (min-width: 768px) {
+  .clothes-container {
+    justify-content: space-around;
+  }
+
+  .clothes-container .primary-image,
+  .clothes-container .secondary-image {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 767px) {
+  .clothes-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .clothes-container .primary-image,
+  .clothes-container .secondary-image,
+  .additional-secondary-images img {
+    max-width: 90%;
+  }
 }
 </style>
