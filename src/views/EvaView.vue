@@ -22,7 +22,7 @@
                     target="_blank">Eva Vol. 1</a>", featuring previously unreleased tracks from each of the members.
             </v-col>
             <v-col cols="12" class="coolimg2">
-                <router-link to="test/eva1" class="imglnk">
+                <router-link to="portfolio/eva1" class="imglnk">
                     <v-img class="coolimg2" src="https://f4.bcbits.com/img/a0843754287_10.jpg"></v-img>
                 </router-link>
             </v-col>
@@ -35,11 +35,6 @@
                 split up from the project and continued either independently or under a different group.
             </v-col>
         </v-row>
-        <p class="back">
-            <router-link class="back" to="/test">
-                back
-            </router-link>
-        </p>
     </v-container>
 </template>
 
@@ -126,15 +121,6 @@ a {
 .evais {
     text-align: left;
     height: 200px;
-}
-
-.back {
-    margin: auto;
-    width: fit-content;
-}
-
-.back:hover {
-    text-decoration: line-through;
 }
 
 @keyframes hue-rotation {

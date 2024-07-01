@@ -1,43 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-/*import HomeView from '../views/HomeView.vue'*/
+import HomeView from '../views/HomeView.vue'
 
 const routes = [
-  /*{
+  {
     path: '/',
     name: 'home',
     component: HomeView
-  },*/
-  {
-    path: '/home',
-    name: 'home',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/HomeView.vue')
   },
   {
-    path: '/',
-    name: 'myspace',
+    path: '/portfolio',
+    name: 'portfolio',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('../views/MySpace.vue')
-  },
-  {
-    path: '/comments',
-    name: 'comments',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/CommentView.vue')
-  },
-  {
-    path: '/test',
-    name: 'test',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/TestView.vue')
+    component: () => import('../views/PortfolioView.vue')
   },
   {
     path: '/blog',
@@ -52,7 +28,7 @@ const routes = [
     name: 'reveal',
   },
   {
-    path: '/test/:id',
+    path: '/portfolio/:id',
     name: 'details',
     component: () => import('../views/DetailView.vue'),
     props: true

@@ -1,46 +1,54 @@
 <template>
-  <div v-if="item" class="detail-view">
-    <div class="year-display" v-if="item.year">{{ item.year }}</div>
-    <div v-if="item.type === 'clothes'" class="clothes-container">
-      <img :src="item.primary" :alt="`${item.name}`" class="primary-image" />
-      <img v-if="item.secondary && item.secondary.length" :src="item.secondary[0]" :alt="`${item.name} secondary 0`"
-        class="secondary-image" />
-      <div class="additional-secondary-images" v-if="item.secondary && item.secondary.length > 1">
-        <img v-for="(image, index) in item.secondary.slice(1)" :key="index" :src="image"
-          :alt="`${item.name} secondary ${index + 1}`" />
-      </div>
+  <div v-if="currentItem" class="detail-view">
+    <div class="year-display" v-if="currentItem.year">{{ currentItem.year }}</div>
+    <div v-if="currentItem.name === 'evaGif'">
+      <EvaView></EvaView>
+    </div>
+    <div v-else-if="currentItem.name === 'notebook'">
+      <NotebookView></NotebookView>
     </div>
     <div v-else>
-      <img :src="item.primary" :alt="`${item.name}`" class="primary-image" />
-      <div v-if="item.secondary && item.secondary.length" class="secondary-images">
-        <img v-for="(image, index) in item.secondary" :key="index" :src="image"
-          :alt="`${item.name} secondary ${index}`" />
+      <div v-if="currentItem.type === 'clothes'" class="clothes-container">
+        <img :src="currentItem.primary" :alt="`${currentItem.name}`" class="primary-image" />
+        <img v-if="currentItem.secondary && currentItem.secondary.length" :src="currentItem.secondary[0]"
+          :alt="`${currentItem.name} secondary 0`" class="secondary-image" />
+        <div class="additional-secondary-images" v-if="currentItem.secondary && currentItem.secondary.length > 1">
+          <img v-for="(image, index) in currentItem.secondary.slice(1)" :key="index" :src="image"
+            :alt="`${currentItem.name} secondary ${index + 1}`" />
+        </div>
       </div>
-    </div>
-    <div class="description">
-      <span v-for="(part, index) in normalizedDescription" :key="index">
-        <template v-if="part.type === 'html'">
-          <span v-html="part.content"></span>
-        </template>
-        <template v-else-if="part.type === 'link'">
-          <a :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.content }}</a>
-        </template>
-        <template v-else>
-          {{ part.content }}
-        </template>
-      </span>
-    </div>
-    <div v-if="item.embedUrls && item.embedUrls.length" class="video-embed">
-      <div class="video-container" v-for="(url, index) in item.embedUrls" :key="index">
-        <iframe :src="url" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+      <div v-else>
+        <img :src="currentItem.primary" :alt="`${currentItem.name}`" class="primary-image" />
+        <div v-if="currentItem.secondary && currentItem.secondary.length" class="secondary-images">
+          <img v-for="(image, index) in currentItem.secondary" :key="index" :src="image"
+            :alt="`${currentItem.name} secondary ${index}`" />
+        </div>
       </div>
-    </div>
-    <div v-if="item.bcembed && item.bcembed.length" class="ma-auto">
-      <iframe class="bcembed"
-        :src="`https://bandcamp.com/EmbeddedPlayer/album=${item.bcembed}/size=large/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/`"
-        seamless allow="encrypted-media"></iframe>
+      <div class="description">
+        <span v-for="(part, index) in normalizedDescription" :key="index">
+          <template v-if="part.type === 'html'">
+            <span v-html="part.content"></span>
+          </template>
+          <template v-else-if="part.type === 'link'">
+            <a :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.content }}</a>
+          </template>
+          <template v-else>
+            {{ part.content }}
+          </template>
+        </span>
+      </div>
+      <div v-if="currentItem.embedUrls && currentItem.embedUrls.length" class="video-embed">
+        <div class="video-container" v-for="(url, index) in currentItem.embedUrls" :key="index">
+          <iframe :src="url" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+      <div v-if="currentItem.bcembed && currentItem.bcembed.length" class="ma-auto">
+        <iframe class="bcembed"
+          :src="`https://bandcamp.com/EmbeddedPlayer/album=${currentItem.bcembed}/size=large/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/`"
+          seamless allow="encrypted-media"></iframe>
+      </div>
     </div>
   </div>
   <div class="detail-view" v-else>
@@ -49,31 +57,51 @@
     <p>it seem liek there is nothing here..... empty web page.....</p>
     <p>الورشة بالفشل</p>
   </div>
-  <p class="back">
-    <router-link class="back" to="/test">back</router-link>
+  <p class="back" v-if="fromList">
+    <router-link class="back" to="/portfolio">back</router-link>
   </p>
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { portfolioItems } from '@/data/portfolioItems';
+import EvaView from './EvaView.vue';
+import NotebookView from './NotebookView.vue';
 
 export default {
-  setup() {
-    const route = useRoute();
-    const item = ref(null);
+  components: {
+    EvaView,
+    NotebookView,
+  },
 
-    onMounted(() => {
-      const itemId = route.params.id;
-      const foundItem = portfolioItems.find(i => i.name === itemId);
-      if (foundItem) {
-        item.value = foundItem;
+  props: {
+    item: Object,
+    fromList: {
+      type: Boolean,
+      default: false,
+    }
+  },
+
+  setup(props) {
+    const route = useRoute();
+    const currentItem = ref(props.item || null);
+
+    const loadItemFromRoute = () => {
+      if (!props.item) {
+        const itemId = route.params.id;
+        const foundItem = portfolioItems.find(i => i.name === itemId);
+        if (foundItem) {
+          currentItem.value = foundItem;
+        }
       }
-    });
+    };
+
+    onMounted(loadItemFromRoute);
+    watch(() => route.params.id, loadItemFromRoute);
 
     const normalizedDescription = computed(() => {
-      const description = item.value?.description;
+      const description = currentItem.value?.description;
       if (typeof description === 'string') {
         return [{ type: 'html', content: description }];
       } else if (Array.isArray(description)) {
@@ -82,7 +110,7 @@ export default {
       return [];
     });
 
-    return { item, normalizedDescription };
+    return { currentItem, normalizedDescription };
   },
 };
 </script>
