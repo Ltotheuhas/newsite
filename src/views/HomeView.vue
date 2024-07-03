@@ -481,7 +481,7 @@ a:hover {
         width: 60%;
     }
 
-    .column {
+    .column, .comment-box {
         padding: 0;
     }
 }
@@ -556,5 +556,11 @@ a:hover {
 
 .counter img {
     filter: grayscale(80%) brightness(80%) hue-rotate(var(--dynamic-hue-counter));
+}
+
+@media only screen and (max-width: 576px) {
+    .comment {
+        margin-bottom: 25px !important;
+    }
 }
 </style>
