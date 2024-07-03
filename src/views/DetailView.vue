@@ -57,7 +57,7 @@
     <p>it seem liek there is nothing here..... empty web page.....</p>
     <p>الورشة بالفشل</p>
   </div>
-  <p class="back" v-if="fromList">
+  <p class="back" v-if="!fromList">
     <router-link class="back" to="/portfolio">back</router-link>
   </p>
 </template>
@@ -122,6 +122,7 @@ export default {
 }
 
 .primary-image,
+.secondary-image,
 .secondary-images img {
   max-width: 100%;
   max-height: 700px;
@@ -237,11 +238,6 @@ export default {
 @media (min-width: 768px) {
   .clothes-container {
     justify-content: space-around;
-  }
-
-  .clothes-container .primary-image,
-  .clothes-container .secondary-image {
-    max-width: 45%;
   }
 }
 

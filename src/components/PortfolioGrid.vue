@@ -70,7 +70,7 @@ export default defineComponent({
 
 <style scoped>
 .wall {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .image-container {

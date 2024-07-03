@@ -214,7 +214,11 @@ export default {
                 "shoutout charli xcx",
                 "no space is safe",
                 "NEVER FORGET SREBRENICA",
-                "I like powerviolence and crust punk"
+                "I like powerviolence and crust punk",
+                "I like jungle and memphis rap",
+                "in development since 2021",
+                "online since 2007",
+                "playing happy wheels while listening to tago mago"
             ],
             currentMessage: "",
             picOfMe: "",
@@ -383,7 +387,7 @@ export default {
 
 <style scoped>
 .content {
-    max-width: 1600px;
+    max-width: 2000px;
     margin: auto;
 }
 
