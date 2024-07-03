@@ -8,7 +8,7 @@
       <NotebookView></NotebookView>
     </div>
     <div v-else>
-      <div v-if="currentItem.type === 'clothes'" class="clothes-container">
+      <div v-if="currentItem.category && currentItem.category.includes('clothes')" class="clothes-container">
         <img :src="currentItem.primary" :alt="`${currentItem.name}`" class="primary-image" />
         <img v-if="currentItem.secondary && currentItem.secondary.length" :src="currentItem.secondary[0]"
           :alt="`${currentItem.name} secondary 0`" class="secondary-image" />
@@ -123,10 +123,12 @@ export default {
 
 .primary-image,
 .secondary-image,
-.secondary-images img {
+.secondary-images img,
+.additional-secondary-images img {
   max-width: 100%;
   max-height: 700px;
   margin-bottom: 20px;
+  margin: 5px;
 }
 
 .video-embed {
@@ -188,6 +190,37 @@ export default {
   height: 210px;
 }
 
+.clothes-container,
+.additional-secondary-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.clothes-container .primary-image,
+.clothes-container .secondary-image {
+  max-width: 45%;
+  margin: 5px;
+}
+
+@media (min-width: 768px) {
+  .clothes-container {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 767px) {
+  .clothes-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .clothes-container .primary-image,
+  .clothes-container .secondary-image {
+    max-width: 90%;
+  }
+}
+
 @media only screen and (max-width: 992px) {
   .video-container {
     width: 75%;
@@ -210,47 +243,5 @@ export default {
 
 .description a:hover {
   text-decoration: line-through;
-}
-
-.clothes-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.clothes-container .primary-image,
-.clothes-container .secondary-image {
-  max-width: 45%;
-  margin: 5px;
-}
-
-.additional-secondary-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.additional-secondary-images img {
-  max-width: 45%;
-  margin: 5px;
-}
-
-@media (min-width: 768px) {
-  .clothes-container {
-    justify-content: space-around;
-  }
-}
-
-@media (max-width: 767px) {
-  .clothes-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .clothes-container .primary-image,
-  .clothes-container .secondary-image,
-  .additional-secondary-images img {
-    max-width: 90%;
-  }
 }
 </style>

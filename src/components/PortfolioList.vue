@@ -1,8 +1,8 @@
 <template>
     <v-row class="portfolio-list-container">
         <v-col cols="12" md="2" class="scrollable-column pt-12" v-show="!isMobile">
-            <v-btn v-for="item in portfolioItems" :key="item.name" @click="selectItem(item.name)">
-                {{ item.name }}
+            <v-btn v-for="item in sortedPortfolioItems" :key="item.name" @click="selectItem(item.name)">
+                {{ item.title ? item.title : item.name }}
             </v-btn>
         </v-col>
         <v-col cols="12" md="10" class="scrollable-column">
@@ -14,10 +14,9 @@
                     <v-icon>mdi-menu</v-icon>
                 </v-btn>
             </template>
-
             <v-list>
-                <v-list-item v-for="item in portfolioItems" :key="item.name" @click="selectItem(item.name)">
-                    <v-list-item-title>{{ item.name }}</v-list-item-title>
+                <v-list-item v-for="item in sortedPortfolioItems" :key="item.name" @click="selectItem(item.name)">
+                    <v-list-item-title>{{ item.title ? item.title : item.name }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { portfolioItems } from '@/data/portfolioItems';
 import DetailView from '../views/DetailView.vue';
 
@@ -48,6 +47,14 @@ export default {
             }
         };
 
+        const sortedPortfolioItems = computed(() => {
+            return [...portfolioItems].sort((a, b) => {
+                const nameA = a.title ? a.title.toLowerCase() : a.name.toLowerCase();
+                const nameB = b.title ? b.title.toLowerCase() : b.name.toLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+        });
+
         const handleResize = () => {
             isMobile.value = window.innerWidth < 960;
         };
@@ -65,7 +72,7 @@ export default {
         });
 
         return {
-            portfolioItems,
+            sortedPortfolioItems,
             selectItem,
             selectedItem,
             menu,

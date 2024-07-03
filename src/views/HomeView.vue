@@ -1,6 +1,6 @@
 <template>
     <v-row class="content">
-        <v-col cols="12" lg="2" md="4" sm="5">
+        <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
                 <v-card-text class="online">
@@ -26,7 +26,7 @@
                 <v-card-text>
                     Fav song rn:<br>{{ favSong }}
                 </v-card-text>
-                <v-card-text>
+                <v-card-text class="pt-0">
                     <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
                         <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro" aria-hidden="true"
                             loading="lazy">
@@ -59,28 +59,28 @@
 /▌ him so he can take over
 /\ luhas.neocities.org</pre>
                 </v-card-text>
-                <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp ml-4 mt-4 rounded-lg"
+                <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
-                <v-img :src="require('@/assets/myspace/rat.png')" class="cccp ml-4 mt-4 rounded-lg"
+                <v-img :src="require('@/assets/myspace/rat.png')" class="cccp mt-4 rounded-lg"
                     :style="{ filter: `grayscale(40%) hue-rotate(${hue + 250}deg)` }"></v-img>
             </v-card>
         </v-col>
 
-        <v-col cols="12" lg="5" md="8" sm="7">
+        <v-col cols="12" lg="5" md="8" sm="7" class="column">
             <v-card>
                 <v-card-title class="d-none d-sm-block">Latest Blog Entries [<router-link to="blog">View
                         Blog</router-link>]</v-card-title>
                 <v-card-title class="d-sm-none pb-0">Latest Blog Entries</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="blog">View
                         Blog</router-link>]</v-card-title>
-                <v-card-text>
+                <v-card-text class="py-0">
                     <BlogComp :limit="3"></BlogComp>
                 </v-card-text>
             </v-card>
 
             <v-card>
                 <v-card-title>About Me ;D</v-card-title>
-                <v-card-text>
+                <v-card-text class="pt-0">
                     IM LUHAS IM AN IT/ITS/THEY/HE AND IM {{ calculateAge() }} YEARS OLD AND I MAKE COOL VISUAL AND AUDIO
                     WORKS HAHAA!! X33333 I'm from sarajevo and currently live in vienna! :3 говорим немачки,
                     енглески и српскохрватски OHH!!! ALSO MY FAV VOCALOID IS LEN!!! :3
@@ -113,7 +113,7 @@
             </v-card>
         </v-col>
 
-        <v-col v-if="windowWidth >= 1280" class="d-none d-lg-flex" cols="12" lg="5" md="8">
+        <v-col v-if="windowWidth >= 1280" class="d-none d-lg-flex column" cols="12" lg="5" md="8">
             <v-card style="width: 100%;">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
                 <CommentComp></CommentComp>
@@ -410,10 +410,12 @@ export default {
 
 .v-card-title {
     font-weight: bold;
+    padding-left: 0;
 }
 
 .v-card-text {
     color: white;
+    padding: 1rem 0px;
 }
 
 .online svg {
@@ -477,6 +479,10 @@ a:hover {
 @media only screen and (max-width: 576px) {
     .cccp {
         width: 60%;
+    }
+
+    .column {
+        padding: 0;
     }
 }
 

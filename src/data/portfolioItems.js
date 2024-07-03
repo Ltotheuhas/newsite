@@ -1,21 +1,22 @@
-// /src/data/portfolioItems.js
-
 export const portfolioItems = [
   {
     name: "absolute",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/absolute.png"),
     secondary: [require("@/assets/grid/absolute_.png")]
   },
   {
     name: "acid",
     year: "2021",
+    category: "art",
     primary: require("@/assets/grid/acid.png"),
     secondary: [require("@/assets/grid/acid_.png")]
   },
   {
     name: "aethernet",
     year: "2020",
+    category: ["video", "label"],
     primary: require("@/assets/grid/aethernet.jpg"),
     description: [
       { type: 'html', content: 'Aethernet by Fax Gang<br>Online album release party<br>Visualizers made for ' },
@@ -26,7 +27,9 @@ export const portfolioItems = [
   },
   {
     name: "april",
+    title: "vessel pilot",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/april.png"),
     description: [
       { type: 'html', content: 'Vessel Pilot by Murrumur<br>Single cover art<br>' },
@@ -35,39 +38,53 @@ export const portfolioItems = [
   },
   {
     name: "avenade",
+    title: "vice versa",
     year: "2020",
+    category: "video",
     primary: require("@/assets/grid/avenade.jpg"),
     description: "Vice Versa in Such Things by Avenade<br>Album visualiser",
     embedUrls: ["https://www.youtube.com/embed/eGcf9E7VS0o?si=mj8FrYbL05fmBcV0"]
   },
   {
     name: "avenTape",
+    title: "whimsical afterlife",
     year: "2020",
+    category: "label",
     primary: require("@/assets/grid/avenTape.png"),
     description: "It's a Whimsical Afterlife by Avenade<br>Released on tape via Eva Hakai",
   },
   {
     name: "bowel",
+    title: "bowel lovement",
     year: "2019",
+    category: "music",
     primary: require("@/assets/grid/bowel.jpg"),
-    description: "Shit album I made in 2 weeks"
+    description: "Shit album I made in 2 weeks",
+    bcembed: "2686267751"
   },
   {
     name: "bullet",
+    title: "bite the bullet",
     year: "2022",
+    category: "music",
     primary: require("@/assets/grid/bullet.png"),
+    description: "Free improv sound collage album with Halina Rahdjian<br>Released on Next Year's Snow<br>An excerpt of this was also broadcast on BBC Radio apparently",
     bcembed: "3777107319"
   },
   {
     name: "carmen",
+    title: "carmen winstead",
     year: "2021",
+    category: ["video", "label"],
     primary: require("@/assets/grid/carmen.png"),
     description: "Visualizers made for Bliss3three and Cryosauna",
     embedUrls: ["https://www.youtube.com/embed/KDOtBLydD6Y"]
   },
   {
     name: "cryo",
+    title: "teleport",
     year: "2022",
+    category: ["video", "label"],
     primary: require("@/assets/grid/cryo.jpg"),
     description: "Teleport by Cryosauna<br>Album and single visualiser",
     embedUrls: ["https://www.youtube.com/embed/fQwn9JCd9AE", "https://www.youtube.com/embed/rwJzW4X47n4"]
@@ -75,50 +92,60 @@ export const portfolioItems = [
   {
     name: "dataprism",
     year: "2022",
+    category: ["video", "label"],
     primary: require("@/assets/grid/dataprism.jpg"),
     description: "Dataprism by Fax Gang<br>Online album release party<br>Visualizer made for purity://filter"
   },
   {
     name: "djfuckedupfingers",
+    title: "dj fucked up fingers",
     year: "2023",
+    category: ["art", "etc"],
     primary: require("@/assets/grid/djfuckedupfingers.png"),
   },
   {
-    name: "dog",
-    year: "2021",
-    primary: require("@/assets/grid/dog.png"),
-  },
-  {
     name: "dreihand",
+    title: "dreihänder",
     year: "2022",
+    category: ["music", "art"],
     primary: require("@/assets/grid/dreihand.jpg"),
+    bcembed: "1475199165"
   },
   {
     name: "eva1",
+    title: "eva vol. 1",
     year: "2020",
+    category: ["label", "music"],
     primary: require("@/assets/grid/eva1.jpg"),
-    description: "Eva Vol. 1<br>First Eva Hakai label compilation<br>All proceedings were donated to the <a href='https://twocc.org/' target='_blank'>Trans Women of Color Collective</a> and <a href='https://www.theokraproject.com/' target='_blank'>The Okra Project</a><br><a href='https://evahakai.bandcamp.com/album/eva-vol-1' target='_blank'>Listen</a>",
+    description: "Eva Vol. 1<br>First Eva Hakai label compilation<br>All proceedings were donated to the <a href='https://twocc.org/' target='_blank'>Trans Women of Color Collective</a> and <a href='https://www.theokraproject.com/' target='_blank'>The Okra Project</a>",
+    bcembed: "4074698764"
   },
   {
     name: "evaGif",
+    title: "Eva Hakai",
     year: "2020",
+    category: "label",
     primary: require("@/assets/grid/evaGif.gif")
   },
   {
     name: "femtanyl",
     year: "2023",
+    category: "label",
     primary: require("@/assets/grid/femtanyl.jpg"),
     description: "Chaser by Femtanyl<br>Released on tape via Eva Hakai",
   },
   {
     name: "flashkore",
     year: "2023",
+    category: "art",
     primary: require("@/assets/grid/flashkore.png"),
     secondary: [require("@/assets/grid/flashkore_.png")]
   },
   {
     name: "flucc",
+    title: "megaworld 2023",
     year: "2023",
+    category: ["music", "live"],
     primary: require("@/assets/grid/flucc.jpg"),
     secondary: [require("@/assets/mqdefault_6s.webp")],
     description: "Live performance at Megaworld.xyz 360° festival 5/10/2023 @ Flucc Wien",
@@ -127,25 +154,30 @@ export const portfolioItems = [
   {
     name: "forbidden",
     year: "0̴̟͔̖͉͈͙̣̫͘͞͡͡0̸͕͎̫͉̘́͠0̵̸̢̖̩̠̳̼̞̻̹̝͙̣͚̦̫̘̝̦̀͠ͅ0̧͍̦̩̠̤̱̻̭͉̹͍̲͠ͅ",
+    category: ["art", "etc"],
     primary: require("@/assets/grid/forbidden.png"),
   },
   {
     name: "gundam",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/gundam.png"),
     secondary: [require("@/assets/grid/gundam_.png")],
   },
   {
     name: "hoodie1",
+    title: "hoodie",
     year: "2020",
-    type: "clothes",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/hoodie1.png"),
     secondary: [require("@/assets/grid/hoodie1_.png")],
     description: "Eva Putrid Fuckin Disgusting Sewer Hoodie<br>Hand sown contemporary hooded cotton sweatshirt, size Large<br>Eviscerated with bleach, patched sleeves, spiked hood<br>1/1"
   },
   {
     name: "image",
+    title: "baile",
     year: "2023",
+    category: "live",
     primary: require("@/assets/grid/image.jpg"),
     description: "Distorted Baile mix performed along with Momo",
     embedUrls: ["https://www.youtube.com/embed/HRNZ5jP6A2s?si=x5IlThpKSUwDpcbE"]
@@ -153,38 +185,40 @@ export const portfolioItems = [
   {
     name: "itdoesntdoanything",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/itdoesntdoanything.png")
   },
   {
-    name: "killed",
-    year: "2021",
-    primary: require("@/assets/grid/killed.jpg"),
-    description: ""
-  },
-  {
     name: "longsleeve1",
+    title: "flannel longsleeve",
     year: "2021",
-    type: "clothes",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/longsleeve1.png"),
     secondary: [require("@/assets/grid/longsleeve1_.png")],
     description: "Eva Flannel Longsleeve<br>Hand sown and stitched<br>Patched front<br>1/1"
   },
   {
     name: "magic",
+    title: "magic for beginners",
     year: "2021",
+    category: "music",
     primary: require("@/assets/grid/magic.jpg"),
     description: "Magic for Beginners by Murrumur<br>Production on track 6",
     bcembed: "2304555952"
   },
   {
     name: "mecha2022",
+    title: "mechafest 2022",
     year: "2022",
+    category: ["video", "label"],
     primary: require("@/assets/grid/mecha2022.jpg"),
     description: "Visualizers made for Cryosauna, Drixxo Lords and Kaizo Slumber<br><a href='https://twitter.com/themechafest/status/1539662980300025856' target='_blank'>More info</a>"
   },
   {
     name: "mechafest2021",
+    title: "mechafest 2021",
     year: "2021",
+    category: ["video", "label", "live"],
     primary: require("@/assets/grid/mechafest2021.jpg"),
     description: [
       { type: 'text', content: 'Visualizers made for ' },
@@ -200,28 +234,37 @@ export const portfolioItems = [
   },
   {
     name: "mega22",
+    title: "megaworld 2022",
     year: "2022",
+    category: "live",
     primary: require("@/assets/grid/mega22.png"),
     description: "Live performance @ Megaworld.xyz festival 1/7/2022",
     embedUrls: ["https://www.youtube.com/embed/uY7Dyw1KcT4?si=AICBuaz2yyMnBWY2"]
   },
   {
     name: "murTape",
+    title: "panic panic",
     year: "2020",
+    category: "label",
     primary: require("@/assets/grid/murTape.png"),
-    description: ""
+    description: "Panic Panic by Mechanical Museum<br>Released on tape via Eva Hakai",
   },
   {
     name: "neuTape",
+    title: "fluorescentnt art",
     year: "2020",
+    category: "label",
     primary: require("@/assets/grid/neuTape.png"),
-    description: ""
+    description: "Fluorescent Art by Neupink<br>Released on tape via Eva Hakai",
   },
   {
     name: "newluhas",
+    title: "new luhas",
     year: "2021",
+    category: "music",
     primary: require("@/assets/grid/newluhas.jpg"),
-    description: ""
+    description: "scraps",
+    bcembed: "716679128"
   },
   {
     name: "notebook",
@@ -230,100 +273,105 @@ export const portfolioItems = [
   {
     name: "panda",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/panda.png"),
     secondary: [require("@/assets/grid/panda_.png"), require("@/assets/grid/panda__.png")]
   },
   {
-    name: "patch",
-    year: "2020",
-    primary: require("@/assets/grid/patch.png")
-  },
-  {
     name: "pomputer",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/pomputer.png"),
     secondary: [require("@/assets/grid/pomputer_.png"), require("@/assets/grid/pomputer__.png")]
   },
   {
     name: "quarantainment2",
+    title: "quarantainment 2",
     year: "2021",
+    category: ["live", "art"],
     primary: require("@/assets/grid/quarantainment2.jpg")
   },
   {
     name: "rust",
     year: "2021",
+    category: "art",
     primary: require("@/assets/grid/rust.png"),
     secondary: [require("@/assets/grid/rust_.png")]
   },
   {
-    name: "ryan",
-    year: "2021",
-    primary: require("@/assets/grid/ryan.jpg")
-  },
-  {
     name: "saya",
     year: "2021",
+    category: "art",
     primary: require("@/assets/grid/saya.png"),
     secondary: [require("@/assets/grid/saya_.png")]
   },
   {
     name: "seaweed",
+    title: "seaweed jesus",
     year: "2021",
+    category: ["video", "label"],
     primary: require("@/assets/grid/seaweed.png"),
     description: "Seaweed Jesus by Neupink<br>Online album release party<br>Organisation & visuals by me<br>The original stream of this event has unfortunately been taken down",
     embedUrls: ["https://www.youtube.com/embed/FBLsN-XN8-U?si=brsWOt1myJAYI9uu"]
   },
   {
     name: "shirt1",
+    title: "split striped shirt",
     year: "2020",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt1.png"),
-    type: "clothes",
     secondary: [require("@/assets/grid/shirt1_.png"), require("@/assets/grid/testcat.jpg")],
     description: "Eva Split Striped Shirt<br>Cut, sown and printed by hand<br>2/2"
   },
   {
     name: "shirt2",
+    title: "basics 1",
     year: "2020",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt2.png"),
-    type: "clothes",
     secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/grid/virus.jpg")]
   },
   {
     name: "shirt3",
+    title: "basics 2",
     year: "2021",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt3.png"),
-    type: "clothes",
     secondary: [require("@/assets/grid/shirt3_.png"), require("@/assets/grid/fabi1.jpg"), require("@/assets/grid/fabi2.jpg")]
   },
   {
     name: "shirt4",
+    title: "bliss3three shirt",
     year: "2021",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt4.png"),
-    type: "clothes",
     secondary: [require("@/assets/grid/shirt4_.png")],
     description: "Shirt designed for bliss3three under No Agreements<br>For the release of <a href='https://bliss3three.bandcamp.com/album/im-gonna-miss-you' target='_blank'>I'm Gonna Miss You</a>",
   },
   {
     name: "shirt5",
+    title: "poor dog shirt",
     year: "2021",
+    category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt5.png"),
-    type: "clothes",
     description: "Shirt designed for No Agreements to go along with the No More Dead Dogs movie"
   },
   {
     name: "shirt6",
+    title: "5ubaruu shirt",
     year: "2021",
+    category: "clothes",
     primary: require("@/assets/grid/shirt6.png"),
-    type: "clothes",
     secondary: [require("@/assets/grid/shirt6_.png"), require("@/assets/grid/subshirt.jpeg")],
     description: "Shirt designed and printed for 5ubaruu<br><a href='https://5ubaruu.bandcamp.com/merch/5ubaruu-blue-on-black-t-shirt' target='_blank'>Link</a>",
   },
   {
     name: "shirt7",
+    title: "dog shirt",
     year: "2022",
+    category: ["clothes", "label", "art"],
     primary: require("@/assets/grid/shirt7.png"),
-    type: "clothes",
-    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/grid/abdi.jpg")]
+    secondary: [require("@/assets/grid/shirt7_.png"), require("@/assets/grid/dog.png"), require("@/assets/grid/abdi.jpg")]
   },
   {
     name: "slumber",
