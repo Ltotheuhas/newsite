@@ -1,5 +1,6 @@
 <template>
     <v-row class="content">
+        <PopupAd />
         <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
@@ -127,6 +128,7 @@
 import BlogComp from '@/components/BlogComp.vue';
 import CommentComp from '@/components/CommentComp.vue';
 import { portfolioItems } from '@/data/portfolioItems';
+import PopupAd from '@/components/PopupAd.vue';
 
 export default {
     name: 'MySpace',
@@ -134,6 +136,7 @@ export default {
     components: {
         CommentComp,
         BlogComp,
+        PopupAd,
     },
 
     data() {
@@ -218,7 +221,11 @@ export default {
                 "I like jungle and memphis rap",
                 "in development since 2021",
                 "online since 2007",
-                "playing happy wheels while listening to tago mago"
+                "playing happy wheels while listening to tago mago",
+                "72 virgins and they all listen to shoegaze",
+                "410,757,864,530 DEAD COPS",
+                "psychological exhibitionism",
+                "you find your opinion being bought"
             ],
             currentMessage: "",
             picOfMe: "",

@@ -43,6 +43,11 @@ const routes = [
     name: 'evahakai',
     component: () => import('../views/EvaView.vue')
   },
+  {
+    path: '/writing',
+    name: 'writing',
+    component: () => import('../views/WritingView.vue')
+  },
 ]
 
 const router = createRouter({

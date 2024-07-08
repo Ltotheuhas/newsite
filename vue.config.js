@@ -11,5 +11,16 @@ module.exports = defineConfig({
 
   devServer: {
     host: 'localhost'
-  }
+  },
+
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.txt$/,
+          use: 'raw-loader',
+        },
+      ],
+    },
+  },
 });
