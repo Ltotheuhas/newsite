@@ -3,16 +3,16 @@
         <div class="image-container" v-for="(imageSource, index) in imageSources" :key="index"
             @mousedown="startDragging($event, index)" @touchstart="startDragging($event, index)"
             @mousemove="onDragging($event, index)" @mouseup="stopDragging" @touchend="stopDragging" :style="{
-                top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
-                left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
-                zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
-            }">
+            top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
+            left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
+            zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
+        }">
             <img :src="imageSource" @dragstart.prevent="preventNativeDrag" />
         </div>
     </div>
 </template>
 
-  
+
 <script>
 export default {
     props: {
@@ -58,8 +58,8 @@ export default {
         generateRandomPosition() {
             const windowHeight = window.innerHeight;
             const windowWidth = window.innerWidth;
-            const maxTop = windowHeight - 200; // Adjust as needed
-            const maxLeft = windowWidth - 200; // Adjust as needed
+            const maxTop = windowHeight - 200;
+            const maxLeft = windowWidth - 200;
 
             const randomTop = Math.floor(Math.random() * maxTop);
             const randomLeft = Math.floor(Math.random() * maxLeft);
@@ -108,7 +108,7 @@ export default {
     },
 };
 </script>
-  
+
 <style scoped>
 .random-image-wrapper {
     position: fixed;
@@ -122,7 +122,6 @@ export default {
 .image-container {
     position: absolute;
     cursor: grab;
-    /* To indicate it's draggable */
 }
 
 img {
@@ -130,5 +129,11 @@ img {
     max-width: 500px;
     object-fit: cover;
 }
-</style>
 
+@media (max-width: 600px) {
+    img {
+        max-height: 250px;
+        max-width: 250px;
+    }
+}
+</style>

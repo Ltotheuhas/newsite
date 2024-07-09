@@ -1,6 +1,8 @@
 <template>
     <v-row class="content">
         <PopupAd />
+        <v-img :src="require('@/assets/myspace/dejiko.gif')" class="dejiko"
+        :style="{ filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }"></v-img>
         <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
@@ -24,6 +26,7 @@
                 <v-card-text class="py-0">
                     {{ currentMessage }}<br>I make shit
                 </v-card-text>
+                <!--{{ calculateAge() }}-->
                 <v-card-text>
                     Fav song rn:<br>{{ favSong }}
                 </v-card-text>
@@ -42,14 +45,10 @@
                 </v-card-text>
                 <v-card-text>
                     <pre>
-╔╗
-║║
-║║
-╚╝
-╔╗
-║║╔═╦╦╦═╗
-║╚╣║║║║╩╣
-╚═╩═╩═╩═╝
+╔╗  ╔╗
+║║  ║║╔═╦╦╦═╗
+║║  ║╚╣║║║║╩╣
+╚╝  ╚═╩═╩═╩═╝
 ╔══╗
 ║╔╗║
 ║╚╝╠══╦╦══╦═╗
@@ -76,21 +75,6 @@
                         Blog</router-link>]</v-card-title>
                 <v-card-text class="py-0">
                     <BlogComp :limit="3"></BlogComp>
-                </v-card-text>
-            </v-card>
-
-            <v-card>
-                <v-card-title>About Me ;D</v-card-title>
-                <v-card-text class="pt-0">
-                    IM LUHAS IM AN IT/ITS/THEY/HE AND IM {{ calculateAge() }} YEARS OLD AND I MAKE COOL VISUAL AND AUDIO
-                    WORKS HAHAA!! X33333 I'm from sarajevo and currently live in vienna! :3 говорим немачки,
-                    енглески и српскохрватски OHH!!! ALSO MY FAV VOCALOID IS LEN!!! :3
-                </v-card-text>
-                <v-img :src="require('@/assets/myspace/len.gif')" class="mx-auto w-25 h-auto"></v-img>
-                <v-card-text>
-                    This page serves as a general hub for expression for me as well as an archive of everything I've
-                    ever been involved in. More info on the latter can be found in my <router-link to="portfolio"
-                        style="text-decoration: underline;">portfolio.</router-link>
                 </v-card-text>
             </v-card>
 
@@ -225,7 +209,9 @@ export default {
                 "72 virgins and they all listen to shoegaze",
                 "410,757,864,530 DEAD COPS",
                 "psychological exhibitionism",
-                "you find your opinion being bought"
+                "you find your opinion being bought",
+                "💥╾━╤デ╦︻",
+                "OKAYYYYYYY"
             ],
             currentMessage: "",
             picOfMe: "",
@@ -393,12 +379,6 @@ export default {
 </script>
 
 <style scoped>
-pre {
-    background: none;
-    padding: 0;
-    color: white;
-}
-
 .content {
     max-width: 2000px;
     margin: auto;
@@ -466,6 +446,13 @@ a:hover {
 
 .cccp {
     width: 80%;
+}
+
+.dejiko {
+    top: 580px;
+    left: 180px;
+    position: absolute;
+    width: 100px;
 }
 
 .image-container {

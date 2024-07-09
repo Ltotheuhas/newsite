@@ -6,7 +6,8 @@
         <button aria-label="Close" @click="closeAd"></button>
       </div>
     </div>
-    <img :src="currentAdImage.src" alt="ad" class="ad-image" @click="redirect" @contextmenu.prevent @dragstart.prevent />
+    <img :src="currentAdImage.src" alt="ad" class="ad-image" @click="redirect" @contextmenu.prevent
+      @dragstart.prevent />
   </div>
 </template>
 
@@ -36,8 +37,8 @@ export default {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      const randomTop = Math.floor(Math.random() * (windowHeight - 200)) + 'px';
-      const randomLeft = Math.floor(Math.random() * (windowWidth - 300)) + 'px';
+      const randomTop = Math.floor(Math.random() * (windowHeight - 264)) + 64 + 'px';
+      const randomLeft = Math.floor(Math.random() * (windowWidth - 364)) + 64 + 'px';
 
       this.positionStyle.top = randomTop;
       this.positionStyle.left = randomLeft;
@@ -45,7 +46,7 @@ export default {
       const randomIndex = Math.floor(Math.random() * this.adImages.length);
       this.currentAdImage = this.adImages[randomIndex];
 
-      //this.visible = true;
+      this.visible = true;
     },
     closeAd() {
       this.visible = false;
@@ -54,7 +55,7 @@ export default {
       setTimeout(() => {
         this.showAd();
         this.scheduleAd();
-      }, Math.random() * 30000 + 10000);
+      }, Math.random() * 120000 + 30000);
     },
     startDrag(event) {
       this.isDragging = true;
@@ -118,21 +119,59 @@ export default {
 </script>
 
 <style scoped>
-@import 'xp.css/dist/XP.css';
-
-.title-bar {
-  height: 28px;
-}
-
-.title-bar-text {
-  font-family: 'Trebuchet MS';
-}
-
 .popup-ad {
   position: fixed;
   width: 300px;
   z-index: 1000;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #0997ff, #0053ee 8%, #0050ee 40%, #06f 88%, #06f 93%, #005bff 95%, #003dd7 96%, #003dd7);
+  padding: 3px 5px 3px 3px;
+  border-top: 1px solid #0831d9;
+  border-left: 1px solid #0831d9;
+  border-right: 1px solid #001ea0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 7px;
+  font-size: 13px;
+  text-shadow: 1px 1px #0f1089;
+  height: 28px;
+}
+
+.title-bar-text {
+  font-family: 'Trebuchet MS';
+  padding-left: 3px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0;
+  margin-right: 24px;
+}
+
+.title-bar-controls {
+  display: flex;
+
+}
+
+.title-bar-controls button[aria-label=Close] {
+  background-image: url("close.svg");
+}
+
+.title-bar-controls button {
+  padding: 0;
+  display: block;
+  min-width: 21px;
+  min-height: 21px;
+  margin-left: 2px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  box-shadow: none;
+  background-color: #0050ee;
+  transition: background .1s;
+  border: none;
 }
 
 .ad-image {
@@ -149,5 +188,11 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
+}
+
+@media (max-width: 600px) {
+  .popup-ad {
+    width: 150px;
+  }
 }
 </style>
