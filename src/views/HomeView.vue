@@ -393,6 +393,12 @@ export default {
 </script>
 
 <style scoped>
+pre {
+    background: none;
+    padding: 0;
+    color: white;
+}
+
 .content {
     max-width: 2000px;
     margin: auto;

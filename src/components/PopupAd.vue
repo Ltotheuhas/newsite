@@ -1,26 +1,13 @@
 <template>
-    <div
-      class="popup-ad"
-      v-if="visible"
-      :style="positionStyle"
-    >
-      <div
-        class="popup-header"
-        @mousedown="startDrag"
-        @touchstart="startDrag"
-      >
-        <span>Advertisement</span>
-        <button @click="closeAd" class="close-button">X</button>
+  <div class="popup-ad" v-if="visible" :style="positionStyle">
+    <div class="title-bar" @mousedown="startDrag" @touchstart="startDrag">
+      <div class="title-bar-text">CLICK HERE!</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" @click="closeAd"></button>
       </div>
-      <img
-        :src="randomAdImage.src"
-        :alt="randomAdImage.alt"
-        class="ad-image"
-        @click="redirect"
-        @contextmenu.prevent
-        @dragstart.prevent
-      />
     </div>
+    <img :src="currentAdImage.src" alt="ad" class="ad-image" @click="redirect" @contextmenu.prevent @dragstart.prevent />
+  </div>
 </template>
 
 <script>
@@ -29,22 +16,18 @@ export default {
     return {
       visible: false,
       adImages: [
-        { src: require('@/assets/ads/antifa.gif'), alt: 'Antifa Ad', route: '/writing' },
+        { src: require('@/assets/ads/antifa.gif'), route: '/writing' },
+        { src: require('@/assets/ads/ThongpaseuthKeuakoun.gif'), route: '/portfolio/dataprism' },
       ],
       positionStyle: {
         top: '0px',
         left: '0px',
       },
+      currentAdImage: null,
       isDragging: false,
       dragStartX: 0,
       dragStartY: 0,
     };
-  },
-  computed: {
-    randomAdImage() {
-      const randomIndex = Math.floor(Math.random() * this.adImages.length);
-      return this.adImages[randomIndex];
-    },
   },
   methods: {
     showAd() {
@@ -59,6 +42,9 @@ export default {
       this.positionStyle.top = randomTop;
       this.positionStyle.left = randomLeft;
 
+      const randomIndex = Math.floor(Math.random() * this.adImages.length);
+      this.currentAdImage = this.adImages[randomIndex];
+
       //this.visible = true;
     },
     closeAd() {
@@ -72,17 +58,19 @@ export default {
     },
     startDrag(event) {
       this.isDragging = true;
+      document.body.classList.add('noselect');
+
       const touch = event.type === 'touchstart';
 
       if (touch) {
         this.dragStartX = event.touches[0].clientX - parseInt(this.positionStyle.left);
         this.dragStartY = event.touches[0].clientY - parseInt(this.positionStyle.top);
 
-        document.addEventListener('touchmove', this.onDrag);
+        document.addEventListener('touchmove', this.onDrag, { passive: false });
         document.addEventListener('touchend', this.stopDrag);
       } else {
         this.dragStartX = event.clientX - parseInt(this.positionStyle.left);
-        this.dragStartY = event.clientX - parseInt(this.positionStyle.top);
+        this.dragStartY = event.clientY - parseInt(this.positionStyle.top);
 
         document.addEventListener('mousemove', this.onDrag);
         document.addEventListener('mouseup', this.stopDrag);
@@ -90,6 +78,8 @@ export default {
     },
     onDrag(event) {
       if (!this.isDragging) return;
+
+      event.preventDefault();
 
       const touch = event.type === 'touchmove';
 
@@ -103,6 +93,7 @@ export default {
     },
     stopDrag(event) {
       this.isDragging = false;
+      document.body.classList.remove('noselect');
 
       const touch = event.type === 'touchend';
 
@@ -115,9 +106,8 @@ export default {
       }
     },
     redirect() {
-      const randomAdImage = this.randomAdImage;
-      if (randomAdImage.route) {
-        this.$router.push(randomAdImage.route);
+      if (this.currentAdImage && this.currentAdImage.route) {
+        this.$router.push(this.currentAdImage.route);
       }
     },
   },
@@ -128,35 +118,36 @@ export default {
 </script>
 
 <style scoped>
+@import 'xp.css/dist/XP.css';
+
+.title-bar {
+  height: 28px;
+}
+
+.title-bar-text {
+  font-family: 'Trebuchet MS';
+}
+
 .popup-ad {
   position: fixed;
   width: 300px;
-  border: 2px solid #000;
-  background-color: #fff;
   z-index: 1000;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ccc;
-  padding: 5px;
-  border-bottom: 1px solid #000;
-  cursor: move;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
 }
 
 .ad-image {
   width: 100%;
   height: auto;
   user-select: none;
+  margin-bottom: -5px;
+  cursor: pointer;
+}
+
+.noselect {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
 }
 </style>
