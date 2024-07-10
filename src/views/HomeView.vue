@@ -1,7 +1,8 @@
 <template>
     <v-row class="content">
         <v-img :src="require('@/assets/myspace/dejiko.gif')" class="dejiko"
-            :style="{ filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }"></v-img>
+            :style="[dejikoStyle, { filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }]"
+            @click="tweakIt"></v-img>
         <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
@@ -226,13 +227,26 @@ export default {
             recentIndices: [],
             imageIsLoading: true,
             favSong: '',
-            hue: 0
+            hue: 0,
+            dejikoTop: 580,
+            dejikoLeft: 180,
+            movingInterval: null,
         };
     },
 
     computed: {
         shouldShowImage() {
             return this.windowWidth >= 1280 && this.documentHeight >= 1280;
+        },
+
+        dejikoStyle() {
+            return {
+                top: this.dejikoTop + "px",
+                left: this.dejikoLeft + "px",
+                position: "absolute",
+                width: "100px",
+                zIndex: 100,
+            };
         },
     },
 
@@ -257,6 +271,9 @@ export default {
         window.removeEventListener('scroll', this.onScroll);
         if (this.intervalId) {
             clearInterval(this.intervalId);
+        }
+        if (this.movingInterval) {
+            clearInterval(this.movingInterval);
         }
     },
 
@@ -395,6 +412,22 @@ export default {
                 this.favSong = 'idk x_x';
             }
         },
+
+        tweakIt() {
+            if (this.movingInterval) {
+                clearInterval(this.movingInterval);
+                this.movingInterval = null;
+                return;
+            }
+
+            this.movingInterval = setInterval(() => {
+                const moveX = Math.random() * 40 - 20;
+                const moveY = Math.random() * 40 - 20;
+
+                this.dejikoTop = Math.max(0, Math.min(window.innerHeight - 100, this.dejikoTop + moveY));
+                this.dejikoLeft = Math.max(0, Math.min(window.innerWidth - 100, this.dejikoLeft + moveX));
+            }, 1);
+        },
     },
 };
 </script>
@@ -467,13 +500,6 @@ a:hover {
 
 .cccp {
     width: 80%;
-}
-
-.dejiko {
-    top: 580px;
-    left: 180px;
-    position: absolute;
-    width: 100px;
 }
 
 .image-container {
