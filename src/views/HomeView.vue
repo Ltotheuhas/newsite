@@ -83,7 +83,7 @@
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="portfolio">View
                         Full Portfolio</router-link>]</v-card-title>
-                <div class="image-container mx-auto w-75">
+                <div class="image-container mx-auto">
                     <transition name="fade" mode="out-in">
                         <v-img v-if="!imageIsLoading" :key="randomPortfolioItemKey"
                             :src="randomPortfolioItem.primary"></v-img>
@@ -477,11 +477,12 @@ a:hover {
 }
 
 .image-container {
-    height: 340px;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin-top: 20px;
 }
 
 .fade-enter-active,
@@ -505,6 +506,10 @@ a:hover {
     .column,
     .comment-box {
         padding: 0;
+    }
+
+    .image-container {
+        height: 375px;
     }
 }
 

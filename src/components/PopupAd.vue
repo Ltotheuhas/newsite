@@ -61,7 +61,7 @@ export default {
       setTimeout(() => {
         this.showAd();
         this.scheduleAd();
-      }, Math.random() * 240000 + 30000);
+      }, Math.random() * 480000 + 60000);
     },
     startDrag(event) {
       this.isDragging = true;

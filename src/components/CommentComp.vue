@@ -75,7 +75,6 @@ export default {
 
 .commentbox {
   resize: none;
-  max-width: 600px;
 }
 
 .comment>a {
