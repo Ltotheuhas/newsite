@@ -1,8 +1,7 @@
 <template>
     <v-row class="content">
-        <PopupAd />
         <v-img :src="require('@/assets/myspace/dejiko.gif')" class="dejiko"
-        :style="{ filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }"></v-img>
+            :style="{ filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }"></v-img>
         <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
@@ -40,8 +39,8 @@
                     </a>
                 </v-card-text>
                 <v-card-text class="py-0">
-                Or send me XMR:<br>
-                46SWMim8UZhNkxWE64PNcf47knS6dKG9pjPqb8bpF554EgXAGFdiUZ95ZmGjg6eCTuPH4shU786ms27F2oiBK28NHqjxGXT
+                    Or send me XMR:<br>
+                    46SWMim8UZhNkxWE64PNcf47knS6dKG9pjPqb8bpF554EgXAGFdiUZ95ZmGjg6eCTuPH4shU786ms27F2oiBK28NHqjxGXT
                 </v-card-text>
                 <v-card-text>
                     <pre>
@@ -105,14 +104,13 @@
             </v-card>
         </v-col>
     </v-row>
-    <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="windowWidth >= 1280" loading="lazy"></v-img>
+    <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
 </template>
 
 <script>
 import BlogComp from '@/components/BlogComp.vue';
 import CommentComp from '@/components/CommentComp.vue';
 import { portfolioItems } from '@/data/portfolioItems';
-import PopupAd from '@/components/PopupAd.vue';
 
 export default {
     name: 'MySpace',
@@ -120,7 +118,6 @@ export default {
     components: {
         CommentComp,
         BlogComp,
-        PopupAd,
     },
 
     data() {
@@ -211,11 +208,18 @@ export default {
                 "psychological exhibitionism",
                 "you find your opinion being bought",
                 "💥╾━╤デ╦︻",
-                "OKAYYYYYYY"
+                "OKAYYYYYYY",
+                "im buying clooohoooths im shootin pooohoools i fuukd ur hoooo",
+                "exploring and stuff idk....",
+                "got damn shawty omg",
+                "rip oxbow",
+                "སྡུག་བསྔལ་ཐམས་ཅད་ལས་ཐར། (འཆི)",
+                "I like overstimulation and understimulation"
             ],
             currentMessage: "",
             picOfMe: "",
             windowWidth: window.innerWidth,
+            documentHeight: document.documentElement.scrollHeight,
             randomPortfolioItem: null,
             randomPortfolioItemKey: Date.now(),
             intervalId: null,
@@ -226,6 +230,12 @@ export default {
         };
     },
 
+    computed: {
+        shouldShowImage() {
+            return this.windowWidth >= 1280 && this.documentHeight >= 1280;
+        },
+    },
+
     mounted() {
         this.loadCommentBoxScript();
         this.chooseDailyMessage();
@@ -233,6 +243,8 @@ export default {
         this.$nextTick(() => {
             window.addEventListener('resize', this.onResize);
         });
+        window.addEventListener('scroll', this.onScroll);
+        this.updateDocumentHeight();
         this.applyRandomHue();
         this.fetchTopSong();
         this.intervalId = setInterval(() => {
@@ -242,6 +254,7 @@ export default {
 
     beforeUnmount() {
         window.removeEventListener('resize', this.onResize);
+        window.removeEventListener('scroll', this.onScroll);
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
@@ -302,6 +315,14 @@ export default {
 
         onResize() {
             this.windowWidth = window.innerWidth;
+        },
+
+        onScroll() {
+            this.updateDocumentHeight();
+        },
+
+        updateDocumentHeight() {
+            this.documentHeight = document.documentElement.scrollHeight;
         },
 
         selectRandomPortfolioItem() {
@@ -481,7 +502,8 @@ a:hover {
         width: 60%;
     }
 
-    .column, .comment-box {
+    .column,
+    .comment-box {
         padding: 0;
     }
 }

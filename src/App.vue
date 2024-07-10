@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <NavbarComp />
+    <PopupAd />
     <v-main>
       <div :class="{ 'mainStuff': !reveal, 'hidden': reveal }">
         <router-view />
@@ -17,6 +18,7 @@ import { useRoute } from 'vue-router';
 import NavbarComp from './components/NavbarComp.vue';
 import FooterComp from './components/FooterComp.vue';
 import RandomImage from './components/RandomImage.vue';
+import PopupAd from '@/components/PopupAd.vue';
 
 export default {
   name: 'App',
@@ -25,6 +27,7 @@ export default {
     NavbarComp,
     FooterComp,
     RandomImage,
+    PopupAd,
   },
 
   setup() {

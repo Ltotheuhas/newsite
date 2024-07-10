@@ -1,13 +1,13 @@
 <template>
   <div class="popup-ad" v-if="visible" :style="positionStyle">
     <div class="title-bar" @mousedown="startDrag" @touchstart="startDrag">
-      <div class="title-bar-text">CLICK HERE!</div>
+      <div class="title-bar-text">{{ currentAdImage.title }}</div>
       <div class="title-bar-controls">
         <button aria-label="Close" @click="closeAd"></button>
       </div>
     </div>
-    <img :src="currentAdImage.src" alt="ad" class="ad-image" @click="redirect" @contextmenu.prevent
-      @dragstart.prevent />
+    <img :src="currentAdImage.src" alt="ad" :class="{ 'ad-image': true, 'pointer': currentAdImage.route }"
+      @click="redirect" @contextmenu.prevent @dragstart.prevent />
   </div>
 </template>
 
@@ -17,8 +17,14 @@ export default {
     return {
       visible: false,
       adImages: [
-        { src: require('@/assets/ads/antifa.gif'), route: '/writing' },
-        { src: require('@/assets/ads/ThongpaseuthKeuakoun.gif'), route: '/portfolio/dataprism' },
+        { src: require('@/assets/ads/antifa.gif'), route: '/writing', title: "CLICK HERE TO KILL A NAZI!" },
+        { src: require('@/assets/ads/ThongpaseuthKeuakoun.gif'), title: "ຂ້າ​ເຂົາ​ເຈົ້າ​ທັງ​ຫມົດ 1999​" },
+        { src: require('@/assets/ads/lefthandpath.png'), title: "I WANT TO FUCK RAINBOW DASH" },
+        { src: require('@/assets/ads/crazyguy.jpg'), title: "KILL PPL BRN SHYT FCK SKOOL" },
+        { src: require('@/assets/ads/dragon.gif'), title: "look at this cool car" },
+        { src: require('@/assets/ads/firstone.gif'), title: "REACHES THRU UR COMPUTR SCREEN" },
+        { src: require('@/assets/ads/Mereana.webp'), title: "YOU WILL DIE IN 3 DAYS" },
+        { src: require('@/assets/ads/peopleshit.gif'), title: "╭∩╮（︶︿︶）╭∩╮" },
       ],
       positionStyle: {
         top: '0px',
@@ -55,7 +61,7 @@ export default {
       setTimeout(() => {
         this.showAd();
         this.scheduleAd();
-      }, Math.random() * 120000 + 30000);
+      }, Math.random() * 240000 + 30000);
     },
     startDrag(event) {
       this.isDragging = true;
@@ -109,6 +115,7 @@ export default {
     redirect() {
       if (this.currentAdImage && this.currentAdImage.route) {
         this.$router.push(this.currentAdImage.route);
+        this.closeAd();
       }
     },
   },
@@ -149,6 +156,9 @@ export default {
   color: #fff;
   letter-spacing: 0;
   margin-right: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .title-bar-controls {
@@ -178,7 +188,10 @@ export default {
   width: 100%;
   height: auto;
   user-select: none;
-  margin-bottom: -5px;
+  margin-bottom: -7px;
+}
+
+.pointer {
   cursor: pointer;
 }
 

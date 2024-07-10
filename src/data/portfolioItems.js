@@ -50,7 +50,8 @@ export const portfolioItems = [
     title: "whimsical afterlife",
     year: "2020",
     category: "label",
-    primary: require("@/assets/grid/avenTape.png"),
+    primary: require("@/assets/grid/avenTape.jpg"),
+    secondary: [require("@/assets/grid/avenTape_.jpg")],
     description: "It's a Whimsical Afterlife by Avenade<br>Released on tape via Eva Hakai",
   },
   {
@@ -254,7 +255,7 @@ export const portfolioItems = [
     title: "fluorescentnt art",
     year: "2020",
     category: "label",
-    primary: require("@/assets/grid/neuTape.png"),
+    primary: [require("@/assets/grid/bong.jpg")],
     description: "Fluorescent Art by Neupink<br>Released on tape via Eva Hakai",
   },
   {
@@ -375,47 +376,73 @@ export const portfolioItems = [
   },
   {
     name: "slumber",
+    title: "kaizo manifesto",
     year: "2022",
+    category: ["video", "label"],
     primary: require("@/assets/grid/slumber.jpg"),
     description: "The Kaizo Manifesto by Kaizo Slumber<br>Online album release party<br>Visualizer made for Yesterdayneverhappened",
     embedUrls: ["https://www.youtube.com/embed/bvyf2kZ03kQ?si=BkfYGbS9RuGX_rK1"]
   },
   {
     name: "soul",
+    title: "soul seizer",
     year: "2019",
-    primary: require("@/assets/grid/soul.jpg")
+    category: "music",
+    primary: require("@/assets/grid/soul.jpg"),
+    description: "Black metal/grindcore EP I made",
+    bcembed: "2134831713"
   },
   {
     name: "sp404",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/sp404.png")
   },
   {
     name: "ss",
+    title: "static swords",
     year: "2016",
+    category: "etc",
     primary: require("@/assets/grid/ss.jpg"),
-    description: ""
+    description: "<a href='https://www.youtube.com/channel/UCqw-nFmbmhogQRcIugzVP5A/videos' target='_blank'>2016 - 2020</a>"
   },
   {
     name: "swordflower",
     year: "2020",
-    primary: require("@/assets/grid/swordflower.jpg")
+    category: "music",
+    primary: require("@/assets/grid/swordflower.jpg"),
+    description: "Swordflower Hills Killer by Neupink<br>Feature on track 3",
+    bcembed: "2227384405"
   },
   {
     name: "thing",
     year: "2022",
+    category: "art",
     primary: require("@/assets/grid/thing.png"),
     secondary: [require("@/assets/grid/thing_.png")]
   },
   {
     name: "webmaker",
     year: "2021",
-    primary: require("@/assets/grid/webmaker.jpg")
+    category: "music",
+    primary: require("@/assets/grid/webmaker.jpg"),
+    description: "Webmaker by Murrumur<br>Feature on track 6",
+    bcembed: "603085998"
   },
   {
     name: "yena",
     year: "xxxx",
+    category: ["art", "etc"],
     primary: require("@/assets/grid/yena.png"),
     secondary: [require("@/assets/grid/yena_.png")]
+  },
+  {
+    name: "sewing",
+    year: "2024",
+    category: "video",
+    primary: require("@/assets/grid/sewing.gif"),
+    secondary: [require("@/assets/grid/sewshot.png")],
+    description: "Sewing Up Their Skin by Murrumur<br>Album visualiser",
+    embedUrls: ["https://www.youtube.com/embed/cpE_zwmmFIk?si=_MsGDncP_wsVliDF"]
   },
 ];
