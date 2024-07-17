@@ -178,6 +178,13 @@ export default {
     margin-bottom: 50px;
 }
 
+.v-btn, .v-navigation-drawer {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: none;
+    border-radius: 0;
+    width: 100% !important;
+}
+
 @media (max-width: 960px) {
     .scrollable-column.md-2 {
         display: none;

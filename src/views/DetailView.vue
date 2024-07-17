@@ -58,7 +58,7 @@
     <p>الورشة بالفشل</p>
   </div>
   <p class="back" v-if="!fromList">
-    <router-link class="back" to="/portfolio">back</router-link>
+    <router-link class="back" :to="{ path: '/portfolio', query: { view: 'grid' } }">back</router-link>
   </p>
 </template>
 
