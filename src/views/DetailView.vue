@@ -1,6 +1,6 @@
 <template>
   <div v-if="currentItem" class="detail-view">
-    <div class="year-display" v-if="currentItem.year">{{ currentItem.year }}</div>
+    <div class="year-display" v-if="currentItem.year" @click="$emit('toggle-drawer')">{{ currentItem.year }}</div>
     <div v-if="currentItem.name === 'evaGif'">
       <EvaView></EvaView>
     </div>
@@ -81,6 +81,12 @@ export default {
       type: Boolean,
       default: false,
     }
+  },
+
+  methods: {
+    toggleDrawer() {
+      this.$emit('toggle-drawer');
+    },
   },
 
   setup(props) {
@@ -232,6 +238,14 @@ export default {
   .video-container {
     width: 100%;
     padding-top: 56.25%;
+  }
+
+  .detail-view {
+    padding-top: 30px;
+  }
+
+  .description {
+    font-size: 16px;
   }
 }
 </style>

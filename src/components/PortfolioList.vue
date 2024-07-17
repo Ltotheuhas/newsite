@@ -7,20 +7,15 @@
         </v-col>
         <v-col :class="detailViewClass" cols="12" md="10" ref="detailViewColumn">
             <DetailView v-if="selectedItem" :item="selectedItem" :key="selectedItem.name" :from-list="true"
-                ref="detailViewComponent" />
+                ref="detailViewComponent" @toggle-drawer="toggleDrawer" />
         </v-col>
-        <v-menu v-if="isMobile" location="end">
-            <template v-slot:activator="{ props }">
-                <v-btn icon v-bind="props" v-on="on" class="menu-button">
-                    <v-icon>mdi-menu</v-icon>
-                </v-btn>
-            </template>
+        <v-navigation-drawer v-if="isMobile" v-model="drawer" location="start" temporary>
             <v-list>
-                <v-list-item v-for="item in sortedPortfolioItems" :key="item.name" @click="selectItem(item.name)">
-                    <v-list-item-title>{{ item.title ? item.title : item.name }}</v-list-item-title>
-                </v-list-item>
+                <v-btn v-for="item in sortedPortfolioItems" :key="item.name" @click="selectItem(item.name)">
+                    {{ item.title ? item.title : item.name }}
+                </v-btn>
             </v-list>
-        </v-menu>
+        </v-navigation-drawer>
     </v-row>
 </template>
 
@@ -35,7 +30,7 @@ export default {
     },
     setup() {
         const selectedItem = ref(null);
-        const menu = ref(false);
+        const drawer = ref(false);
         const isMobile = ref(window.innerWidth < 960);
         const detailViewColumn = ref(null);
         const detailViewComponent = ref(null);
@@ -54,12 +49,16 @@ export default {
             if (item) {
                 selectedItem.value = item;
                 if (isMobile.value) {
-                    menu.value = false;
+                    drawer.value = false;
                 }
                 nextTick(() => {
                     updateDetailViewClass();
                 });
             }
+        };
+
+        const toggleDrawer = () => {
+            drawer.value = !drawer.value;
         };
 
         const handleResize = () => {
@@ -85,7 +84,6 @@ export default {
                 nextTick(() => {
                     updateClass();
 
-                    // Check if there are images and set event listeners for them
                     const images = detailViewEl.querySelectorAll('img');
                     if (images.length > 0) {
                         let loadedCount = 0;
@@ -102,7 +100,6 @@ export default {
                             }
                         });
 
-                        // If all images are already loaded
                         if (loadedCount === images.length) {
                             updateClass();
                         }
@@ -117,6 +114,11 @@ export default {
             window.addEventListener('resize', handleResize);
             detailViewComponent.value = detailViewColumn.value?.$el.querySelector('.detail-view');
             updateDetailViewClass();
+
+            // Expand the drawer if no item is selected at the beginning
+            if (!selectedItem.value) {
+                drawer.value = true;
+            }
         });
 
         onUnmounted(() => {
@@ -136,11 +138,12 @@ export default {
             sortedPortfolioItems,
             selectItem,
             selectedItem,
-            menu,
+            drawer,
             isMobile,
             detailViewColumn,
             detailViewComponent,
             detailViewClass,
+            toggleDrawer,
         };
     },
 };
@@ -169,20 +172,15 @@ export default {
     justify-content: center;
 }
 
-.menu-button {
-    position: fixed;
-    top: 110px;
-    left: 10px;
-    z-index: 2000;
+.v-navigation-drawer .v-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
 }
 
 @media (max-width: 960px) {
     .scrollable-column.md-2 {
         display: none;
-    }
-
-    .menu-button {
-        display: block;
     }
 }
 </style>
