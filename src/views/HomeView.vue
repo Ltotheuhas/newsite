@@ -245,7 +245,8 @@ export default {
                 "oneohtrix point sometimes :/",
                 "Just spent 500€ on nothing",
                 "sexooooo",
-                "oraj pole na traktore hej hoop shabadaba"
+                "oraj pole na traktore hej hoop shabadaba",
+                "memepage shawty"
             ],
             currentMessage: "",
             picOfMe: "",
