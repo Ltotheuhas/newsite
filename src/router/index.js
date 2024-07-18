@@ -48,6 +48,11 @@ const routes = [
     name: 'writing',
     component: () => import('../views/WritingView.vue')
   },
+  {
+    path: '/threedee',
+    name: 'threedee',
+    component: () => import('../views/ThreeDee.vue')
+  },
 ]
 
 const router = createRouter({

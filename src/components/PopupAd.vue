@@ -25,6 +25,9 @@ export default {
         { src: require('@/assets/ads/firstone.gif'), title: "REACHES THRU UR COMPUTR SCREEN" },
         { src: require('@/assets/ads/Mereana.webp'), title: "YOU WILL DIE IN 3 DAYS" },
         { src: require('@/assets/ads/peopleshit.gif'), title: "╭∩╮（︶︿︶）╭∩╮" },
+        { src: require('@/assets/ads/tesseract.gif'), route: '/threedee', title: "ESCAPE THE SECOND DIMENSION" },
+        { src: require('@/assets/ads/kvlt.png'), title: "A DEVOID DYING SUN" },
+        { src: require('@/assets/ads/changelog.webp'), title: "Changelog", news: true },
       ],
       positionStyle: {
         top: '0px',
@@ -34,6 +37,7 @@ export default {
       isDragging: false,
       dragStartX: 0,
       dragStartY: 0,
+      newsAdShown: false,
     };
   },
   methods: {
@@ -49,13 +53,30 @@ export default {
       this.positionStyle.top = randomTop;
       this.positionStyle.left = randomLeft;
 
-      const randomIndex = Math.floor(Math.random() * this.adImages.length);
-      this.currentAdImage = this.adImages[randomIndex];
+      if (this.newsAdShown) {
+        const newsAd = this.adImages.find(ad => ad.news);
+        if (newsAd) {
+          this.currentAdImage = newsAd;
+        } else {
+          this.selectRandomAd();
+        }
+      } else {
+        this.selectRandomAd();
+      }
 
       this.visible = true;
     },
+    selectRandomAd() {
+      const randomAds = this.adImages;
+      const randomIndex = Math.floor(Math.random() * randomAds.length);
+      this.currentAdImage = randomAds[randomIndex];
+    },
     closeAd() {
       this.visible = false;
+      if (this.newsAdShown) {
+        this.newsAdShown = false;
+        this.scheduleAd();
+      }
     },
     scheduleAd() {
       setTimeout(() => {
@@ -120,7 +141,19 @@ export default {
     },
   },
   mounted() {
-    this.scheduleAd();
+    const newsAd = this.adImages.find(ad => ad.news);
+
+    this.$watch('$route', (to) => {
+      if (to.name) {
+        if (newsAd && this.$route.name === 'home') {
+          this.currentAdImage = newsAd;
+          this.newsAdShown = true;
+          this.showAd();
+        } else {
+          this.scheduleAd();
+        }
+      }
+    });
   },
 };
 </script>
