@@ -53,6 +53,11 @@ const routes = [
     name: 'threedee',
     component: () => import('../views/ThreeDee.vue')
   },
+  {
+    path: '/shapes',
+    name: 'shapes',
+    component: () => import('../views/SymmetricalShapes.vue')
+  },
 ]
 
 const router = createRouter({

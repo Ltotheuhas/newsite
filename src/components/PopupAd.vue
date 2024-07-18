@@ -27,7 +27,7 @@ export default {
         { src: require('@/assets/ads/peopleshit.gif'), title: "╭∩╮（︶︿︶）╭∩╮" },
         { src: require('@/assets/ads/tesseract.gif'), route: '/threedee', title: "ESCAPE THE SECOND DIMENSION" },
         { src: require('@/assets/ads/kvlt.png'), title: "A DEVOID DYING SUN" },
-        { src: require('@/assets/ads/changelog.webp'), title: "Changelog", news: true },
+        { src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog", news: true },
       ],
       positionStyle: {
         top: '0px',
