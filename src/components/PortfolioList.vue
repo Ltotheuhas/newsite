@@ -8,6 +8,7 @@
         <v-col :class="detailViewClass" cols="12" md="10" ref="detailViewColumn">
             <DetailView v-if="selectedItem" :item="selectedItem" :key="selectedItem.name" :from-list="true"
                 ref="detailViewComponent" @toggle-drawer="toggleDrawer" />
+            <div v-if="showShelfIcon" class="year-display" @click="toggleDrawer">Menu</div>
         </v-col>
         <v-navigation-drawer v-if="isMobile" v-model="drawer" location="start" temporary>
             <v-list>
@@ -115,7 +116,6 @@ export default {
             detailViewComponent.value = detailViewColumn.value?.$el.querySelector('.detail-view');
             updateDetailViewClass();
 
-            // Expand the drawer if no item is selected at the beginning
             if (!selectedItem.value) {
                 drawer.value = true;
             }
@@ -134,6 +134,10 @@ export default {
             });
         });
 
+        const showShelfIcon = computed(() => {
+            return isMobile.value && (!selectedItem.value || !selectedItem.value.year) && !drawer.value;
+        });
+
         return {
             sortedPortfolioItems,
             selectItem,
@@ -144,6 +148,7 @@ export default {
             detailViewComponent,
             detailViewClass,
             toggleDrawer,
+            showShelfIcon,
         };
     },
 };
@@ -178,11 +183,21 @@ export default {
     margin-bottom: 50px;
 }
 
-.v-btn, .v-navigation-drawer {
+.v-btn,
+.v-navigation-drawer {
     background-color: rgba(0, 0, 0, 0.5);
     box-shadow: none;
     border-radius: 0;
     width: 100% !important;
+}
+
+.year-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 15px;
+  letter-spacing: 2rem;
+  font-style: italic;
 }
 
 @media (max-width: 960px) {

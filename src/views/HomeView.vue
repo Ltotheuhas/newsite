@@ -239,7 +239,13 @@ export default {
                 "I made the final connection",
                 "ballout baby i been ballin since the sixth grade earrings was so big you couldn",
                 "^_^",
-                "rip kitty0706"
+                "rip kitty0706",
+                "Team V.R",
+                "I’m A Indianimal, We Some Indianimals",
+                "oneohtrix point sometimes :/",
+                "Just spent 500€ on nothing",
+                "sexooooo",
+                "oraj pole na traktore hej hoop shabadaba"
             ],
             currentMessage: "",
             picOfMe: "",
