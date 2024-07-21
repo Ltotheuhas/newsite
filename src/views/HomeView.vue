@@ -246,7 +246,10 @@ export default {
                 "Just spent 500€ on nothing",
                 "sexooooo",
                 "oraj pole na traktore hej hoop shabadaba",
-                "memepage shawty"
+                "memepage shawty",
+                "ASAP ROCKY'S SON HEAD LOOK LIKE A SKIBIBI TOILET",
+                "WHO GOT A GTA SAN ANDREAS TORRENT LINK I CAN DOWNLOAD",
+                "who the hell is this pear"
             ],
             currentMessage: "",
             picOfMe: "",
