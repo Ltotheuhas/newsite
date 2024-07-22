@@ -6,8 +6,10 @@
         <button aria-label="Close" @click="closeAd"></button>
       </div>
     </div>
-    <img :src="currentAdImage.src" alt="ad" :class="{ 'ad-image': true, 'pointer': currentAdImage.route }"
-      @click="redirect" @contextmenu.prevent @dragstart.prevent />
+    <img :src="currentAdImage.src" alt="ad"
+      :class="{ 'ad-image': true, 'pointer': currentAdImage.route || currentAdImage.url }" @click="redirect"
+      @contextmenu.prevent @dragstart.prevent />
+
   </div>
 </template>
 
@@ -27,7 +29,8 @@ export default {
         { src: require('@/assets/ads/peopleshit.gif'), title: "╭∩╮（︶︿︶）╭∩╮" },
         { src: require('@/assets/ads/tesseract.gif'), route: '/threedee', title: "ESCAPE THE SECOND DIMENSION" },
         { src: require('@/assets/ads/kvlt.png'), title: "A DEVOID DYING SUN" },
-        { src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog", news: true },
+        { src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog" },
+        { src: require('@/assets/ads/hard.png'), url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA', title: "listen to this song its dope af", news: true }
       ],
       positionStyle: {
         top: '0px',
@@ -134,8 +137,12 @@ export default {
       }
     },
     redirect() {
-      if (this.currentAdImage && this.currentAdImage.route) {
-        this.$router.push(this.currentAdImage.route);
+      if (this.currentAdImage) {
+        if (this.currentAdImage.route) {
+          this.$router.push(this.currentAdImage.route);
+        } else if (this.currentAdImage.url) {
+          window.open(this.currentAdImage.url, '_blank');
+        }
         this.closeAd();
       }
     },
