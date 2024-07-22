@@ -249,7 +249,9 @@ export default {
                 "memepage shawty",
                 "ASAP ROCKY'S SON HEAD LOOK LIKE A SKIBIBI TOILET",
                 "WHO GOT A GTA SAN ANDREAS TORRENT LINK I CAN DOWNLOAD",
-                "who the hell is this pear"
+                "who the hell is this pear",
+                "paysage d'hiver",
+                "MOLECULES EXPAND /// MOLECULES EXIST"
             ],
             currentMessage: "",
             picOfMe: "",

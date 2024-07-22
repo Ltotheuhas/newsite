@@ -246,7 +246,7 @@ export default {
 
 @media (max-width: 600px) {
   .popup-ad {
-    width: 150px;
+    width: 200px;
   }
 }
 </style>
