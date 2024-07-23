@@ -251,7 +251,15 @@ export default {
                 "WHO GOT A GTA SAN ANDREAS TORRENT LINK I CAN DOWNLOAD",
                 "who the hell is this pear",
                 "paysage d'hiver",
-                "MOLECULES EXPAND /// MOLECULES EXIST"
+                "MOLECULES EXPAND /// MOLECULES EXIST",
+                "da devil got tha chronic n his mouf",
+                "mashallah",
+                "100 1444",
+                "I got gucci on my pants I got roses on my grave",
+                "392 - 2509",
+                "You drive me crazy with that boogie oogie oogie oogie oogie oogie oogie oogie",
+                "ö÷ÿýúóúóúäûäóëüü÷²ÿûêæóâ÷",
+                "THE HORIZONS ON FIRE"
             ],
             currentMessage: "",
             picOfMe: "",
