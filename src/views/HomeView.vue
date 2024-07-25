@@ -259,7 +259,8 @@ export default {
                 "392 - 2509",
                 "You drive me crazy with that boogie oogie oogie oogie oogie oogie oogie oogie",
                 "ö÷ÿýúóúóúäûäóëüü÷²ÿûêæóâ÷",
-                "THE HORIZONS ON FIRE"
+                "THE HORIZONS ON FIRE",
+                "I'm bored"
             ],
             currentMessage: "",
             picOfMe: "",
