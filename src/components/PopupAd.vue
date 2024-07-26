@@ -31,7 +31,7 @@ export default {
         { src: require('@/assets/ads/kvlt.png'), title: "A DEVOID DYING SUN" },
         { src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog" },
         { src: require('@/assets/ads/hard.png'), url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA', title: "listen to this song its dope af" },
-        { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE", news: true },
+        { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE" },
       ],
       positionStyle: {
         top: '0px',

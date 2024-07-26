@@ -1,7 +1,7 @@
 <template>
     <v-row class="content">
         <v-img :src="require('@/assets/myspace/dejiko.gif')" class="dejiko"
-            :style="[dejikoStyle, { filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }]"
+            :style="[oppaDejikoStyle, { filter: `grayscale(40%) hue-rotate(${hue + 321}deg)` }]"
             @click="tweakIt"></v-img>
         <v-col cols="12" lg="2" md="4" sm="5" class="column">
             <v-card>
@@ -261,7 +261,11 @@ export default {
                 "ö÷ÿýúóúóúäûäóëüü÷²ÿûêæóâ÷",
                 "THE HORIZONS ON FIRE",
                 "I'm bored",
-                "herobrine swag"
+                "herobrine swag",
+                "I might've finished this website",
+                "techno allah",
+                "shits bugged",
+                "what do you think?"
             ],
             currentMessage: "",
             picOfMe: "",
@@ -285,7 +289,7 @@ export default {
             return this.windowWidth >= 1280 && this.documentHeight >= 1280;
         },
 
-        dejikoStyle() {
+        oppaDejikoStyle() {
             return {
                 top: this.dejikoTop + "px",
                 left: this.dejikoLeft + "px",
@@ -450,7 +454,7 @@ export default {
                 if (data.toptracks && data.toptracks.track.length > 0) {
                     const topTrack = data.toptracks.track[0];
                     this.favSong = topTrack.artist.name + " - " + topTrack.name;
-                    this.favSong = this.favSong.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+                    //this.favSong = this.favSong.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                 } else {
                     this.favSong = 'idk :3';
                 }

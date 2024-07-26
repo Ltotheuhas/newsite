@@ -445,4 +445,11 @@ export const portfolioItems = [
     description: "Sewing Up Their Skin by Murrumur<br>Album visualiser",
     embedUrls: ["https://www.youtube.com/embed/cpE_zwmmFIk?si=_MsGDncP_wsVliDF"]
   },
+  {
+    name: "visoki napon",
+    year: "2024",
+    category: "art",
+    primary: require("@/assets/grid/visoki napon.jpg"),
+    secondary: [require("@/assets/grid/visoki napon_.jpg"), require("@/assets/grid/visoki napon__.jpg")]
+  },
 ];
