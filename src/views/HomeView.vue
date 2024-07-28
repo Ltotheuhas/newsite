@@ -265,7 +265,11 @@ export default {
                 "I might've finished this website",
                 "techno allah",
                 "shits bugged",
-                "what do you think?"
+                "what do you think?",
+                "When you start talking, I don't listen, just wait for you to finish and when you're done I'll say that's crazy",
+                "FUCK YOUR PERFORMANCE",
+                "Discard directly after use",
+                "knock a cop off unconscious molotov cocktail"
             ],
             currentMessage: "",
             picOfMe: "",
