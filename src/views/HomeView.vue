@@ -269,7 +269,9 @@ export default {
                 "When you start talking, I don't listen, just wait for you to finish and when you're done I'll say that's crazy",
                 "FUCK YOUR PERFORMANCE",
                 "Discard directly after use",
-                "knock a cop off unconscious molotov cocktail"
+                "knock a cop off unconscious molotov cocktail",
+                "my favorite pokemon as a kid were duskull aron mantyke hariyama sableye poliwhirl snorlax gengar mankey and snorlax",
+                "Dont even wanna out a quirky status here today..."
             ],
             currentMessage: "",
             picOfMe: "",
