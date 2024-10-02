@@ -25,3 +25,8 @@ export async function updateDocumentTitle(_id, title) {
   const result = await client.patch(_id).set({title});
   return result;
 }
+
+export async function getDailyMessages() {
+  const messages = await client.fetch('*[_type == "dailyMessage"]');
+  return messages;
+}
