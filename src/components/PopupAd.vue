@@ -6,15 +6,24 @@
         <button aria-label="Close" @click="closeAd"></button>
       </div>
     </div>
-    <img :src="currentAdImage.src" alt="ad"
+
+    <template v-if="currentAdImage.type === '3D'">
+      <ThreeJSAdScene class="fixed-size-ad" />
+    </template>
+
+    <img v-else :src="currentAdImage.src" alt="ad"
       :class="{ 'ad-image': true, 'pointer': currentAdImage.route || currentAdImage.url }" @click="redirect"
       @contextmenu.prevent @dragstart.prevent />
-
   </div>
 </template>
 
 <script>
+import ThreeJSAdScene from './ThreeJSAdScene.vue';
+
 export default {
+  components: {
+    ThreeJSAdScene
+  },
   data() {
     return {
       visible: false,
@@ -32,6 +41,7 @@ export default {
         { src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog" },
         { src: require('@/assets/ads/hard.png'), url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA', title: "listen to this song its dope af" },
         { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE" },
+        { type: '3D', title: "ESCAPE", url: 'https://ltotheuhas.github.io/meganew/', news: true },
       ],
       positionStyle: {
         top: '0px',
