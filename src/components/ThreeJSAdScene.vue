@@ -19,16 +19,6 @@ export default {
     name: 'ThreeJSScene',
     data() {
         return {
-            move: {
-                forward: false,
-                backward: false,
-                left: false,
-                right: false,
-            },
-            touchStart: { x: 0, y: 0 },
-            yaw: 0, // Horizontal rotation (left/right)
-            pitch: 0, // Vertical rotation (up/down)
-            pitchLimit: Math.PI / 3, // Restrict pitch to a comfortable limit (e.g., 60 degrees)
             objects: [],
             canvas: document.createElement('canvas'),
             ctx: null,
@@ -37,43 +27,30 @@ export default {
             playing: true,
         };
     },
-    props: {
-        joystickX: {
-            type: Number,
-            default: 0,
-        },
-        joystickY: {
-            type: Number,
-            default: 0,
-        }
-    },
     mounted() {
         this.initThreeJS().then(() => {
             this.loadObjectsFromBackend();
-            this.setupPeriodicUpdate();
             this.camera.rotation.order = 'YXZ';
         });
-    },
-    beforeUnmount() {
-        // Cleanup event listeners
-        window.removeEventListener('resize', this.checkOrientation);
-        window.removeEventListener('orientationchange', this.checkOrientation);
-        document.removeEventListener('keydown', this.onKeyDown);
-        document.removeEventListener('keyup', this.onKeyUp);
-        document.removeEventListener('touchstart', this.onTouchStart);
-        document.removeEventListener('touchmove', this.onTouchMove);
-
-        // Remove keydown event listener
-        window.removeEventListener('keydown', this.handleKeydown);
     },
     methods: {
         async initThreeJS() {
             // Setup
             const container = this.$refs.threeContainer;
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const randomFOV = Math.random() * 50 + 100;
+            const camera = new THREE.PerspectiveCamera(randomFOV, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const radius = 5;
+            let angle = 0;
+            const rotationSpeed = 0.005;
+
+            const randomYPosition = Math.random() * 9 + 1;
+            camera.position.set(Math.cos(angle) * radius, randomYPosition, Math.sin(angle) * radius);
+            camera.lookAt(0, 0, 0);
+
+            renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setClearColor(0xffffff, 1); // White background
             container.appendChild(renderer.domElement);
 
@@ -108,86 +85,17 @@ export default {
                 animate();
             });
 
-            const move = this.move;
-            let movementSpeed = 10; // Adjust base movement speed
-
-            const onKeyDown = (event) => {
-                switch (event.key) {
-                    case 'ArrowUp':
-                    case 'w':
-                    case 'W':
-                        move.forward = true;
-                        break;
-                    case 'ArrowDown':
-                    case 's':
-                    case 'S':
-                        move.backward = true;
-                        break;
-                    case 'ArrowLeft':
-                    case 'a':
-                    case 'A':
-                        move.left = true;
-                        break;
-                    case 'ArrowRight':
-                    case 'd':
-                    case 'D':
-                        move.right = true;
-                        break;
-                    case '+':
-                    case '=': // Often found in combination with shift for +
-                        movementSpeed += 2;
-                        console.log(`Increased movement speed: ${movementSpeed}`);
-                        break;
-                    case '-':
-                    case '_': // Often found in combination with shift for -
-                        movementSpeed = Math.max(2, movementSpeed - 2);
-                        console.log(`Decreased movement speed: ${movementSpeed}`);
-                        break;
-                }
-            };
-
-            const onKeyUp = (event) => {
-                switch (event.key) {
-                    case 'ArrowUp':
-                    case 'w':
-                    case 'W':
-                        move.forward = false;
-                        break;
-                    case 'ArrowDown':
-                    case 's':
-                    case 'S':
-                        move.backward = false;
-                        break;
-                    case 'ArrowLeft':
-                    case 'a':
-                    case 'A':
-                        move.left = false;
-                        break;
-                    case 'ArrowRight':
-                    case 'd':
-                    case 'D':
-                        move.right = false;
-                        break;
-                }
-            };
-
-            document.addEventListener('keydown', onKeyDown);
-            document.addEventListener('keyup', onKeyUp);
-
             const animate = () => {
                 requestAnimationFrame(animate);
+
+                angle += rotationSpeed;
+                camera.position.x = Math.cos(angle) * radius;
+                camera.position.z = Math.sin(angle) * radius;
+                camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
             };
             animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            camera.position.set(0, 2, 5);
 
             this.scene = scene;
             this.camera = camera;
@@ -198,13 +106,7 @@ export default {
             try {
                 const response = await fetch(`${apiUrl}/objects`);
 
-                if (!response.ok) {
-                    console.error('Error status:', response.status, response.statusText);
-                    throw new Error('Failed to load objects from backend');
-                }
-
                 const objects = await response.json();
-                console.log('Loaded objects:', objects);
 
                 const objectPromises = objects.map(obj => {
                     if (obj.type === 'image') {
@@ -216,14 +118,12 @@ export default {
                     }
                 });
                 await Promise.all(objectPromises);
-
             } catch (error) {
                 console.error('Error loading objects from backend:', error);
             }
         },
         loadImageFromData(obj) {
             const textureLoader = new THREE.TextureLoader();
-            console.log('Loading image from data:', obj);
 
             if (obj.filePath) {
                 textureLoader.load(
@@ -251,24 +151,13 @@ export default {
 
                             // Save the object reference for future cleanup
                             this.objects.push(plane);
-
-                            console.log(`Image ${obj.filePath} loaded and added to the scene.`);
-                        } else {
-                            console.error('Texture image dimensions unavailable for:', obj.filePath);
                         }
                     },
-                    undefined,
-                    (err) => {
-                        console.error(`Error loading texture from ${obj.filePath}:`, err);
-                    }
+                    undefined
                 );
-            } else {
-                console.error('No file path found for image object:', obj);
             }
         },
         async loadGIFFromData(obj) {
-            console.log('Loading GIF from data:', obj);
-
             const response = await fetch(`${process.env.VUE_APP_API_URL}${obj.filePath}`);
             const arrayBuffer = await response.arrayBuffer();
             const gif = parseGIF(arrayBuffer);
@@ -324,19 +213,14 @@ export default {
             };
 
             animateGIF();
-
-            console.log(`GIF ${obj.filePath} loaded and added to the scene.`);
         },
         async loadModelFromData(obj) {
-            console.log('Loading model from data:', obj); // Debugging log
-
             // Extract the file extension from the filePath
             const filePath = obj.filePath;
             const extension = filePath.split('.').pop().toLowerCase(); // Extract extension after last dot
 
             const loader = this.getLoader(extension);
             if (!loader) {
-                console.error(`No loader available for extension: ${extension}`);
                 return;
             }
 
@@ -369,15 +253,12 @@ export default {
                     },
                     undefined,
                     (error) => {
-                        console.error('Error loading model:', error);
                         reject(error);
                     }
                 );
-                console.log(`Model ${obj.filePath} loaded and added to the scene.`);
             });
         },
         getLoader(extension) {
-            console.log(`getLoader called with extension: ${extension}`); // Add logging
             switch (extension.toLowerCase()) {
                 case 'gltf':
                 case 'glb':
@@ -399,7 +280,6 @@ export default {
                 case 'wrl':
                     return new VRMLLoader();
                 default:
-                    console.error(`Unsupported model file type: ${extension}`);
                     return null;
             }
         }

@@ -8,7 +8,9 @@
     </div>
 
     <template v-if="currentAdImage.type === '3D'">
-      <ThreeJSAdScene class="fixed-size-ad" />
+      <div class="popup-ad threed pointer" @click="redirect">
+        <ThreeJSAdScene class="three-ad" />
+      </div>
     </template>
 
     <img v-else :src="currentAdImage.src" alt="ad"
@@ -185,6 +187,16 @@ export default {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+.popup-ad .threed {
+  position: relative;
+  height: 300px;
+}
+
+.three-ad {
+  width: 100%;
+  height: 100%;
+}
+
 .title-bar {
   display: flex;
   justify-content: space-between;
@@ -259,6 +271,10 @@ export default {
 @media (max-width: 600px) {
   .popup-ad {
     width: 240px;
+  }
+
+  .popup-ad .threed {
+    height: 240px;
   }
 }
 </style>
