@@ -4,7 +4,6 @@
       <div v-for="product in products" :key="product.id">
         <h2>{{ product.name }}</h2>
         <router-link :to="`/store/${product.id}`">View Product</router-link>
-        <!-- Optional "Buy Now" button here, or in ProductView -->
       </div>
     </div>
   </template>
@@ -18,7 +17,10 @@
     },
     async created() {
       try {
-        const response = await fetch('/products.json');
+        // Use the correct path based on the environment
+        const baseURL = process.env.NODE_ENV === 'production' ? '/newsite' : '';
+        const response = await fetch(`${baseURL}/products.json`);
+        
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
