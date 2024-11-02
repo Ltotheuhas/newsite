@@ -2,7 +2,7 @@
     <div ref="nekoContainer" class="neko-container">
         <div v-show="isActive" :style="{ top: `${yPosition}px`, left: `${xPosition}px` }" class="neko-layer"
             @dblclick="openNekoHome" @click="handleClick">
-            <img :src="currentImage" alt="Neko" class="neko-image" />
+            <img :src="currentImage" class="neko-image" />
         </div>
     </div>
 </template>

@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue'
+import StoreView from '../views/StoreView.vue';
 
 const routes = [
   {
@@ -58,17 +59,15 @@ const routes = [
     name: 'shapes',
     component: () => import('../views/SymmetricalShapes.vue')
   },
-  {
-    path: '/store',
+  { path: '/store',
     name: 'store',
-    component: () => import('../views/StoreView.vue')
-  },
+    component: StoreView },
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(savedPosition) {
     if (savedPosition) {
       return savedPosition;
     }
