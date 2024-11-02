@@ -58,6 +58,11 @@ const routes = [
     name: 'shapes',
     component: () => import('../views/SymmetricalShapes.vue')
   },
+  {
+    path: '/store',
+    name: 'store',
+    component: () => import('../views/StoreView.vue')
+  },
 ]
 
 const router = createRouter({

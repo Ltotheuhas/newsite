@@ -10,7 +10,8 @@ module.exports = defineConfig({
   },
 
   devServer: {
-    host: 'localhost'
+    host: 'localhost',
+    allowedHosts: "all", // This line allows Localtunnel and other external connections
   },
 
   configureWebpack: {
