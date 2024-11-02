@@ -7,11 +7,8 @@
                     <v-card-title>Test Item</v-card-title>
                     <v-card-subtitle>€0.00</v-card-subtitle>
                     <v-card-actions>
-                        <button class="snipcart-add-item" 
-                                data-item-id="test-item" 
-                                data-item-name="Test Item"
-                                data-item-price="0.00" 
-                                data-item-max-quantity="10">
+                        <button class="snipcart-add-item" data-item-id="test-item" data-item-name="Test Item"
+                            data-item-price="0.00" data-item-url="https://ltotheuhas.github.io/newsite/store">
                             Buy Now
                         </button>
                     </v-card-actions>
