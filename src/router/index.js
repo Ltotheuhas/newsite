@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/HomeView.vue';
 import StoreView from '../views/StoreView.vue';
 
 const routes = [
@@ -11,17 +11,11 @@ const routes = [
   {
     path: '/portfolio',
     name: 'portfolio',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/PortfolioView.vue')
   },
   {
     path: '/blog',
     name: 'blog',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/BlogPosts.vue')
   },
   {
@@ -59,10 +53,24 @@ const routes = [
     name: 'shapes',
     component: () => import('../views/SymmetricalShapes.vue')
   },
-  { path: '/store',
+  {
+    path: '/store',
     name: 'store',
-    component: StoreView },
-]
+    component: StoreView
+  },
+  {
+    path: '/store/test-item',
+    name: 'test-item',
+    component: () => import('../views/ProductView.vue'),
+    props: { id: 'test-item' }
+  },
+  {
+    path: '/store/another-item',
+    name: 'another-item',
+    component: () => import('../views/ProductView.vue'),
+    props: { id: 'another-item' }
+  }
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -75,4 +83,4 @@ const router = createRouter({
   }
 });
 
-export default router
+export default router;
