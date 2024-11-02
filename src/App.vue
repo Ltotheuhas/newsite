@@ -9,6 +9,9 @@
       <RandomImage :numImages="randomNumImages" :class="{ 'randomimage': !reveal, 'revealed': reveal }" />
     </v-main>
     <FooterComp />
+    <div class="sticky-neko">
+      <WebNeko />
+    </div>
   </v-app>
 </template>
 
@@ -19,6 +22,7 @@ import NavbarComp from './components/NavbarComp.vue';
 import FooterComp from './components/FooterComp.vue';
 import RandomImage from './components/RandomImage.vue';
 import PopupAd from '@/components/PopupAd.vue';
+import WebNeko from './components/WebNeko.vue';
 
 export default {
   name: 'App',
@@ -28,6 +32,7 @@ export default {
     FooterComp,
     RandomImage,
     PopupAd,
+    WebNeko,
   },
 
   setup() {
@@ -110,5 +115,10 @@ export default {
 
 .revealed img {
   pointer-events: all;
+}
+
+.sticky-neko {
+  position: fixed;
+  z-index: 42069;
 }
 </style>
