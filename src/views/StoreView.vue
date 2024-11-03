@@ -7,7 +7,7 @@
             alt="Product image" />
         <p>Price: €0.00</p>
         <button class="snipcart-add-item" data-item-id="test-item" data-item-name="Test Item" data-item-price="0.00"
-            data-item-url="https://ltotheuhas.github.io/newsite/#/store" data-item-max-quantity="10">
+            data-item-url="https://ltotheuhas.github.io/newsite/" data-item-max-quantity="10">
             Buy Now
         </button>
     </div>
