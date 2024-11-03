@@ -37,9 +37,10 @@ export async function getProducts() {
     name,
     price,
     description,
-    sizesWithStock,
     "slug": slug.current,
-    images
+    images,
+    sizesWithStock,
+    quantity
   }`);
   return products;
 }
