@@ -3,12 +3,11 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - main  # Trigger deployment when pushing to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -16,7 +15,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-private-key: '${{ secrets.DEPLOY_KEY }}'
 
       - name: Install dependencies
         run: npm install
@@ -26,10 +25,9 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no servore@62.178.121.18 'bash -s' <<'EOF'
-            # Remove old files and copy the new build
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 'bash -s' <<'EOF'
+            # Deployment commands here
             sudo rm -rf /var/www/luhas.gratis/*
-            scp -r dist/* servore@62.178.121.18:/var/www/luhas.gratis/
-            # Reload Nginx
+            sudo cp -r dist/* /var/www/luhas.gratis/
             sudo systemctl reload nginx
           EOF
