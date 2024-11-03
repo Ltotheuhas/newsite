@@ -27,6 +27,6 @@ jobs:
         env:
           REMOTE_DIR: /var/www/luhas.gratis/
         run: |
-          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "find $REMOTE_DIR -mindepth 1 ! -path '$REMOTE_DIR/api/*' -delete"
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "rsync -a --delete --exclude 'api/' /dev/null/ $REMOTE_DIR"
           scp -o StrictHostKeyChecking=no -P 1987 -r dist/* servore@62.178.121.18:$REMOTE_DIR
           ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo -n systemctl reload nginx"
