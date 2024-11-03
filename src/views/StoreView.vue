@@ -45,7 +45,7 @@
                     <!-- Add to Cart Button -->
                     <v-btn class="snipcart-add-item" color="primary" :data-item-id="selectedProduct._id"
                         :data-item-name="selectedProduct.name" :data-item-price="selectedProduct.price"
-                        :data-item-url="`https://luhas.gratis/store/${selectedProduct.slug || ''}`"
+                        :data-item-url="`https://luhas.gratis/api/products/${selectedProduct.slug}.json`"
                         :data-item-description="selectedProduct.description" :data-item-quantity="quantity"
                         :data-item-custom1-name="selectedProduct.sizesWithStock && selectedProduct.sizesWithStock.length > 0 ? 'Size' : undefined"
                         :data-item-custom1-value="selectedSize" @click="addToCart">
