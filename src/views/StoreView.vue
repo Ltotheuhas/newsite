@@ -1,20 +1,40 @@
 <template>
-    <div>
-        <h1>Our Store</h1>
-        <h2>Test Item</h2>
-        <p>A description for the test item.</p>
-        <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fleschaudspatates.raidsaventure.fr%2Fwp-content%2Fuploads%2F2015%2F04%2Fsinge-fait-pipi-pisse.gif&f=1&nofb=1&ipt=eb35518468cc038b79e599d2bde811358d6bf70c60ea87b154945237b41b9218&ipo=images"
-            alt="Product image" />
-        <p>Price: €0.00</p>
-        <button class="snipcart-add-item" data-item-id="test-item" data-item-name="Test Item" data-item-price="0.00"
-            data-item-url="https://ltotheuhas.github.io/newsite/" data-item-max-quantity="10">
-            Buy Now
-        </button>
-    </div>
+    <v-container>
+        <h1>Store</h1>
+        <v-row>
+            <!-- Loop through each product -->
+            <v-col cols="12" md="4" v-for="product in products" :key="product.id">
+                <v-card>
+                    <v-card-title>{{ product.name }}</v-card-title>
+                    <v-card-subtitle>\${{ product.price }}</v-card-subtitle>
+                    <v-card-actions>
+                        <button class="snipcart-add-item" :data-item-id="product.id" :data-item-name="product.name"
+                            :data-item-price="product.price" :data-item-url="product.url"
+                            :data-item-description="product.description">
+                            Add to Cart
+                        </button>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
 export default {
-    name: 'StoreView'
+    name: 'StoreView',
+    data() {
+        return {
+            products: [
+                {
+                    id: 'test-product',
+                    name: 'Test Product',
+                    price: '0.00',
+                    url: 'https://luhas.gratis/store/test-product',
+                    description: 'This is a test product description.'
+                }
+            ]
+        };
+    }
 };
 </script>

@@ -1,6 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import StoreView from '../views/StoreView.vue';
+import ProductComp from '../components/ProductComp.vue';
 
 const routes = [
   {
@@ -58,10 +59,16 @@ const routes = [
     name: 'store',
     component: StoreView
   },
+  {
+    path: '/store/:id',
+    name: 'product',
+    component: ProductComp,
+    props: true
+  }
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(savedPosition) {
     if (savedPosition) {
