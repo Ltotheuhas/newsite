@@ -5,7 +5,7 @@
       "price": 0.00,
       "description": "A description for the test item.",
       "image": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fleschaudspatates.raidsaventure.fr%2Fwp-content%2Fuploads%2F2015%2F04%2Fsinge-fait-pipi-pisse.gif&f=1&nofb=1&ipt=eb35518468cc038b79e599d2bde811358d6bf70c60ea87b154945237b41b9218&ipo=images",
-      "url": "https://ltotheuhas.github.io/newsite/store/test-item",
+      "url": "https://ltotheuhas.github.io/newsite/#/store/test-item",
       "maxQuantity": 10
     },
     {
@@ -14,7 +14,7 @@
       "price": 10.00,
       "description": "Description for another item.",
       "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia1.tenor.com%2Fimages%2Fa2edda8fcc618652f97912216aad7f94%2Ftenor.gif%3Fitemid%3D4387510&f=1&nofb=1&ipt=9a88b6a18d0faad561cbcacdc2013ef7db388d240ffddc54f1af21ce89b1593f&ipo=images",
-      "url": "https://ltotheuhas.github.io/newsite/store/another-item",
+      "url": "https://ltotheuhas.github.io/newsite/#/store/another-item",
       "maxQuantity": 5
     }
   ]
