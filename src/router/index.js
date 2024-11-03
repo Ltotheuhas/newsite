@@ -61,14 +61,8 @@ const routes = [
   },
   {
     path: '/store/test-item',
-    name: 'test-item', component: ProductView,
-    props: { id: 'test-item' }
-  },
-  {
-    path: '/store/another-item',
-    name: 'another-item',
-    component: ProductView,
-    props: { id: 'another-item' }
+    name: 'test-item',
+    component: ProductView
   }
 ];
 
