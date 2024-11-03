@@ -28,6 +28,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 'bash -s' <<'EOF'
             # Deployment commands here
             sudo rm -rf /var/www/luhas.gratis/*
-            sudo cp -r dist/* /var/www/luhas.gratis/
+            sudo cp -r ~/newsite/dist/* /var/www/luhas.gratis/
             sudo systemctl reload nginx
           EOF
