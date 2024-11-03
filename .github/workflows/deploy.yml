@@ -27,11 +27,14 @@ jobs:
         env:
           REMOTE_DIR: /var/www/luhas.gratis/
         run: |
-          # Remove existing files on the server
-          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo rm -rf $REMOTE_DIR*"
+          # Set permissions on the server
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo chown -R servore:servore $REMOTE_DIR && sudo chmod -R 755 $REMOTE_DIR"
           
-          # Copy the built files to the server
-          scp -P 1987 -r dist/* servore@62.178.121.18:$REMOTE_DIR
+          # Remove existing files on the server
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "rm -rf $REMOTE_DIR*"
+          
+          # Copy the built files to the server with verbose output
+          scp -v -P 1987 -r dist/* servore@62.178.121.18:$REMOTE_DIR
           
           # Restart Nginx to apply changes
           ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo systemctl reload nginx"
