@@ -60,11 +60,11 @@ const routes = [
     component: StoreView
   },
   {
-    path: '/store/:id',
+    path: '/store/:slug',
     name: 'product',
     component: ProductComp,
     props: true
-  }
+  }  
 ];
 
 const router = createRouter({
