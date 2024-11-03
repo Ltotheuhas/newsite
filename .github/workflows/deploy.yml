@@ -27,6 +27,18 @@ jobs:
         env:
           REMOTE_DIR: /var/www/luhas.gratis/
         run: |
-          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "rsync -a --delete --exclude 'api/' /dev/null/ $REMOTE_DIR"
+          # Create an empty directory in /tmp for rsync
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "mkdir -p /tmp/emptydir"
+          
+          # Sync /tmp/emptydir with REMOTE_DIR excluding 'api/' to remove all other files
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "rsync -a --delete --exclude 'api/' /tmp/emptydir/ $REMOTE_DIR"
+          
+          # Remove the empty directory after syncing
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "rm -rf /tmp/emptydir"
+          
+          # Copy the built files to the server
           scp -o StrictHostKeyChecking=no -P 1987 -r dist/* servore@62.178.121.18:$REMOTE_DIR
+      
+          # Restart Nginx to apply changes
           ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo -n systemctl reload nginx"
+      
