@@ -121,4 +121,24 @@ export default {
   position: fixed;
   z-index: 42069;
 }
+
+.snipcart-modal__container {
+  padding-top: 69px;
+  filter: invert(1);
+}
+
+.snipcart-cart-header {
+  margin-top: 40px;
+}
+
+.snipcart-base-button__label {
+  color: #000000;
+  font-family: 'Cabazon';
+  src: url('Cabazon.ttf');
+  font-size: xx-large;
+}
+
+.snipcart-button-primary {
+  filter: hue-rotate(90deg);
+}
 </style>

@@ -1,4 +1,4 @@
-import {createClient} from '@sanity/client'
+import { createClient } from '@sanity/client'
 // Import using ESM URL imports in environments that supports it:
 // import {createClient} from 'https://esm.sh/@sanity/client'
 
@@ -22,11 +22,24 @@ export async function createPost(post) {
 }
 
 export async function updateDocumentTitle(_id, title) {
-  const result = await client.patch(_id).set({title});
+  const result = await client.patch(_id).set({ title });
   return result;
 }
 
 export async function getDailyMessages() {
   const messages = await client.fetch('*[_type == "dailyMessage"]');
   return messages;
+}
+
+export async function getProducts() {
+  const products = await client.fetch(`*[_type == "product"]{
+    _id,
+    name,
+    price,
+    description,
+    sizesWithStock,
+    "slug": slug.current,
+    images
+  }`);
+  return products;
 }
