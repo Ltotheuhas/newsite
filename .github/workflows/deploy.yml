@@ -34,4 +34,4 @@ jobs:
           scp -o StrictHostKeyChecking=no -P 1987 -r dist/* servore@62.178.121.18:$REMOTE_DIR
           
           # Restart Nginx to apply changes
-          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "systemctl reload nginx"
+          ssh -o StrictHostKeyChecking=no -p 1987 servore@62.178.121.18 "sudo -n systemctl reload nginx"
