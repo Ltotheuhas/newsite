@@ -58,13 +58,7 @@ const routes = [
     path: '/store',
     name: 'store',
     component: StoreView
-  },
-  {
-    path: '/store/:slug',
-    name: 'product',
-    component: ProductComp,
-    props: true
-  }  
+  }
 ];
 
 const router = createRouter({
