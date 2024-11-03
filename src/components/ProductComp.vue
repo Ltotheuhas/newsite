@@ -4,7 +4,8 @@
         <p>{{ product.description }}</p>
         <p>Price: ${{ product.price }}</p>
         <button class="snipcart-add-item" :data-item-id="product.id" :data-item-name="product.name"
-            :data-item-price="product.price" :data-item-url="product.url" :data-item-description="product.description">
+            :data-item-price="product.price" data-item-url="https://luhas.gratis/api/products/test-product.json"
+            :data-item-description="product.description">
             Add to Cart
         </button>
     </v-container>

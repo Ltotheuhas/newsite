@@ -9,7 +9,8 @@
                     <v-card-subtitle>\${{ product.price }}</v-card-subtitle>
                     <v-card-actions>
                         <button class="snipcart-add-item" :data-item-id="product.id" :data-item-name="product.name"
-                            :data-item-price="product.price" :data-item-url="product.url"
+                            :data-item-price="product.price"
+                            data-item-url="https://luhas.gratis/api/products/test-product.json"
                             :data-item-description="product.description">
                             Add to Cart
                         </button>
