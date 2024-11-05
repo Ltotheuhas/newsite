@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import StoreView from '../views/StoreView.vue';
 
 const routes = [
   {
@@ -56,8 +55,13 @@ const routes = [
   {
     path: '/store',
     name: 'store',
-    component: StoreView
-  }
+    component: () => import('../views/StoreView.vue')
+  },
+  {
+    path: '/store/cart',
+    name: 'ShoppingCart',
+    component: () => import('../views/ShoppingCart.vue')
+  },
 ];
 
 const router = createRouter({

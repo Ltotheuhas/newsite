@@ -59,10 +59,10 @@
 /▌ him so he can take over
 /\ luhas.neocities.org</pre>
                 </v-card-text>
-                <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp rounded-lg"
+                <!-- <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
                 <v-img :src="require('@/assets/myspace/rat.png')" class="cccp mt-4 rounded-lg"
-                    :style="{ filter: `grayscale(40%) hue-rotate(${hue + 250}deg)` }"></v-img>
+                    :style="{ filter: `grayscale(40%) hue-rotate(${hue + 250}deg)` }"></v-img>-->
             </v-card>
         </v-col>
 
@@ -91,11 +91,6 @@
                     </transition>
                 </div>
             </v-card>
-
-            <v-card v-if="windowWidth < 1280" class="d-lg-none mt-4">
-                <v-card-title>Comments (o≧∇≦)o</v-card-title>
-                <CommentComp></CommentComp>
-            </v-card>
         </v-col>
 
         <v-col v-if="windowWidth >= 1280" class="d-none d-lg-flex column" cols="12" lg="5" md="8">
@@ -105,6 +100,14 @@
             </v-card>
         </v-col>
     </v-row>
+
+    <v-row class="content" v-if="windowWidth < 1280">
+        <v-card class="d-lg-none w-100 mt-4">
+            <v-card-title>Comments (o≧∇≦)o</v-card-title>
+            <CommentComp></CommentComp>
+        </v-card>
+    </v-row>
+    
     <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
 </template>
 
@@ -527,5 +530,9 @@ a:hover {
 
 .counter img {
     filter: grayscale(80%) brightness(80%) hue-rotate(var(--dynamic-hue-counter));
+}
+
+.hcb-wrapper {
+    max-width: 600px;
 }
 </style>
