@@ -50,7 +50,14 @@ export default {
       if (newSecret && document.getElementById('card-element')) {
         elements.value = stripe.value.elements();
         cardElement.value = elements.value.create('card');
-        cardElement.value.mount('#card-element');
+
+        // Log to confirm cardElement creation and mounting
+        console.log('Mounting cardElement to #card-element');
+
+        setTimeout(() => {
+          cardElement.value.mount('#card-element');
+          console.log('cardElement mounted:', cardElement.value); // Check if cardElement is defined
+        }, 100);
       }
     });
 
@@ -76,18 +83,33 @@ export default {
     };
 
     const checkout = async () => {
-      const response = await fetch('/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart.value }),
-      });
-      const data = await response.json();
-      clientSecret.value = data.clientSecret; // Trigger watch on clientSecret
+      try {
+        const response = await fetch('/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: cart.value }),
+        });
+        const data = await response.json();
+        clientSecret.value = data.clientSecret; // Trigger watch on clientSecret
+
+        console.log('clientSecret:', clientSecret.value); // Check clientSecret value
+      } catch (error) {
+        console.error('Error fetching clientSecret:', error);
+      }
     };
 
     const handlePayment = async () => {
-      if (!clientSecret.value || !cardElement.value) {
-        console.error('ClientSecret or cardElement is not available');
+      console.log('Attempting to confirm payment');
+      console.log('Client Secret:', clientSecret.value);
+      console.log('Card Element:', cardElement.value);
+
+      if (!clientSecret.value) {
+        console.error('clientSecret is not available');
+        return;
+      }
+
+      if (!cardElement.value) {
+        console.error('cardElement is not available');
         return;
       }
 
@@ -103,7 +125,6 @@ export default {
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
         console.log('Payment successful');
         alert('Payment successful!');
-        // Redirect or show a confirmation message
       }
     };
 
