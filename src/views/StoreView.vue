@@ -16,7 +16,7 @@
     </v-btn>
 
     <!-- Payment form appears only if clientSecret is set -->
-    <form @submit.prevent="handlePayment" v-if="clientSecret">
+    <form v-if="clientSecret" @submit.prevent="handlePayment">
       <div id="card-element"><!-- Stripe Card Element will mount here --></div>
       <v-btn type="submit">Submit Payment</v-btn>
     </form>
@@ -47,7 +47,7 @@ export default {
 
     // Watch for clientSecret and initialize cardElement only when it's set
     watch(clientSecret, async (newSecret) => {
-      if (newSecret) {
+      if (newSecret && document.getElementById('card-element')) {
         elements.value = stripe.value.elements();
         cardElement.value = elements.value.create('card');
         cardElement.value.mount('#card-element');
