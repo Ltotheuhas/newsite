@@ -47,17 +47,22 @@ export default {
 
     // Watch for clientSecret and initialize cardElement only when it's set
     watch(clientSecret, async (newSecret) => {
-      if (newSecret && document.getElementById('card-element')) {
+      if (newSecret) {
         elements.value = stripe.value.elements();
         cardElement.value = elements.value.create('card');
 
-        // Log to confirm cardElement creation and mounting
-        console.log('Mounting cardElement to #card-element');
+        console.log('Attempting to mount cardElement');
 
+        // Add a delay to ensure #card-element is available in the DOM
         setTimeout(() => {
-          cardElement.value.mount('#card-element');
-          console.log('cardElement mounted:', cardElement.value); // Check if cardElement is defined
-        }, 100);
+          const cardElementContainer = document.getElementById('card-element');
+          if (cardElementContainer) {
+            cardElement.value.mount('#card-element');
+            console.log('cardElement mounted:', cardElement.value); // Should log the cardElement object
+          } else {
+            console.error('#card-element not found in DOM');
+          }
+        }, 2000);
       }
     });
 
