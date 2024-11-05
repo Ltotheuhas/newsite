@@ -91,7 +91,7 @@ export default {
 
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret.value, {
         payment_method: {
-          card: stripe.elements.getElement('card'), // Retrieve the Card element from vue-stripe-js
+          card: stripe, // Referencing `stripe` directly for `card` input in `vue-stripe-js`
         },
       });
 
