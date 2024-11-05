@@ -86,7 +86,10 @@ export default {
     };
 
     const handlePayment = async () => {
-      if (!clientSecret.value) return;
+      if (!clientSecret.value || !cardElement.value) {
+        console.error('ClientSecret or cardElement is not available');
+        return;
+      }
 
       const { error, paymentIntent } = await stripe.value.confirmCardPayment(clientSecret.value, {
         payment_method: {
