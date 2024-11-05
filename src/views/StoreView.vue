@@ -49,20 +49,35 @@ export default {
     watch(clientSecret, async (newSecret) => {
       if (newSecret) {
         elements.value = stripe.value.elements();
-        cardElement.value = elements.value.create('card');
 
-        console.log('Attempting to mount cardElement');
+        // Define custom styles
+        const cardStyle = {
+          base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+              color: '#a0aec0', // Lighter placeholder color
+            },
+          },
+          invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a',
+          },
+        };
 
-        // Add a delay to ensure #card-element is available in the DOM
+        cardElement.value = elements.value.create('card', { style: cardStyle });
+
         setTimeout(() => {
           const cardElementContainer = document.getElementById('card-element');
           if (cardElementContainer) {
             cardElement.value.mount('#card-element');
-            console.log('cardElement mounted:', cardElement.value); // Should log the cardElement object
+            console.log('cardElement mounted with custom styling');
           } else {
             console.error('#card-element not found in DOM');
           }
-        }, 2000);
+        }, 200); // Adjust delay if needed
       }
     });
 
@@ -139,5 +154,10 @@ export default {
 </script>
 
 <style scoped>
-/* Add any custom styling here if needed */
+#card-element {
+  padding: 10px;
+  border: 1px solid #ccd0d5;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
 </style>
