@@ -17,32 +17,53 @@
 
     <!-- Payment form appears only if clientSecret is set -->
     <form v-if="clientSecret" @submit.prevent="handlePayment">
-      <StripeElements :stripe="stripe">
-        <StripeElement ref="card" type="card" /> <!-- StripeElement component for card input -->
-      </StripeElements>
+      <div id="card-element"><!-- Stripe Card Element will mount here --></div>
       <v-btn type="submit">Submit Payment</v-btn>
     </form>
   </v-container>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { StripeElement, StripeElements, initStripe } from 'vue-stripe-js';
+import { ref, onMounted, watch } from 'vue';
+import { loadStripe } from '@stripe/stripe-js';
 import { getProducts } from '../sanity.js';
+
+const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
 export default {
   name: 'StoreView',
-  components: { StripeElements, StripeElement },
   setup() {
     const products = ref([]);
     const cart = ref([]);
+    const stripe = ref(null);
+    const elements = ref(null);
+    const cardElement = ref(null);
     const clientSecret = ref(null);
-
-    // Initialize Stripe
-    const stripe = initStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
     onMounted(async () => {
       products.value = await getProducts();
+      stripe.value = await stripePromise;
+    });
+
+    // Watch for clientSecret and initialize cardElement only when it's set
+    watch(clientSecret, async (newSecret) => {
+      if (newSecret) {
+        elements.value = stripe.value.elements();
+        cardElement.value = elements.value.create('card');
+
+        console.log('Attempting to mount cardElement');
+
+        // Add a delay to ensure #card-element is available in the DOM
+        setTimeout(() => {
+          const cardElementContainer = document.getElementById('card-element');
+          if (cardElementContainer) {
+            cardElement.value.mount('#card-element');
+            console.log('cardElement mounted:', cardElement.value); // Should log the cardElement object
+          } else {
+            console.error('#card-element not found in DOM');
+          }
+        }, 2000);
+      }
     });
 
     const addToCart = (product) => {
@@ -74,8 +95,9 @@ export default {
           body: JSON.stringify({ items: cart.value }),
         });
         const data = await response.json();
-        clientSecret.value = data.clientSecret;
-        console.log('clientSecret:', clientSecret.value);
+        clientSecret.value = data.clientSecret; // Trigger watch on clientSecret
+
+        console.log('clientSecret:', clientSecret.value); // Check clientSecret value
       } catch (error) {
         console.error('Error fetching clientSecret:', error);
       }
@@ -83,15 +105,22 @@ export default {
 
     const handlePayment = async () => {
       console.log('Attempting to confirm payment');
+      console.log('Client Secret:', clientSecret.value);
+      console.log('Card Element:', cardElement.value);
 
       if (!clientSecret.value) {
         console.error('clientSecret is not available');
         return;
       }
 
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret.value, {
+      if (!cardElement.value) {
+        console.error('cardElement is not available');
+        return;
+      }
+
+      const { error, paymentIntent } = await stripe.value.confirmCardPayment(clientSecret.value, {
         payment_method: {
-          card: stripe, // Referencing `stripe` directly for `card` input in `vue-stripe-js`
+          card: cardElement.value,
         },
       });
 
@@ -104,7 +133,7 @@ export default {
       }
     };
 
-    return { products, cart, addToCart, checkout, formatCurrency, handlePayment, clientSecret, stripe };
+    return { products, cart, addToCart, checkout, formatCurrency, handlePayment, clientSecret };
   },
 };
 </script>
