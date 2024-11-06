@@ -1,6 +1,5 @@
 <template>
     <v-container>
-        <h1>Checkout</h1>
         <v-row>
             <v-col cols="12" md="8" offset-md="2">
                 <div v-if="cartItems.length > 0">
@@ -8,32 +7,24 @@
                     <v-list>
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
-                                <v-list-item-title>{{ item.name }} - {{ item.size || "Standard" }}</v-list-item-title>
-                                <v-list-item-subtitle>{{ formatCurrency(item.price) }} x {{ item.quantity
-                                    }}</v-list-item-subtitle>
+                                <v-list-item-title>{{ item.name }} {{ "-" + item.size || "" }}</v-list-item-title>
+                                <v-list-item-subtitle>
+                                    {{ formatCurrency(item.price) }}
+                                    <span v-if="item.quantity > 1">
+                                        x {{ item.quantity }}
+                                    </span>
+                                </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
                     <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
                 </div>
-
-                <!-- Form with Address and Payment Elements -->
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
-                    <v-text-field label="Full Name" v-model="customerName" required
-                        :rules="[v => !!v || 'Full name is required']"></v-text-field>
-
-                    <!-- Stripe Address Element -->
                     <div id="address-element" class="address-container"></div>
-
-                    <!-- Stripe Payment Element -->
                     <div id="payment-element" class="payment-container"></div>
-
-                    <!-- Error message alert -->
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
-
-                    <!-- Buttons -->
                     <div class="d-flex justify-space-between mt-4">
                         <v-btn :loading="loading" color="primary" @click="submitPayment">Confirm Payment</v-btn>
                         <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
@@ -91,7 +82,7 @@ export default {
                         fontLineHeight: '1.5',
                         borderRadius: '0',
                         colorBackground: 'transparent',
-                        colorText: '#30313d',
+                        colorText: '#6c6d78',
                         focusBoxShadow: 'none',
                         focusOutline: '-webkit-focus-ring-color auto 1px',
                         tabIconSelectedColor: 'var(--colorText)'
@@ -100,6 +91,7 @@ export default {
                         '.Input, .CheckboxInput, .CodeInput': {
                             transition: 'none',
                             boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
+                            color: 'var(--colorText)'
                         },
                         '.Input': {
                             padding: '12px'
@@ -124,7 +116,7 @@ export default {
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
                 // Mount the Address Element
-                const addressElement = elements.value.create('address', { mode: 'billing' });
+                const addressElement = elements.value.create('address', { mode: 'shipping' });
                 addressElement.mount('#address-element');
 
                 // Mount the Payment Element
