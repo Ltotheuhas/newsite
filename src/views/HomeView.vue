@@ -102,12 +102,12 @@
     </v-row>
 
     <v-row class="content" v-if="windowWidth < 1280">
-        <v-card class="d-lg-none w-100 mt-4">
+        <v-card class="d-lg-none w-100 smallComments">
             <v-card-title>Comments (o≧∇≦)o</v-card-title>
             <CommentComp></CommentComp>
         </v-card>
     </v-row>
-    
+
     <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
 </template>
 
@@ -140,7 +140,7 @@ export default {
             favSong: '',
             hue: 0,
             dejikoTop: 580,
-            dejikoLeft: 180,
+            dejikoLeft: 150,
             movingInterval: null,
         };
     },
@@ -412,6 +412,7 @@ a:hover {
     text-align: center;
     display: flex;
     align-items: center;
+    width: fit-content;
 }
 
 .reimu {
@@ -432,6 +433,10 @@ a:hover {
     margin-top: 20px;
 }
 
+.smallComments {
+    margin-top: -38px;
+}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -445,7 +450,7 @@ a:hover {
     opacity: 0;
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 600px) {
     .cccp {
         width: 60%;
     }
@@ -457,6 +462,10 @@ a:hover {
 
     .image-container {
         height: 375px;
+    }
+
+    .smallComments {
+        margin-top: 16px;
     }
 }
 

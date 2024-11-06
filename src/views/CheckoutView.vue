@@ -39,7 +39,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_YourStripePublicKey');
+const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
 export default {
     name: 'CheckoutView',
