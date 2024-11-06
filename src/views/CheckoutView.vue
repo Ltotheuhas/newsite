@@ -41,7 +41,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
-import { useRouter } from 'vue-router';
 
 const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
@@ -58,7 +57,6 @@ export default {
         const loading = ref(false);
         const clientSecret = ref(null);
         const errorMessage = ref(null);
-        const router = useRouter();
 
         onMounted(async () => {
             try {
