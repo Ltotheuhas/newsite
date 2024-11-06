@@ -71,7 +71,7 @@ export default {
         };
 
         const proceedToCheckout = () => {
-            router.push({ name: 'CheckoutView' });
+            router.push({ name: 'checkout' });
         };
 
         return {

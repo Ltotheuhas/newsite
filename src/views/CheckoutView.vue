@@ -38,6 +38,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
+import { useRouter } from 'vue-router';
 
 const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
@@ -56,6 +57,7 @@ export default {
         const elements = ref(null);
         const cardElement = ref(null);
         const clientSecret = ref(null);
+        const router = useRouter();
 
         onMounted(async () => {
             stripe.value = await stripePromise;
@@ -105,8 +107,8 @@ export default {
                 alert("Payment failed: " + error.message);
             } else if (paymentIntent && paymentIntent.status === 'succeeded') {
                 console.log("Payment successful");
-                alert("Payment successful!");
                 cartStore.clearCart();
+                router.push('/store/confirmation');
             }
         };
 

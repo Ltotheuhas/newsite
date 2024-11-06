@@ -70,7 +70,7 @@ export default {
     };
 
     const goToCart = () => {
-      router.push({ name: 'ShoppingCart' });
+      router.push({ name: 'shoppingcart' });
     };
 
     return { products, cartItems, addToCart, formatCurrency, goToCart, selectedSizes, isInStock };

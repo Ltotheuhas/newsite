@@ -59,14 +59,19 @@ const routes = [
   },
   {
     path: '/store/cart',
-    name: 'ShoppingCart',
+    name: 'shoppingcart',
     component: () => import('../views/ShoppingCart.vue')
   },
   {
     path: '/store/checkout',
-    name: 'CheckoutView',
+    name: 'checkout',
     component: () => import('../views/CheckoutView.vue')
   },
+  {
+    path: '/store/confirmation',
+    name: 'confirmation',
+    component: () => import('../views/ConfirmationView.vue'),
+  }
 ];
 
 const router = createRouter({
