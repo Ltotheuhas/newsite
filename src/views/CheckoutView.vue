@@ -16,12 +16,14 @@
                     </v-list>
                     <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
                 </div>
+
+                <!-- Form with Address and Payment Elements -->
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
                     <v-text-field label="Full Name" v-model="customerName" required
                         :rules="[v => !!v || 'Full name is required']"></v-text-field>
-                    <v-text-field label="Address" v-model="address" required></v-text-field>
-                    <v-text-field label="City" v-model="city" required></v-text-field>
-                    <v-text-field label="Postal Code" v-model="postalCode" required></v-text-field>
+
+                    <!-- Stripe Address Element -->
+                    <div id="address-element" class="address-container"></div>
 
                     <!-- Stripe Payment Element -->
                     <div id="payment-element" class="payment-container"></div>
@@ -58,9 +60,6 @@ export default {
         const cartTotal = computed(() => cartStore.cartTotal);
 
         const customerName = ref('');
-        const address = ref('');
-        const city = ref('');
-        const postalCode = ref('');
         const stripe = ref(null);
         const elements = ref(null);
         const loading = ref(false);
@@ -91,7 +90,8 @@ export default {
                         fontFamily: 'Verdana',
                         fontLineHeight: '1.5',
                         borderRadius: '0',
-                        colorBackground: 'transparent', // Set to transparent
+                        colorBackground: 'transparent',
+                        colorText: '#30313d',
                         focusBoxShadow: 'none',
                         focusOutline: '-webkit-focus-ring-color auto 1px',
                         tabIconSelectedColor: 'var(--colorText)'
@@ -100,7 +100,6 @@ export default {
                         '.Input, .CheckboxInput, .CodeInput': {
                             transition: 'none',
                             boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
-                            backgroundColor: 'transparent' // Ensure input fields are transparent
                         },
                         '.Input': {
                             padding: '12px'
@@ -112,26 +111,23 @@ export default {
                             backgroundColor: '#dfdfdf',
                             boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf'
                         },
-                        '.Tab': {
-                            transition: 'none'
-                        },
                         '.Tab:hover': {
                             backgroundColor: '#eee'
                         },
-                        '.Tab--selected, .Tab--selected:focus, .Tab--selected:hover': {
+                        '.Tab--selected': {
                             color: 'var(--colorText)',
                             backgroundColor: '#ccc'
-                        },
-                        '.PickerItem': {
-                            backgroundColor: '#dfdfdf',
-                            boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf',
-                            transition: 'none'
                         }
                     }
                 };
 
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
+                // Mount the Address Element
+                const addressElement = elements.value.create('address', { mode: 'billing' });
+                addressElement.mount('#address-element');
+
+                // Mount the Payment Element
                 const paymentElement = elements.value.create('payment');
                 paymentElement.mount('#payment-element');
             } catch (error) {
@@ -154,11 +150,6 @@ export default {
                     payment_method_data: {
                         billing_details: {
                             name: customerName.value,
-                            address: {
-                                line1: address.value,
-                                city: city.value,
-                                postal_code: postalCode.value,
-                            }
                         }
                     }
                 }
@@ -177,9 +168,6 @@ export default {
             cartItems,
             cartTotal,
             customerName,
-            address,
-            city,
-            postalCode,
             formatCurrency,
             submitPayment,
             loading,
@@ -190,11 +178,13 @@ export default {
 </script>
 
 <style scoped>
-.payment-container {
+.payment-container,
+.address-container {
     margin-top: 16px;
 }
 
-#payment-element *:focus {
+#payment-element *:focus,
+#address-element *:focus {
     outline: none;
 }
 </style>
