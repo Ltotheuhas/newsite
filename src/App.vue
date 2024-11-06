@@ -122,6 +122,6 @@ export default {
 
 .sticky-neko {
   position: fixed;
-  z-index: 42069;
+  z-index: 1100;
 }
 </style>

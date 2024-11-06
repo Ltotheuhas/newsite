@@ -14,7 +14,7 @@
     "@mdi/font": "5.9.55",
     "@portabletext/vue": "^1.0.6",
     "@sanity/client": "^6.12.3",
-    "@sanity/image-url": "^1.0.2",
+    "@sanity/image-url": "^1.1.0",
     "@yeger/vue-masonry-wall": "^5.0.3",
     "core-js": "^3.8.3",
     "gifuct-js": "^2.1.2",

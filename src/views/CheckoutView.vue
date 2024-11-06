@@ -134,6 +134,22 @@ export default {
             }).format(value);
         };
 
+        const updateProductQuantities = async (items) => {
+            for (const item of items) {
+                const payload = {
+                    productId: item.id,
+                    quantityToDeduct: item.quantity,
+                    size: item.size ? { _key: item.sizeKey, size: item.size, stock: item.stock } : null // Only include size if applicable
+                };
+
+                await fetch(`${window.location.origin}/update-quantity`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            }
+        };
+
         const submitPayment = async () => {
             loading.value = true;
 
@@ -159,6 +175,7 @@ export default {
                 errorMessage.value = error.message;
                 localStorage.removeItem('orderDetails');
             } else {
+                await updateProductQuantities(cartItems.value);
                 cartStore.clearCart();
             }
 

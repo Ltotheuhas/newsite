@@ -5,46 +5,60 @@ export const useCartStore = defineStore('cart', {
         items: []
     }),
     actions: {
-        addToCart(product, selectedSize = null) {
+        addToCart(product, selectedSize = null, quantity = 1) {
             // Check if the product has sizes with stock
             if (product.sizesWithStock?.length > 0) {
                 const sizeStock = product.sizesWithStock.find(size => size.size === selectedSize);
-                if (sizeStock && sizeStock.stock > 0) {
+                
+                if (sizeStock && sizeStock.stock >= quantity) {
                     const existingItem = this.items.find(item => item.id === product._id && item.size === selectedSize);
                     if (existingItem) {
-                        existingItem.quantity += 1;
+                        // Ensure the quantity does not exceed available stock
+                        const totalQuantity = existingItem.quantity + quantity;
+                        if (totalQuantity <= sizeStock.stock) {
+                            existingItem.quantity = totalQuantity;
+                        } else {
+                            alert(`Only ${sizeStock.stock} items available in size ${selectedSize}.`);
+                            existingItem.quantity = sizeStock.stock;
+                        }
                     } else {
                         this.items.push({
                             id: product._id,
                             name: product.name,
                             price: product.price,
-                            quantity: 1,
+                            quantity: quantity,
                             size: selectedSize,
                             image: product.images[0],
                         });
                     }
-                    sizeStock.stock -= 1; // Reduce stock for the selected size
+                    sizeStock.stock -= quantity; // Reduce stock for the selected size
                 } else {
-                    alert('Selected size is out of stock.');
+                    alert('Selected size is out of stock or insufficient stock.');
                 }
             } else {
                 // Product does not have sizes, so use general quantity
-                if (product.quantity > 0) {
+                if (product.quantity >= quantity) {
                     const existingItem = this.items.find(item => item.id === product._id && !item.size);
                     if (existingItem) {
-                        existingItem.quantity += 1;
+                        const totalQuantity = existingItem.quantity + quantity;
+                        if (totalQuantity <= product.quantity) {
+                            existingItem.quantity = totalQuantity;
+                        } else {
+                            alert(`Only ${product.quantity} items available.`);
+                            existingItem.quantity = product.quantity;
+                        }
                     } else {
                         this.items.push({
                             id: product._id,
                             name: product.name,
                             price: product.price,
-                            quantity: 1,
+                            quantity: quantity,
                             image: product.images[0],
                         });
                     }
-                    product.quantity -= 1; // Reduce general quantity
+                    product.quantity -= quantity; // Reduce general quantity
                 } else {
-                    alert('Product is out of stock.');
+                    alert('Product is out of stock or insufficient stock.');
                 }
             }
         },

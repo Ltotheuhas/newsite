@@ -206,22 +206,18 @@ export default {
 <style scoped>
 .neko-container {
     pointer-events: none;
-    /* Ignore pointer events on the container */
 }
 
 .neko-layer {
     position: fixed;
-    /* Fixes the position within the viewport */
     top: 0;
     left: 0;
     width: 32px;
     height: 32px;
-    z-index: 1000;
 }
 
 .neko-image {
     cursor: pointer;
     pointer-events: auto;
-    /* Allow pointer events only on the image */
 }
 </style>
