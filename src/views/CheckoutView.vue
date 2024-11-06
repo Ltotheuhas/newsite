@@ -3,7 +3,6 @@
         <h1>Checkout</h1>
         <v-row>
             <v-col cols="12" md="8" offset-md="2">
-                <!-- Cart Summary -->
                 <div v-if="cartItems.length > 0">
                     <h2>Order Summary</h2>
                     <v-list>
@@ -17,7 +16,6 @@
                     </v-list>
                     <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
                 </div>
-                <!-- Checkout Form -->
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
                     <v-text-field label="Full Name" v-model="customerName" required
                         :rules="[v => !!v || 'Full name is required']"></v-text-field>
@@ -28,12 +26,14 @@
                     <!-- Stripe Payment Element -->
                     <div id="payment-element" class="payment-container"></div>
 
+                    <!-- Error message alert -->
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
 
+                    <!-- Buttons -->
                     <div class="d-flex justify-space-between mt-4">
-                        <v-btn color="primary" @click="submitPayment">Confirm Payment</v-btn>
+                        <v-btn :loading="loading" color="primary" @click="submitPayment">Confirm Payment</v-btn>
                         <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
                     </div>
                 </v-form>
@@ -69,11 +69,8 @@ export default {
         const router = useRouter();
 
         onMounted(async () => {
-            console.log("onMounted hook triggered");  // Initial log
-
             try {
                 stripe.value = await stripePromise;
-                console.log("Stripe initialized");
 
                 const response = await fetch(`${window.location.origin}/create-payment-intent`, {
                     method: 'POST',
@@ -81,40 +78,64 @@ export default {
                     body: JSON.stringify({ items: cartItems.value }),
                 });
 
-                console.log("Fetch response received:", response);
-
                 if (!response.ok) {
-                    console.error("Failed to fetch payment intent:", response.statusText);
-                    throw new Error("Network response was not ok");
+                    throw new Error("Failed to fetch payment intent.");
                 }
 
                 const data = await response.json();
-                console.log("Payment intent data:", data);
-
                 clientSecret.value = data.clientSecret;
 
-                const options = {
-                    clientSecret: clientSecret.value,
-                    appearance: {
-                        theme: 'stripe',
-                        variables: {
-                            colorPrimary: '#1976d2',
-                            colorText: '#ffffff',
-                            fontFamily: 'Roboto, sans-serif',
-                            spacingUnit: '4px',
-                            borderRadius: '4px',
+                const appearance = {
+                    theme: 'flat',
+                    variables: {
+                        fontFamily: 'Verdana',
+                        fontLineHeight: '1.5',
+                        borderRadius: '0',
+                        colorBackground: 'transparent', // Set to transparent
+                        focusBoxShadow: 'none',
+                        focusOutline: '-webkit-focus-ring-color auto 1px',
+                        tabIconSelectedColor: 'var(--colorText)'
+                    },
+                    rules: {
+                        '.Input, .CheckboxInput, .CodeInput': {
+                            transition: 'none',
+                            boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
+                            backgroundColor: 'transparent' // Ensure input fields are transparent
                         },
+                        '.Input': {
+                            padding: '12px'
+                        },
+                        '.Input--invalid': {
+                            color: '#DF1B41'
+                        },
+                        '.Tab, .Block, .PickerItem--selected': {
+                            backgroundColor: '#dfdfdf',
+                            boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf'
+                        },
+                        '.Tab': {
+                            transition: 'none'
+                        },
+                        '.Tab:hover': {
+                            backgroundColor: '#eee'
+                        },
+                        '.Tab--selected, .Tab--selected:focus, .Tab--selected:hover': {
+                            color: 'var(--colorText)',
+                            backgroundColor: '#ccc'
+                        },
+                        '.PickerItem': {
+                            backgroundColor: '#dfdfdf',
+                            boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf',
+                            transition: 'none'
+                        }
                     }
                 };
 
-                elements.value = stripe.value.elements(options);
+                elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
                 const paymentElement = elements.value.create('payment');
                 paymentElement.mount('#payment-element');
-
-                console.log("Payment Element mounted successfully");
             } catch (error) {
-                console.error("Error in onMounted:", error);
+                errorMessage.value = error.message;
             }
         });
 
@@ -126,17 +147,10 @@ export default {
         };
 
         const submitPayment = async () => {
-            if (!stripe.value || !elements.value) {
-                console.error("Stripe has not been properly initialized.");
-                return;
-            }
-
             loading.value = true;
-
-            const { error, paymentIntent } = await stripe.value.confirmPayment({
+            const { error } = await stripe.value.confirmPayment({
                 elements: elements.value,
                 confirmParams: {
-                    return_url: null,
                     payment_method_data: {
                         billing_details: {
                             name: customerName.value,
@@ -152,11 +166,10 @@ export default {
 
             if (error) {
                 errorMessage.value = error.message;
-            } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            } else {
                 cartStore.clearCart();
                 router.push('/store/confirmation');
             }
-
             loading.value = false;
         };
 
@@ -169,21 +182,19 @@ export default {
             postalCode,
             formatCurrency,
             submitPayment,
-            loading
+            loading,
+            errorMessage
         };
     }
 };
 </script>
 
 <style scoped>
-#payment-element *:focus {
-    outline: none;
+.payment-container {
+    margin-top: 16px;
 }
 
-.payment-container {
-    padding: 16px;
-    background-color: #1f1f1f;
-    border-radius: 8px;
-    margin-top: 16px;
+#payment-element *:focus {
+    outline: none;
 }
 </style>
