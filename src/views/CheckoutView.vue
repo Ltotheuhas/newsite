@@ -19,15 +19,21 @@
                 </div>
                 <!-- Checkout Form -->
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
-                    <v-text-field label="Full Name" v-model="customerName" required></v-text-field>
+                    <v-text-field label="Full Name" v-model="customerName" required
+                        :rules="[v => !!v || 'Full name is required']"></v-text-field>
                     <v-text-field label="Address" v-model="address" required></v-text-field>
                     <v-text-field label="City" v-model="city" required></v-text-field>
                     <v-text-field label="Postal Code" v-model="postalCode" required></v-text-field>
 
-                    <!-- Stripe Card Element -->
-                    <div id="card-element"><!-- Stripe Element mounts here --></div>
+                    <!-- Stripe Payment Element -->
+                    <div id="payment-element"><!-- Stripe Payment Element mounts here --></div>
 
-                    <v-btn color="primary" @click="submitPayment">Confirm Payment</v-btn>
+                    <v-alert v-if="errorMessage" type="error" dismissible>
+                        {{ errorMessage }}
+                    </v-alert>
+
+                    <v-btn :loading="loading" color="primary" @click="submitPayment">Confirm Payment</v-btn>
+                    <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
                 </v-form>
             </v-col>
         </v-row>
@@ -55,24 +61,60 @@ export default {
         const postalCode = ref('');
         const stripe = ref(null);
         const elements = ref(null);
-        const cardElement = ref(null);
+        const loading = ref(false);
         const clientSecret = ref(null);
+        const errorMessage = ref(null);
         const router = useRouter();
 
         onMounted(async () => {
-            stripe.value = await stripePromise;
-            elements.value = stripe.value.elements();
-            cardElement.value = elements.value.create('card');
-            cardElement.value.mount('#card-element');
+            console.log("onMounted hook triggered");  // Initial log
 
-            // Fetch client secret for Payment Intent from backend
-            const response = await fetch('/create-payment-intent', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: cartItems.value }),
-            });
-            const data = await response.json();
-            clientSecret.value = data.clientSecret;
+            try {
+                stripe.value = await stripePromise;
+                console.log("Stripe initialized");
+
+                const response = await fetch('http://localhost:3001/create-payment-intent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cartItems.value }),
+                });
+
+                console.log("Fetch response received:", response);
+
+                if (!response.ok) {
+                    console.error("Failed to fetch payment intent:", response.statusText);
+                    throw new Error("Network response was not ok");
+                }
+
+                const data = await response.json();
+                console.log("Payment intent data:", data);
+
+                clientSecret.value = data.clientSecret;
+
+                const options = {
+                    clientSecret: clientSecret.value,
+                    appearance: {
+                        theme: 'flat',
+                        variables: {
+                            colorPrimary: '#1976d2',
+                            colorText: '#ffffff',
+                            fontFamily: 'Roboto, sans-serif',
+                            fontSizeBase: '16px',
+                            spacingUnit: '4px',
+                            borderRadius: '4px',
+                        },
+                    }
+                };
+
+                elements.value = stripe.value.elements(options);
+
+                const paymentElement = elements.value.create('payment');
+                paymentElement.mount('#payment-element');
+
+                console.log("Payment Element mounted successfully");
+            } catch (error) {
+                console.error("Error in onMounted:", error);
+            }
         });
 
         const formatCurrency = (value) => {
@@ -83,33 +125,38 @@ export default {
         };
 
         const submitPayment = async () => {
-            if (!clientSecret.value) {
-                console.error("Client secret is not available");
+            if (!stripe.value || !elements.value) {
+                console.error("Stripe has not been properly initialized.");
                 return;
             }
 
-            const { error, paymentIntent } = await stripe.value.confirmCardPayment(clientSecret.value, {
-                payment_method: {
-                    card: cardElement.value,
-                    billing_details: {
-                        name: customerName.value,
-                        address: {
-                            line1: address.value,
-                            city: city.value,
-                            postal_code: postalCode.value,
+            loading.value = true;
+
+            const { error, paymentIntent } = await stripe.value.confirmPayment({
+                elements: elements.value,
+                confirmParams: {
+                    return_url: null,
+                    payment_method_data: {
+                        billing_details: {
+                            name: customerName.value,
+                            address: {
+                                line1: address.value,
+                                city: city.value,
+                                postal_code: postalCode.value,
+                            }
                         }
                     }
                 }
             });
 
             if (error) {
-                console.error("Payment failed:", error.message);
-                alert("Payment failed: " + error.message);
+                errorMessage.value = error.message;
             } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-                console.log("Payment successful");
                 cartStore.clearCart();
                 router.push('/store/confirmation');
             }
+
+            loading.value = false;
         };
 
         return {
@@ -121,13 +168,15 @@ export default {
             postalCode,
             formatCurrency,
             submitPayment,
+            loading
         };
     }
 };
 </script>
 
 <style scoped>
-#card-element {
+#payment-element {
+    height: 50px;
     padding: 10px;
     border: 1px solid #ccd0d5;
     border-radius: 4px;
