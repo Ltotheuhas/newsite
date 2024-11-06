@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <NavbarComp />
-    <PopupAd />
+    <PopupAd v-if="showPopupAd" />
     <v-main>
       <div :class="{ 'mainStuff': !reveal, 'hidden': reveal }">
         <router-view />
@@ -52,10 +52,13 @@ export default {
       reveal.value = newRoute === 'reveal';
     });
 
+    const showPopupAd = computed(() => !route.path.startsWith('/store'));
+
     return {
       randomNumImages,
       generateRandomNumImages,
       reveal,
+      showPopupAd
     };
   }
 }

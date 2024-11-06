@@ -7,7 +7,9 @@
                     <v-list>
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
-                                <v-list-item-title>{{ item.name }} {{ "-" + item.size || "" }}</v-list-item-title>
+                                <v-list-item-title>
+                                    {{ item.name }} <span v-if="item.size"> - {{ item.size }}</span>
+                                </v-list-item-title>
                                 <v-list-item-subtitle>
                                     {{ formatCurrency(item.price) }}
                                     <span v-if="item.quantity > 1">
@@ -136,9 +138,17 @@ export default {
 
         const submitPayment = async () => {
             loading.value = true;
+
+            const orderDetails = {
+                items: cartItems.value,
+                total: cartTotal.value,
+            };
+            localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+
             const { error } = await stripe.value.confirmPayment({
                 elements: elements.value,
                 confirmParams: {
+                    return_url: `${window.location.origin}/store/confirmation`,
                     payment_method_data: {
                         billing_details: {
                             name: customerName.value,
@@ -149,16 +159,11 @@ export default {
 
             if (error) {
                 errorMessage.value = error.message;
+                localStorage.removeItem('orderDetails');
             } else {
-                const orderDetails = {
-                    items: cartStore.items,
-                    total: cartStore.cartTotal,
-                };
-                cartStore.setOrderDetails(orderDetails);
-
                 cartStore.clearCart();
-                router.push('/store/confirmation');
             }
+
             loading.value = false;
         };
 

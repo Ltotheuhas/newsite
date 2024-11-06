@@ -8,10 +8,10 @@
       <v-list>
         <v-list-item v-for="(item, index) in orderDetails.items" :key="index">
           <v-list-item-content>
-            <v-list-item-title>{{ item.name }} - {{ item.size || "Standard" }}</v-list-item-title>
+            <v-list-item-title>{{ item.name }} <span v-if="item.size">- {{ item.size }}</span></v-list-item-title>
             <v-list-item-subtitle>
               {{ formatCurrency(item.price) }}
-              <span v-if="item.quantity > 1">x {{ item.quantity }}</span>
+              <span v-if="item.quantity > 1"> x {{ item.quantity }}</span>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -24,21 +24,24 @@
 </template>
 
 <script>
-import { useCartStore } from '../stores/cartStore';
-
 export default {
   name: 'ConfirmationView',
   setup() {
-    const cartStore = useCartStore();
-    return {
-      orderDetails: cartStore.orderDetails,
-      formatCurrency(value) {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'EUR'
-        }).format(value);
-      }
+    const orderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(value);
     };
-  },
+
+    localStorage.removeItem('orderDetails');
+
+    return {
+      orderDetails,
+      formatCurrency
+    };
+  }
 };
 </script>
