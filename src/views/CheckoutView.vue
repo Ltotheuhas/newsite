@@ -26,14 +26,16 @@
                     <v-text-field label="Postal Code" v-model="postalCode" required></v-text-field>
 
                     <!-- Stripe Payment Element -->
-                    <div id="payment-element"><!-- Stripe Payment Element mounts here --></div>
+                    <div id="payment-element" class="payment-container"></div>
 
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
 
-                    <v-btn :loading="loading" color="primary" @click="submitPayment">Confirm Payment</v-btn>
-                    <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
+                    <div class="d-flex justify-space-between mt-4">
+                        <v-btn color="primary" @click="submitPayment">Confirm Payment</v-btn>
+                        <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
+                    </div>
                 </v-form>
             </v-col>
         </v-row>
@@ -94,12 +96,11 @@ export default {
                 const options = {
                     clientSecret: clientSecret.value,
                     appearance: {
-                        theme: 'flat',
+                        theme: 'stripe',
                         variables: {
                             colorPrimary: '#1976d2',
                             colorText: '#ffffff',
                             fontFamily: 'Roboto, sans-serif',
-                            fontSizeBase: '16px',
                             spacingUnit: '4px',
                             borderRadius: '4px',
                         },
@@ -175,11 +176,14 @@ export default {
 </script>
 
 <style scoped>
-#payment-element {
-    height: 50px;
-    padding: 10px;
-    border: 1px solid #ccd0d5;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+#payment-element *:focus {
+    outline: none;
+}
+
+.payment-container {
+    padding: 16px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    margin-top: 16px;
 }
 </style>
