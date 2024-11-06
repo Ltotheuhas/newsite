@@ -39,11 +39,13 @@
 
 <script>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 
 export default {
     name: 'ShoppingCart',
     setup() {
+        const router = useRouter();
         const cartStore = useCartStore();
 
         const cartItems = computed(() => cartStore.items);
@@ -57,22 +59,19 @@ export default {
         };
 
         const increaseQuantity = (item) => {
-            console.log("Increasing quantity for item:", item);
             cartStore.updateQuantity(item.id, item.size, 1);
         };
 
         const decreaseQuantity = (item) => {
-            console.log("Decreasing quantity for item:", item);
             cartStore.updateQuantity(item.id, item.size, -1);
         };
 
         const removeItem = (productId, size) => {
-            console.log("Removing item:", productId, "Size:", size);
             cartStore.removeFromCart(productId, size);
         };
 
         const proceedToCheckout = () => {
-            console.log('Proceeding to checkout...');
+            router.push({ name: 'CheckoutView' });
         };
 
         return {
