@@ -41,7 +41,7 @@ import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 import { useRouter } from 'vue-router';
 
-const stripePromise = loadStripe('your-publishable-key-here');
+const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
 
 export default {
     name: 'CheckoutView',
