@@ -7,12 +7,11 @@
                     <v-list>
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
-                                <v-list-item-title>{{ item.name }} {{ "-" + item.size || "" }}</v-list-item-title>
+                                <v-list-item-title>{{ item.name }}{{ item.size ? ' - ' + item.size : ''
+                                    }}</v-list-item-title>
                                 <v-list-item-subtitle>
                                     {{ formatCurrency(item.price) }}
-                                    <span v-if="item.quantity > 1">
-                                        x {{ item.quantity }}
-                                    </span>
+                                    <span v-if="item.quantity > 1"> x {{ item.quantity }}</span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
@@ -20,8 +19,9 @@
                     <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
                 </div>
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
-                    <div id="address-element" class="address-container"></div>
-                    <div id="payment-element" class="payment-container"></div>
+                    <div id="link-authentication-element" class="stripe-element"></div>
+                    <div id="address-element" class="stripe-element"></div>
+                    <div id="payment-element" class="stripe-element"></div>
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
@@ -41,7 +41,7 @@ import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 import { useRouter } from 'vue-router';
 
-const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
+const stripePromise = loadStripe('your-publishable-key-here');
 
 export default {
     name: 'CheckoutView',
@@ -50,7 +50,7 @@ export default {
         const cartItems = computed(() => cartStore.items);
         const cartTotal = computed(() => cartStore.cartTotal);
 
-        const customerName = ref('');
+        const customerEmail = ref('');
         const stripe = ref(null);
         const elements = ref(null);
         const loading = ref(false);
@@ -115,6 +115,12 @@ export default {
 
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
+                // Mount the Link Authentication Element
+                const linkAuthenticationElement = elements.value.create('linkAuthentication', {
+                    defaultValues: { email: customerEmail.value }
+                });
+                linkAuthenticationElement.mount('#link-authentication-element');
+
                 // Mount the Address Element
                 const addressElement = elements.value.create('address', { mode: 'shipping' });
                 addressElement.mount('#address-element');
@@ -141,7 +147,7 @@ export default {
                 confirmParams: {
                     payment_method_data: {
                         billing_details: {
-                            name: customerName.value,
+                            email: customerEmail.value,
                         }
                     }
                 }
@@ -159,7 +165,7 @@ export default {
         return {
             cartItems,
             cartTotal,
-            customerName,
+            customerEmail,
             formatCurrency,
             submitPayment,
             loading,
@@ -170,13 +176,13 @@ export default {
 </script>
 
 <style scoped>
-.payment-container,
-.address-container {
+.stripe-element {
     margin-top: 16px;
 }
 
-#payment-element *:focus,
-#address-element *:focus {
+#link-authentication-element *:focus,
+#address-element *:focus,
+#payment-element *:focus {
     outline: none;
 }
 </style>
