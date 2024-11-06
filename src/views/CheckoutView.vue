@@ -130,7 +130,7 @@ export default {
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD'
+                currency: 'EUR'
             }).format(value);
         };
 
@@ -150,6 +150,12 @@ export default {
             if (error) {
                 errorMessage.value = error.message;
             } else {
+                const orderDetails = {
+                    items: cartStore.items,
+                    total: cartStore.cartTotal,
+                };
+                cartStore.setOrderDetails(orderDetails);
+
                 cartStore.clearCart();
                 router.push('/store/confirmation');
             }

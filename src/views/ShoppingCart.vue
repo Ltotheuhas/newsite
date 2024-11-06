@@ -54,7 +54,7 @@ export default {
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD'
+                currency: 'EUR'
             }).format(value);
         };
 

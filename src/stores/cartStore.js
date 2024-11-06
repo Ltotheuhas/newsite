@@ -6,8 +6,6 @@ export const useCartStore = defineStore('cart', {
     }),
     actions: {
         addToCart(product, selectedSize = null) {
-            console.log("Adding to cart:", product, "Selected size:", selectedSize);
-
             // Check if the product has sizes with stock
             if (product.sizesWithStock?.length > 0) {
                 const sizeStock = product.sizesWithStock.find(size => size.size === selectedSize);
@@ -49,11 +47,8 @@ export const useCartStore = defineStore('cart', {
                     alert('Product is out of stock.');
                 }
             }
-            console.log("Cart items after add:", this.items);
         },
         updateQuantity(productId, selectedSize = null, amount = 1) {
-            console.log("Updating quantity:", productId, "Size:", selectedSize ?? "none", "Amount:", amount);
-
             const item = this.items.find(item => item.id === productId && (item.size ?? null) === (selectedSize ?? null));
             if (item) {
                 item.quantity += amount;
@@ -63,20 +58,19 @@ export const useCartStore = defineStore('cart', {
                     this.removeFromCart(productId, selectedSize);
                 }
             }
-            console.log("Cart items after quantity update:", this.items);
         },
         removeFromCart(productId, selectedSize = null) {
-            console.log("Removing from cart:", productId, "Size:", selectedSize ?? "none");
-
             const itemIndex = this.items.findIndex(item => item.id === productId && (item.size ?? null) === (selectedSize ?? null));
             if (itemIndex !== -1) {
-                this.items.splice(itemIndex, 1); // Reactive removal of the item
+                this.items.splice(itemIndex, 1);
             }
-            console.log("Cart items after removal:", this.items);
         },
         clearCart() {
             this.items = [];
-            console.log("Cart cleared. Current items:", this.items);
+            this.orderDetails = null;
+        },
+        setOrderDetails(details) {
+            this.orderDetails = details;
         },
     },
     getters: {
