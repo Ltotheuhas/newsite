@@ -7,11 +7,12 @@
                     <v-list>
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
-                                <v-list-item-title>{{ item.name }}{{ item.size ? ' - ' + item.size : ''
-                                    }}</v-list-item-title>
+                                <v-list-item-title>{{ item.name }} {{ "-" + item.size || "" }}</v-list-item-title>
                                 <v-list-item-subtitle>
                                     {{ formatCurrency(item.price) }}
-                                    <span v-if="item.quantity > 1"> x {{ item.quantity }}</span>
+                                    <span v-if="item.quantity > 1">
+                                        x {{ item.quantity }}
+                                    </span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
@@ -19,9 +20,8 @@
                     <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
                 </div>
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
-                    <div id="link-authentication-element" class="stripe-element"></div>
-                    <div id="address-element" class="stripe-element"></div>
-                    <div id="payment-element" class="stripe-element"></div>
+                    <div id="address-element" class="address-container"></div>
+                    <div id="payment-element" class="payment-container"></div>
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
@@ -50,7 +50,7 @@ export default {
         const cartItems = computed(() => cartStore.items);
         const cartTotal = computed(() => cartStore.cartTotal);
 
-        const customerEmail = ref('');
+        const customerName = ref('');
         const stripe = ref(null);
         const elements = ref(null);
         const loading = ref(false);
@@ -115,12 +115,6 @@ export default {
 
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
-                // Mount the Link Authentication Element
-                const linkAuthenticationElement = elements.value.create('linkAuthentication', {
-                    defaultValues: { email: customerEmail.value }
-                });
-                linkAuthenticationElement.mount('#link-authentication-element');
-
                 // Mount the Address Element
                 const addressElement = elements.value.create('address', { mode: 'shipping' });
                 addressElement.mount('#address-element');
@@ -147,7 +141,7 @@ export default {
                 confirmParams: {
                     payment_method_data: {
                         billing_details: {
-                            email: customerEmail.value,
+                            name: customerName.value,
                         }
                     }
                 }
@@ -165,7 +159,7 @@ export default {
         return {
             cartItems,
             cartTotal,
-            customerEmail,
+            customerName,
             formatCurrency,
             submitPayment,
             loading,
@@ -176,13 +170,13 @@ export default {
 </script>
 
 <style scoped>
-.stripe-element {
+.payment-container,
+.address-container {
     margin-top: 16px;
 }
 
-#link-authentication-element *:focus,
-#address-element *:focus,
-#payment-element *:focus {
+#payment-element *:focus,
+#address-element *:focus {
     outline: none;
 }
 </style>
