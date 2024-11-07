@@ -115,11 +115,9 @@ export default {
 
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
 
-                // Mount the Address Element
                 const addressElement = elements.value.create('address', { mode: 'shipping' });
                 addressElement.mount('#address-element');
 
-                // Mount the Payment Element
                 const paymentElement = elements.value.create('payment');
                 paymentElement.mount('#payment-element');
             } catch (error) {
@@ -132,30 +130,6 @@ export default {
                 style: 'currency',
                 currency: 'EUR'
             }).format(value);
-        };
-
-        const updateProductQuantities = async (items) => {
-            for (const item of items) {
-                const payload = {
-                    productId: item.id,
-                    quantityToDeduct: item.quantity,
-                    size: item.size ? { _key: item.sizeKey, size: item.size, stock: item.stock } : null
-                };
-
-                try {
-                    const response = await fetch(`${window.location.origin}/update-quantity`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        console.error(`Failed to update quantity for product ${item.id}`, await response.text());
-                    }
-                } catch (error) {
-                    console.error(`Error updating quantity for product ${item.id}:`, error);
-                }
-            }
         };
 
         const submitPayment = async () => {
@@ -183,8 +157,7 @@ export default {
                 errorMessage.value = error.message;
                 localStorage.removeItem('orderDetails');
             } else {
-                await updateProductQuantities(cartItems.value);
-                cartStore.clearCart();
+                cartStore.clearCart(); // Clear cart since webhook handles inventory updates
             }
 
             loading.value = false;
