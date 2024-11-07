@@ -58,34 +58,38 @@ export default {
         const clientSecret = ref(null);
         const errorMessage = ref(null);
 
-        onMounted(async () => {
-            try {
-                stripe.value = await stripePromise;
-
-                // Format cart items to ensure size and sizeKey are included when applicable
-                const itemsPayload = cartItems.value.map(item => {
-                    const sizeEntry = item.sizesWithStock
-                        ? item.sizesWithStock.find(sizeStock => sizeStock.size === item.size)
-                        : null;
-
-                    console.log('Formatted Item:', {
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                        ...(sizeEntry ? { size: sizeEntry.size, sizeKey: sizeEntry._key } : {})
-                    });
-
+        const formatCartItems = (items) => {
+            return items.map(item => {
+                if (item.sizesWithStock && item.size) {
+                    // Find the correct size object based on the selected size
+                    const selectedSize = item.sizesWithStock.find(sizeStock => sizeStock.size === item.size);
                     return {
                         id: item.id,
                         name: item.name,
                         price: item.price,
                         quantity: item.quantity,
-                        ...(sizeEntry ? { size: sizeEntry.size, sizeKey: sizeEntry._key } : {})
+                        size: item.size,
+                        sizeKey: selectedSize ? selectedSize._key : null, // Ensure sizeKey is attached
                     };
-                });
+                } else {
+                    // Return the item as-is if no specific size is selected
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                    };
+                }
+            });
+        };
 
-                // Create payment intent
+        onMounted(async () => {
+            try {
+                stripe.value = await stripePromise;
+
+                // Use formatted cart items for the payment intent payload
+                const itemsPayload = formatCartItems(cartItems.value);
+
                 const response = await fetch(`${window.location.origin}/create-payment-intent`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
