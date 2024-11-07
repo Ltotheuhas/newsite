@@ -62,11 +62,19 @@ export default {
             try {
                 stripe.value = await stripePromise;
 
-                // Send items to create-payment-intent and fetch clientSecret
+                // Format cart items to ensure size and sizeKey are included when applicable
                 const itemsPayload = cartItems.value.map(item => {
                     const sizeEntry = item.sizesWithStock
                         ? item.sizesWithStock.find(sizeStock => sizeStock.size === item.size)
                         : null;
+
+                    console.log('Formatted Item:', {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        ...(sizeEntry ? { size: sizeEntry.size, sizeKey: sizeEntry._key } : {})
+                    });
 
                     return {
                         id: item.id,
@@ -77,6 +85,7 @@ export default {
                     };
                 });
 
+                // Create payment intent
                 const response = await fetch(`${window.location.origin}/create-payment-intent`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
