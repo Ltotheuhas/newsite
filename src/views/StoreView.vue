@@ -92,11 +92,21 @@ export default {
     };
 
     const maxQuantity = computed(() => {
-      if (selectedProduct.value?.sizesWithStock?.length > 0 && selectedSize.value) {
+      if (!selectedProduct.value) return 1;
+
+      if (selectedProduct.value.sizesWithStock?.length > 0 && selectedSize.value) {
         const sizeStock = selectedProduct.value.sizesWithStock.find(size => size.size === selectedSize.value);
-        return sizeStock ? sizeStock.stock : 1;
+        if (sizeStock) {
+          const cartItem = cartStore.items.find(item => item.id === selectedProduct.value._id && item.size === selectedSize.value);
+          const availableStock = cartItem ? sizeStock.stock - cartItem.quantity : sizeStock.stock;
+          return availableStock > 0 ? availableStock : 1;
+        }
+      } else if (selectedProduct.value.quantity) {
+        const cartItem = cartStore.items.find(item => item.id === selectedProduct.value._id);
+        const availableStock = cartItem ? selectedProduct.value.quantity - cartItem.quantity : selectedProduct.value.quantity;
+        return availableStock > 0 ? availableStock : 1;
       }
-      return selectedProduct.value ? selectedProduct.value.quantity : 1;
+      return 1;
     });
 
     const increaseQuantity = () => {

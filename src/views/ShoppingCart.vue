@@ -6,7 +6,7 @@
                 <v-card class="mb-4">
                     <v-row no-gutters>
                         <v-col cols="4">
-                            <v-img :src="item.image" height="100" cover></v-img>
+                            <v-img :src="getImageUrl(item.image)" height="100" cover></v-img>
                         </v-col>
                         <v-col cols="8" class="d-flex flex-column">
                             <v-card-title>{{ item.name }}</v-card-title>
@@ -41,6 +41,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
+import { urlFor } from '../sanity.js';
 
 export default {
     name: 'ShoppingCart',
@@ -56,6 +57,10 @@ export default {
                 style: 'currency',
                 currency: 'EUR'
             }).format(value);
+        };
+
+        const getImageUrl = (imageRef) => {
+            return imageRef ? urlFor(imageRef).width(100).url() : '';
         };
 
         const increaseQuantity = (item) => {
@@ -82,6 +87,7 @@ export default {
             decreaseQuantity,
             removeItem,
             proceedToCheckout,
+            getImageUrl,
         };
     },
 };

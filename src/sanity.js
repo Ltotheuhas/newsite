@@ -51,3 +51,17 @@ export async function getProducts() {
   }`);
   return products;
 }
+
+export async function getProductById(id) {
+  const product = await client.fetch(`*[_id == $id][0]{
+    _id,
+    name,
+    price,
+    description,
+    "slug": slug.current,
+    images,
+    sizesWithStock,
+    quantity
+  }`, { id });
+  return product;
+}

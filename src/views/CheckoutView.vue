@@ -139,14 +139,22 @@ export default {
                 const payload = {
                     productId: item.id,
                     quantityToDeduct: item.quantity,
-                    size: item.size ? { _key: item.sizeKey, size: item.size, stock: item.stock } : null // Only include size if applicable
+                    size: item.size ? { _key: item.sizeKey, size: item.size, stock: item.stock } : null
                 };
 
-                await fetch(`${window.location.origin}/update-quantity`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                try {
+                    const response = await fetch(`${window.location.origin}/update-quantity`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        console.error(`Failed to update quantity for product ${item.id}`, await response.text());
+                    }
+                } catch (error) {
+                    console.error(`Error updating quantity for product ${item.id}:`, error);
+                }
             }
         };
 
