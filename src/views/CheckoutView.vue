@@ -132,11 +132,52 @@ export default {
             }).format(value);
         };
 
+        const formatCartItems = (items) => {
+            return items.map(item => {
+                if (item.size) {
+                    const selectedSize = item.sizesWithStock.find(size => size.size === item.size);
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        size: item.size,
+                        sizeKey: selectedSize ? selectedSize._key : null, // Ensure sizeKey is included
+                    };
+                } else {
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                    };
+                }
+            });
+        };
+
         const submitPayment = async () => {
             loading.value = true;
 
+            // Format cart items to include sizeKey for the backend
+            const formattedItems = formatCartItems(cartItems.value);
+
+            const response = await fetch(`${window.location.origin}/create-payment-intent`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: formattedItems }),
+            });
+
+            if (!response.ok) {
+                errorMessage.value = "Failed to fetch payment intent.";
+                loading.value = false;
+                return;
+            }
+
+            const data = await response.json();
+            clientSecret.value = data.clientSecret;
+
             const orderDetails = {
-                items: cartItems.value,
+                items: formattedItems,
                 total: cartTotal.value,
             };
             localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
@@ -157,7 +198,7 @@ export default {
                 errorMessage.value = error.message;
                 localStorage.removeItem('orderDetails');
             } else {
-                cartStore.clearCart(); // Clear cart since webhook handles inventory updates
+                cartStore.clearCart();
             }
 
             loading.value = false;
