@@ -58,21 +58,21 @@ export default {
         const clientSecret = ref(null);
         const errorMessage = ref(null);
 
-        const formatCartItems = (items) => {
-            return items.map(item => {
-                if (item.sizesWithStock && item.size) {
-                    // Find the correct size object based on the selected size
-                    const selectedSize = item.sizesWithStock.find(sizeStock => sizeStock.size === item.size);
+        const formatCartItems = () => {
+            return cartItems.value.map(item => {
+                if (item.size) {
+                    const sizeEntry = item.sizesWithStock
+                        ? item.sizesWithStock.find(sizeStock => sizeStock.size === item.size)
+                        : null;
                     return {
                         id: item.id,
                         name: item.name,
                         price: item.price,
                         quantity: item.quantity,
                         size: item.size,
-                        sizeKey: selectedSize ? selectedSize._key : null, // Ensure sizeKey is attached
+                        sizeKey: sizeEntry ? sizeEntry._key : null
                     };
                 } else {
-                    // Return the item as-is if no specific size is selected
                     return {
                         id: item.id,
                         name: item.name,
@@ -83,12 +83,13 @@ export default {
             });
         };
 
+        console.log(JSON.stringify(formatCartItems(), null, 2));
+
         onMounted(async () => {
             try {
                 stripe.value = await stripePromise;
 
-                // Use formatted cart items for the payment intent payload
-                const itemsPayload = formatCartItems(cartItems.value);
+                const itemsPayload = formatCartItems();
 
                 const response = await fetch(`${window.location.origin}/create-payment-intent`, {
                     method: 'POST',
@@ -178,7 +179,7 @@ export default {
             if (error) {
                 errorMessage.value = error.message;
             } else {
-                cartStore.clearCart(); // Clear cart since webhook handles inventory updates
+                cartStore.clearCart();
             }
 
             loading.value = false;
