@@ -7,14 +7,12 @@ export const useCartStore = defineStore('cart', {
     }),
     actions: {
         addToCart(product, selectedSize = null, quantity = 1, sizeKey = null) {
-            // Check if the product has sizes with stock
             if (product.sizesWithStock?.length > 0) {
                 const sizeStock = product.sizesWithStock.find(size => size.size === selectedSize);
 
                 if (sizeStock && sizeStock.stock >= quantity) {
                     const existingItem = this.items.find(item => item.id === product._id && item.size === selectedSize);
                     if (existingItem) {
-                        // Ensure the quantity does not exceed available stock
                         const totalQuantity = existingItem.quantity + quantity;
                         if (totalQuantity <= sizeStock.stock) {
                             existingItem.quantity = totalQuantity;
@@ -29,11 +27,22 @@ export const useCartStore = defineStore('cart', {
                             price: product.price,
                             quantity: quantity,
                             size: selectedSize,
-                            sizeKey: sizeKey,
+                            sizeKey: sizeKey, // Include sizeKey in the cart item
                             image: product.images[0],
                         });
+
+                        // Log the item added to the cart
+                        console.log("Item added to cart:", {
+                            id: product._id,
+                            name: product.name,
+                            size: selectedSize,
+                            sizeKey: sizeKey,
+                            quantity
+                        });
                     }
-                    sizeStock.stock -= quantity; // Reduce stock for the selected size
+                    sizeStock.stock -= quantity;
+                } else {
+                    alert('Selected size is out of stock or insufficient stock.');
                 }
             } else {
                 // Product does not have sizes, so use general quantity

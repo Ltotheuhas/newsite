@@ -94,6 +94,15 @@ export default {
         sizeKey = sizeEntry ? sizeEntry._key : null;
       }
 
+      // Log the product information and sizeKey before adding to the cart
+      console.log("Adding to cart:", {
+        id: product._id,
+        name: product.name,
+        size,
+        sizeKey,
+        quantity
+      });
+
       cartStore.addToCart(product, size, quantity, sizeKey); // Pass sizeKey to the cart store
       closeProductModal();
     };

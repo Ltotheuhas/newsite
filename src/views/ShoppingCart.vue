@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 import { urlFor } from '../sanity.js';
@@ -51,6 +51,11 @@ export default {
 
         const cartItems = computed(() => cartStore.items);
         const cartTotal = computed(() => cartStore.cartTotal);
+
+        // Watch cartItems to log changes
+        watch(cartItems, (newCartItems) => {
+            console.log("Current cart items:", JSON.stringify(newCartItems, null, 2));
+        });
 
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {
