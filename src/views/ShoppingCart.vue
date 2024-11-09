@@ -55,7 +55,11 @@ export default {
         // Watch cartItems to log changes
         watch(cartItems, (newCartItems) => {
             console.log("Current cart items:", JSON.stringify(newCartItems, null, 2));
-        });
+        }, { deep: true });
+
+        watch(() => cartStore.items, (newItems) => {
+            console.log("Current cart store items:", JSON.stringify(newItems, null, 2));
+        }, { deep: true });
 
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {

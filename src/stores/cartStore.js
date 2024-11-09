@@ -70,6 +70,7 @@ export const useCartStore = defineStore('cart', {
                     alert('Product is out of stock or insufficient stock.');
                 }
             }
+            console.log("Items in cart after adding:", JSON.stringify(this.items, null, 2));
         },
         async updateQuantity(productId, selectedSize = null, amount = 1) {
             // Fetch product data from Sanity

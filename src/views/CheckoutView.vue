@@ -60,17 +60,15 @@ export default {
 
         const formatCartItems = () => {
             return cartItems.value.map(item => {
+                console.log("Processing item in formatCartItems:", item); // Log each item as it's processed
                 if (item.size) {
-                    const sizeEntry = item.sizesWithStock
-                        ? item.sizesWithStock.find(sizeStock => sizeStock.size === item.size)
-                        : null;
                     return {
                         id: item.id,
                         name: item.name,
                         price: item.price,
                         quantity: item.quantity,
                         size: item.size,
-                        sizeKey: sizeEntry ? sizeEntry._key : null
+                        sizeKey: item.sizeKey // Ensure sizeKey is accessed directly from item
                     };
                 } else {
                     return {
