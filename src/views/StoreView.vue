@@ -87,7 +87,14 @@ export default {
     };
 
     const addToCart = (product, quantity, size) => {
-      cartStore.addToCart(product, size, quantity);
+      let sizeKey = null;
+
+      if (product.sizesWithStock?.length > 0 && size) {
+        const sizeEntry = product.sizesWithStock.find(sizeStock => sizeStock.size === size);
+        sizeKey = sizeEntry ? sizeEntry._key : null;
+      }
+
+      cartStore.addToCart(product, size, quantity, sizeKey); // Pass sizeKey to the cart store
       closeProductModal();
     };
 

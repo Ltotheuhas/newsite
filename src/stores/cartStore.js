@@ -6,7 +6,7 @@ export const useCartStore = defineStore('cart', {
         items: []
     }),
     actions: {
-        addToCart(product, selectedSize = null, quantity = 1) {
+        addToCart(product, selectedSize = null, quantity = 1, sizeKey = null) {
             // Check if the product has sizes with stock
             if (product.sizesWithStock?.length > 0) {
                 const sizeStock = product.sizesWithStock.find(size => size.size === selectedSize);
@@ -29,12 +29,11 @@ export const useCartStore = defineStore('cart', {
                             price: product.price,
                             quantity: quantity,
                             size: selectedSize,
+                            sizeKey: sizeKey,
                             image: product.images[0],
                         });
                     }
                     sizeStock.stock -= quantity; // Reduce stock for the selected size
-                } else {
-                    alert('Selected size is out of stock or insufficient stock.');
                 }
             } else {
                 // Product does not have sizes, so use general quantity
