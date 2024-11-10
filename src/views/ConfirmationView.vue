@@ -24,10 +24,14 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useCartStore } from '../stores/cartStore';
+
 export default {
   name: 'ConfirmationView',
   setup() {
-    const orderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+    const cartStore = useCartStore();
+    const orderDetails = computed(() => cartStore.orderDetails);
 
     const formatCurrency = (value) => {
       return new Intl.NumberFormat('en-US', {
@@ -35,8 +39,6 @@ export default {
         currency: 'EUR'
       }).format(value);
     };
-
-    localStorage.removeItem('orderDetails');
 
     return {
       orderDetails,

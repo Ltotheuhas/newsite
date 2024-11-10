@@ -135,6 +135,7 @@ export default {
   max-height: 700px;
   margin-bottom: 20px;
   margin: 5px;
+  object-fit: contain;
 }
 
 .video-embed {

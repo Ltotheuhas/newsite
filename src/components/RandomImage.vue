@@ -3,10 +3,10 @@
         <div class="image-container" v-for="(imageSource, index) in imageSources" :key="index"
             @mousedown="startDragging($event, index)" @touchstart="startDragging($event, index)"
             @mousemove="onDragging($event, index)" @mouseup="stopDragging" @touchend="stopDragging" :style="{
-            top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
-            left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
-            zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
-        }">
+                top: randomPositions[index] ? randomPositions[index].top + 'px' : '0',
+                left: randomPositions[index] ? randomPositions[index].left + 'px' : '0',
+                zIndex: randomPositions[index] && randomPositions[index].z ? randomPositions[index].z : 0,
+            }">
             <img :src="imageSource" @dragstart.prevent="preventNativeDrag" />
         </div>
     </div>
@@ -76,7 +76,8 @@ export default {
             this.highestZIndex++;
             this.randomPositions[index].z = this.highestZIndex;
 
-            // Add touch event listeners
+            window.addEventListener('touchmove', this.preventPullToRefresh, { passive: false });
+
             window.addEventListener('touchmove', (e) => this.onDragging(e, index));
             window.addEventListener('touchend', this.stopDragging);
         },
@@ -95,13 +96,20 @@ export default {
         },
         stopDragging() {
             this.dragging = null;
-            // Remove touch event listeners
+
+            window.removeEventListener('touchmove', this.preventPullToRefresh);
+
             window.removeEventListener('touchmove', this.onDragging);
             window.removeEventListener('touchend', this.stopDragging);
         },
         preventNativeDrag(event) {
             event.preventDefault();
-        }
+        },
+        preventPullToRefresh(event) {
+            if (this.dragging !== null) {
+                event.preventDefault();
+            }
+        },
     },
     created() {
         this.getRandomImages();

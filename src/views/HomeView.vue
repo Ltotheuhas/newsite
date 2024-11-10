@@ -85,9 +85,9 @@
                 <v-card-title class="d-sm-none pt-0">[<router-link to="portfolio">View
                         Full Portfolio</router-link>]</v-card-title>
                 <div class="image-container mx-auto">
-                    <transition name="fade" mode="out-in">
-                        <v-img v-if="!imageIsLoading" :key="randomPortfolioItemKey"
-                            :src="randomPortfolioItem.primary"></v-img>
+                    <transition name="fade" mode="out-in" @after-leave="onAfterLeave">
+                        <v-img v-if="isVisible" :key="randomPortfolioItemKey"
+                            :src="randomPortfolioItem?.primary"></v-img>
                     </transition>
                 </div>
             </v-card>
@@ -135,8 +135,12 @@ export default {
             randomPortfolioItem: null,
             randomPortfolioItemKey: Date.now(),
             intervalId: null,
+            nextItem: null,
+            nextItemKey: 0,
             recentIndices: [],
-            imageIsLoading: true,
+            imageIsLoading: false,
+            isVisible: false,
+            displayTimeout: null,
             favSong: '',
             hue: 0,
             dejikoTop: 580,
@@ -172,9 +176,7 @@ export default {
         this.updateDocumentHeight();
         this.applyRandomHue();
         this.fetchTopSong();
-        this.intervalId = setInterval(() => {
-            this.selectRandomPortfolioItem();
-        }, 6000);
+        this.selectRandomPortfolioItem();
     },
 
     beforeUnmount() {
@@ -186,10 +188,7 @@ export default {
         if (this.movingInterval) {
             clearInterval(this.movingInterval);
         }
-    },
-
-    created() {
-        this.selectRandomPortfolioItem();
+        clearTimeout(this.displayTimeout);
     },
 
     methods: {
@@ -278,17 +277,16 @@ export default {
             }
 
             const newItem = portfolioItems[randomIndex];
-            this.imageIsLoading = true;
+            this.isVisible = false;
 
             const image = new Image();
             image.onload = () => {
                 this.randomPortfolioItem = newItem;
                 this.randomPortfolioItemKey = Date.now();
-                this.imageIsLoading = false;
+                this.isVisible = true;
 
-                clearInterval(this.intervalId);
-                this.intervalId = setInterval(() => {
-                    this.selectRandomPortfolioItem();
+                this.displayTimeout = setTimeout(() => {
+                    this.isVisible = false;
                 }, 6000);
 
                 if (this.recentIndices.length >= 3) {
@@ -297,6 +295,14 @@ export default {
                 this.recentIndices.push(randomIndex);
             };
             image.src = newItem.primary;
+        },
+
+        onBeforeEnter() {
+            // Placeholder for if any specific setup is needed before the new image enters
+        },
+
+        onAfterLeave() {
+            this.selectRandomPortfolioItem();
         },
 
         applyRandomHue() {

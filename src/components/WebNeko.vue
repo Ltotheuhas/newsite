@@ -219,5 +219,7 @@ export default {
 .neko-image {
     cursor: pointer;
     pointer-events: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges; /* For older browsers */
 }
 </style>

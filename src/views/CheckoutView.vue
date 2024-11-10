@@ -177,6 +177,11 @@ export default {
             if (error) {
                 errorMessage.value = error.message;
             } else {
+                cartStore.setOrderDetails({
+                    items: formatCartItems(),
+                    total: cartTotal.value
+                });
+
                 cartStore.clearCart();
             }
 

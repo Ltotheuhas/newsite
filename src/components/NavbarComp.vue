@@ -5,8 +5,11 @@
         <img :src="require(`../assets/logo.svg`)" class="navmg" />
       </router-link>
     </div>
-    <v-btn v-if="isStorePage" icon to="/store/cart" class="cart-icon">
-      <v-icon>mdi-cart</v-icon>
+    <v-btn v-if="isStorePage" icon to="/store/cart" :ripple="false" class="cart-icon">
+      <v-badge v-if="cartItemCount > 0" :content="cartItemCount" color="#202020" style="filter: invert(1);" overlap>
+        <v-icon color="black">mdi-cart</v-icon>
+      </v-badge>
+      <v-icon v-else color="white">mdi-cart</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -14,15 +17,21 @@
 <script>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useCartStore } from '../stores/cartStore';
 
 export default {
   name: 'NavbarComp',
   setup() {
     const route = useRoute();
+    const cartStore = useCartStore();
 
     const isStorePage = computed(() => route.path === '/store');
 
-    return { isStorePage };
+    const cartItemCount = computed(() =>
+      cartStore.items.reduce((total, item) => total + item.quantity, 0)
+    );
+
+    return { isStorePage, cartItemCount };
   },
 };
 </script>
@@ -46,11 +55,12 @@ export default {
 
 .navmg {
   height: 49px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 
 .cart-icon {
   position: absolute;
-  right: 16px;
+  right: 10px;
+  background: transparent !important;
 }
 </style>
