@@ -15,9 +15,8 @@
                                 <span v-if="item.size"> - Size: {{ item.size }}</span>
                             </v-card-subtitle>
                             <v-card-actions>
-                                <v-btn icon @click="decreaseQuantity(item)">-</v-btn>
-                                <span>{{ item.quantity }}</span>
-                                <v-btn icon @click="increaseQuantity(item)">+</v-btn>
+                                <QuantitySelector :value="item.quantity" :maxQuantity="getMaxQuantity(item)" cols="4"
+                                    @update:value="updateItemQuantity(item, $event)" />
                                 <v-spacer></v-spacer>
                                 <v-btn icon @click="removeItem(item.id, item.size)">
                                     <v-icon>mdi-delete</v-icon>
@@ -38,28 +37,41 @@
 </template>
 
 <script>
-import { computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
-import { urlFor } from '../sanity.js';
+import { getProductById, urlFor } from '../sanity.js';
+import QuantitySelector from '../components/QuantitySelector.vue';
 
 export default {
     name: 'ShoppingCart',
+    components: {
+        QuantitySelector,
+    },
     setup() {
         const router = useRouter();
         const cartStore = useCartStore();
-
         const cartItems = computed(() => cartStore.items);
         const cartTotal = computed(() => cartStore.cartTotal);
 
-        // Watch cartItems to log changes
-        watch(cartItems, (newCartItems) => {
-            console.log("Current cart items:", JSON.stringify(newCartItems, null, 2));
-        }, { deep: true });
+        const maxQuantities = ref({});
 
-        watch(() => cartStore.items, (newItems) => {
-            console.log("Current cart store items:", JSON.stringify(newItems, null, 2));
-        }, { deep: true });
+        // Pre-fetch max quantities for all items in the cart
+        onMounted(async () => {
+            const maxQuantitiesObj = {};
+            for (const item of cartItems.value) {
+                const product = await getProductById(item.id);
+                if (item.size) {
+                    const sizeStock = product.sizesWithStock.find(size => size.size === item.size);
+                    maxQuantitiesObj[item.id] = sizeStock ? sizeStock.stock : 1;
+                } else {
+                    maxQuantitiesObj[item.id] = product.quantity || 1;
+                }
+            }
+            maxQuantities.value = maxQuantitiesObj;
+        });
+
+        const getMaxQuantity = (item) => maxQuantities.value[item.id] || 1;
 
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {
@@ -72,12 +84,10 @@ export default {
             return imageRef ? urlFor(imageRef).width(100).url() : '';
         };
 
-        const increaseQuantity = (item) => {
-            cartStore.updateQuantity(item.id, item.size, 1);
-        };
-
-        const decreaseQuantity = (item) => {
-            cartStore.updateQuantity(item.id, item.size, -1);
+        const updateItemQuantity = (item, newQuantity) => {
+            const maxQuantity = getMaxQuantity(item);
+            const quantityChange = Math.min(newQuantity, maxQuantity) - item.quantity;
+            cartStore.updateQuantity(item.id, item.size, quantityChange);
         };
 
         const removeItem = (productId, size) => {
@@ -92,11 +102,11 @@ export default {
             cartItems,
             cartTotal,
             formatCurrency,
-            increaseQuantity,
-            decreaseQuantity,
             removeItem,
             proceedToCheckout,
             getImageUrl,
+            updateItemQuantity,
+            getMaxQuantity,
         };
     },
 };

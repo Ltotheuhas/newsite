@@ -3,7 +3,8 @@ import { getProductById } from '../sanity.js';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: []
+        items: [],
+        orderDetails: null
     }),
     actions: {
         addToCart(product, selectedSize = null, quantity = 1, sizeKey = null) {
@@ -17,7 +18,6 @@ export const useCartStore = defineStore('cart', {
                         if (totalQuantity <= sizeStock.stock) {
                             existingItem.quantity = totalQuantity;
                         } else {
-                            alert(`Only ${sizeStock.stock} items available in size ${selectedSize}.`);
                             existingItem.quantity = sizeStock.stock;
                         }
                     } else {
@@ -41,8 +41,6 @@ export const useCartStore = defineStore('cart', {
                         });
                     }
                     sizeStock.stock -= quantity;
-                } else {
-                    alert('Selected size is out of stock or insufficient stock.');
                 }
             } else {
                 // Product does not have sizes, so use general quantity
@@ -53,7 +51,6 @@ export const useCartStore = defineStore('cart', {
                         if (totalQuantity <= product.quantity) {
                             existingItem.quantity = totalQuantity;
                         } else {
-                            alert(`Only ${product.quantity} items available.`);
                             existingItem.quantity = product.quantity;
                         }
                     } else {
@@ -66,16 +63,12 @@ export const useCartStore = defineStore('cart', {
                         });
                     }
                     product.quantity -= quantity; // Reduce general quantity
-                } else {
-                    alert('Product is out of stock or insufficient stock.');
                 }
             }
             console.log("Items in cart after adding:", JSON.stringify(this.items, null, 2));
         },
         async updateQuantity(productId, selectedSize = null, amount = 1) {
-            // Fetch product data from Sanity
             const product = await getProductById(productId);
-
             let availableStock;
 
             if (selectedSize) {
@@ -85,20 +78,11 @@ export const useCartStore = defineStore('cart', {
                 availableStock = product.quantity;
             }
 
-            // Find the item in the cart
             const item = this.items.find(item => item.id === productId && (item.size ?? null) === (selectedSize ?? null));
 
             if (item) {
-                // Check if the new quantity exceeds available stock
                 const newQuantity = item.quantity + amount;
-                if (newQuantity > availableStock) {
-                    alert(`Only ${availableStock} items available${selectedSize ? ` for size ${selectedSize}` : ''}.`);
-                    item.quantity = availableStock; // Set to max available stock
-                } else if (newQuantity <= 0) {
-                    this.removeFromCart(productId, selectedSize); // Remove item if quantity goes below 1
-                } else {
-                    item.quantity = newQuantity;
-                }
+                item.quantity = Math.min(Math.max(newQuantity, 1), availableStock); // Clamp quantity between 1 and availableStock
             }
         },
         removeFromCart(productId, selectedSize = null) {

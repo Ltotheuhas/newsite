@@ -10,7 +10,6 @@
       </v-col>
     </v-row>
 
-    <!-- Product Modal -->
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-carousel v-if="selectedProduct">
@@ -27,15 +26,8 @@
               :items="selectedProduct.sizesWithStock.filter(size => size.stock > 0).map(size => size.size)"
               label="Select Size" dense @change="updateMaxQuantity"></v-select>
           </v-col>
-          <v-col :cols="selectedProduct?.sizesWithStock?.length > 0 ? 6 : 12" class="d-flex align-center">
-            <v-btn icon @click="decreaseQuantity" :disabled="selectedQuantity <= 1">
-              <v-icon>mdi-minus</v-icon>
-            </v-btn>
-            <span class="mx-2">{{ selectedQuantity }}</span>
-            <v-btn icon @click="increaseQuantity" :disabled="selectedQuantity >= maxQuantity">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-col>
+          <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity"
+            :cols="selectedProduct?.sizesWithStock?.length > 0 ? 6 : 12" @update:value="selectedQuantity = $event" />
         </v-row>
         <v-card-actions>
           <v-btn color="primary" @click="addToCart(selectedProduct, selectedQuantity, selectedSize)">Add to Cart</v-btn>
@@ -50,9 +42,13 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { getProducts, urlFor } from '../sanity.js';
 import { useCartStore } from '../stores/cartStore';
+import QuantitySelector from '../components/QuantitySelector.vue';
 
 export default {
   name: 'StoreView',
+  components: {
+    QuantitySelector,
+  },
   setup() {
     const products = ref([]);
     const cartStore = useCartStore();
@@ -93,15 +89,6 @@ export default {
         const sizeEntry = product.sizesWithStock.find(sizeStock => sizeStock.size === size);
         sizeKey = sizeEntry ? sizeEntry._key : null;
       }
-
-      // Log the product information and sizeKey before adding to the cart
-      console.log("Adding to cart:", {
-        id: product._id,
-        name: product.name,
-        size,
-        sizeKey,
-        quantity
-      });
 
       cartStore.addToCart(product, size, quantity, sizeKey); // Pass sizeKey to the cart store
       closeProductModal();
