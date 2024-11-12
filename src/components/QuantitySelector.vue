@@ -65,7 +65,6 @@ export default {
     padding: 4px 8px;
     width: 120px;
     height: 50px;
-    color: white;
 }
 
 .quantity-value {
@@ -79,6 +78,7 @@ export default {
 .quantity-btn {
     min-width: 24px;
     height: 24px;
+    color: white;
 }
 
 .no-background {
