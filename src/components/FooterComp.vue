@@ -20,7 +20,6 @@
     </v-footer>
 </template>
 
-
 <script>
 export default {
     data() {
@@ -32,6 +31,25 @@ export default {
 </script>
 
 <style scoped>
+.v-footer {
+    mix-blend-mode: exclusion;
+}
+
+.email-link {
+    all: unset;
+    cursor: pointer;
+}
+
+.py-1 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.px-2 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
 @media only screen and (max-width: 599px) {
     .unlicensed {
         margin-bottom: -22px;
@@ -48,20 +66,5 @@ export default {
     .emoji {
         display: none;
     }
-}
-
-.email-link {
-    all: unset;
-    cursor: pointer;
-}
-
-.py-1 {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-}
-
-.px-2 {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
 }
 </style>

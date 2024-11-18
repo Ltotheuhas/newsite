@@ -188,6 +188,7 @@ export default {
   margin: 15px;
   letter-spacing: 2rem;
   font-style: italic;
+  mix-blend-mode: darken;
 }
 
 .bcembed {
