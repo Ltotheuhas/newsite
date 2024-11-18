@@ -53,6 +53,11 @@ const routes = [
     component: () => import('../views/SymmetricalShapes.vue')
   },
   {
+    path: '/ilyguys',
+    name: 'ilyguys',
+    component: () => import('../views/NeuJahr.vue')
+  },
+  {
     path: '/store',
     name: 'store',
     component: () => import('../views/StoreView.vue')

@@ -123,7 +123,6 @@ export default {
 
         onMounted(() => {
             document.documentElement.style.overflow = 'hidden';
-            document.querySelector('.mainStuff').style.paddingTop = '17px';
             window.addEventListener('resize', handleResize);
             detailViewComponent.value = detailViewColumn.value?.$el.querySelector('.detail-view');
             debouncedUpdateDetailViewClass();
@@ -135,7 +134,6 @@ export default {
 
         onUnmounted(() => {
             document.documentElement.style.overflow = '';
-            document.querySelector('.mainStuff').style.paddingTop = '';
             window.removeEventListener('resize', handleResize);
         });
 
@@ -169,6 +167,16 @@ export default {
 </script>
 
 <style scoped>
+.mainStuff {
+    padding-top: 69px;
+}
+
+@media (max-width: 600px) {
+    .mainStuff {
+        padding-top: 69px !important;
+    }
+}
+
 .portfolio-list-container {
     display: flex;
     height: 100vh;
