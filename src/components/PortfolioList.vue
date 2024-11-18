@@ -239,7 +239,7 @@ export default {
 
 @media (max-width: 600px) {
     .mainStuff {
-        padding: 17px 12px 20px 0 !important;
+        padding: 17px 20px 30px !important;
     }
 }
 </style>
