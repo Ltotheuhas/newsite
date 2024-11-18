@@ -1,7 +1,6 @@
 <template>
     <v-row class="portfolio-list-container">
-        <v-col cols="12" lg="2" md="3" sm="4" class="scrollable-column px-0 pt-12" style="margin-left: -8px;"
-            v-show="!isMobile">
+        <v-col cols="12" lg="2" md="3" sm="4" class="scrollable-column px-0 pt-12" v-show="!isMobile">
             <v-btn v-for="item in sortedPortfolioItems" :key="item.name" :ripple="false"
                 :class="{ selected: selectedButton === item.name }" @click="selectItem(item.name)">
                 {{ item.title ? item.title : item.name }}
@@ -167,16 +166,6 @@ export default {
 </script>
 
 <style scoped>
-.mainStuff {
-    padding-top: 69px;
-}
-
-@media (max-width: 600px) {
-    .mainStuff {
-        padding-top: 69px !important;
-    }
-}
-
 .portfolio-list-container {
     display: flex;
     height: 100vh;
@@ -239,6 +228,18 @@ export default {
 @media (max-width: 600px) {
     .scrollable-column.md-2 {
         display: none;
+    }
+}
+</style>
+
+<style>
+.mainStuff {
+    padding: 17px 12px 20px 0 !important;
+}
+
+@media (max-width: 600px) {
+    .mainStuff {
+        padding: 17px 12px 20px 0 !important;
     }
 }
 </style>

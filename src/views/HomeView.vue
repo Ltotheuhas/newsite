@@ -55,9 +55,9 @@
 ║╔╗║╔╗║║║║║╩╣
 ╚╝╚╩╝╚╩╩╩╩╩═╝
 
-☻/ This is bob. Copy and paste
-/▌ him so he can take over
-/\ luhas.neocities.org</pre>
+<span style="font-size: 25px; line-height: 0; display: inline;"> </span>☻/ This is bob. Copy and
+/▌ <span style="font-size: 25px; line-height: 0; display: inline;"> </span>paste him so he can take
+<span style="font-size: 8px; line-height: 0; display: inline;"> </span>/\ <span style="font-size: 17px; line-height: 0; display: inline;"> </span>over luhas.neocities.org</pre>
                 </v-card-text>
                 <!-- <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
@@ -330,7 +330,7 @@ export default {
                 const data = await response.json();
                 if (data.toptracks && data.toptracks.track.length > 0) {
                     const topTrack = data.toptracks.track[0];
-                    this.favSong = topTrack.artist.name + " - " + topTrack.name;
+                    this.favSong = topTrack.artist.name + " - " + topTrack.name.split(" - Remastered")[0].trim();
                     //this.favSong = this.favSong.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                 } else {
                     this.favSong = 'idk :3';
