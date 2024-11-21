@@ -31,13 +31,17 @@ export default {
         const direction = ref('');
         const behavior = ref('idle');
 
-        const idleBehaviorActive = ref(false);
         const idleFrameCounter = ref(0);
 
         const multiFrameIdleAnimations = {
             itching: ['itch1.gif', 'itch2.gif'],
-            scratching: ['scratch1.gif', 'scratch2.gif'],
             sleeping: ['sleep1.gif', 'sleep2.gif'],
+            scratching: {
+                n: ['nscratch1.gif', 'nscratch2.gif'],
+                s: ['sscratch1.gif', 'sscratch2.gif'],
+                w: ['wscratch1.gif', 'wscratch2.gif'],
+                e: ['escratch1.gif', 'escratch2.gif'],
+            },
         };
 
         const currentImage = computed(() => {
@@ -124,47 +128,9 @@ export default {
             }
         };
 
-        const setRandomIdleBehavior = () => {
-            if (behavior.value === 'idle' && !idleBehaviorActive.value) {
-                const random = Math.random();
-                if (random < 0.3) {
-                    idleBehaviorActive.value = true;
-                    if (random < 0.1) behavior.value = 'yawning';
-                    else if (random < 0.2) behavior.value = 'itching';
-                    else behavior.value = 'scratching';
-
-                    if (multiFrameIdleAnimations[behavior.value]) {
-                        const frames = multiFrameIdleAnimations[behavior.value];
-                        const randomLoopCount = Math.floor(Math.random() * 8) + 2;
-                        let frameIndex = 0;
-                        let loopCount = 0;
-
-                        const cycleFrames = setInterval(() => {
-                            idleFrameCounter.value = frameIndex;
-                            frameIndex = (frameIndex + 1) % frames.length;
-
-                            if (frameIndex === 0) loopCount += 1;
-                            if (loopCount >= randomLoopCount) {
-                                clearInterval(cycleFrames);
-                                behavior.value = 'idle';
-                                idleBehaviorActive.value = false;
-                                idleFrameCounter.value = 0;
-                            }
-                        }, 500);
-                    } else {
-                        setTimeout(() => {
-                            behavior.value = 'idle';
-                            idleBehaviorActive.value = false;
-                        }, 2000);
-                    }
-                }
-            }
-        };
-
         const think = () => {
             if (isActive.value) {
                 moveNeko();
-                setRandomIdleBehavior();
             }
             setTimeout(think, delay.value);
         };
