@@ -30,7 +30,7 @@ export default {
     const selectedProduct = ref(null);
     const isModalOpen = ref(false);
     const cartStore = useCartStore();
-    const glitchIntervals = new Map(); // Map to store intervals for each element
+    const glitchIntervals = new Map();
 
     onMounted(async () => {
       products.value = await getProducts();

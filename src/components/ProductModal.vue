@@ -1,9 +1,15 @@
 <template>
     <v-dialog v-model="isVisible" max-width="900px" @click:outside="close">
         <v-card class="product-modal-card" v-if="product">
+            <!-- Close button -->
+            <v-btn icon class="close-modal-btn" @click="close">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+
             <v-row class="product-modal-content" no-gutters>
                 <v-col cols="12" md="6" class="product-image-section">
-                    <v-carousel hide-delimiters v-if="isMobile && product.images.length > 1" class="product-carousel">
+                    <v-carousel ref="carouselRef" hide-delimiters v-if="isMobile && product.images.length > 1"
+                        class="product-carousel" v-model="activeSlideIndex" @input="onSlideChange">
                         <template v-slot:prev="{ props }">
                             <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
                                 <v-icon>mdi-chevron-left</v-icon>
@@ -15,7 +21,7 @@
                             </v-btn>
                         </template>
                         <v-carousel-item v-for="(image, index) in product.images" :key="index">
-                            <v-img :src="urlFor(image).url()" cover />
+                            <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).url()" cover />
                         </v-carousel-item>
                     </v-carousel>
 
@@ -44,13 +50,18 @@
                             </v-btn>
                         </v-btn-toggle>
                     </div>
-
-                    <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
-                        @update:value="selectedQuantity = $event" />
-
-                    <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart">
-                        Add to cart
-                    </v-btn>
+                    <v-row>
+                        <v-col class="d-flex align-center selectorContainer" cols="12" sm="4">
+                            <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
+                                @update:value="selectedQuantity = $event" />
+                        </v-col>
+                        <v-col class="d-flex align-center" cols="12" sm="8">
+                            <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart"
+                                :style="{ filter: `hue-rotate(${product.price}deg)` }">
+                                Add to cart
+                            </v-btn>
+                        </v-col>
+                    </v-row>
 
                     <v-divider class="my-3"></v-divider>
 
@@ -64,7 +75,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import QuantitySelector from './QuantitySelector.vue';
 import { urlFor } from '../sanity.js';
@@ -83,24 +94,61 @@ export default {
         const selectedSize = ref(null);
         const isVisible = ref(props.isOpen);
         const isMobile = ref(false);
+        const dynamicHeight = ref(0);
+        const carouselRef = ref(null);
+        const activeSlideIndex = ref(0); // Track the active slide index
 
         // Detect mobile view
         const checkMobileView = () => {
             isMobile.value = window.innerWidth <= 960;
         };
 
+        const calculateHeight = () => {
+            nextTick(() => {
+                const carouselElement = carouselRef.value?.$el; // Access DOM element
+                if (carouselElement) {
+                    const carouselItems = carouselElement.querySelectorAll('.v-carousel-item');
+                    if (carouselItems[activeSlideIndex.value]) {
+                        dynamicHeight.value = carouselItems[activeSlideIndex.value].offsetWidth || 0;
+                    }
+                }
+            });
+        };
+
+        const onSlideChange = (index) => {
+            activeSlideIndex.value = index;
+            calculateHeight(); // Recalculate height for the new active slide
+        };
+
         onMounted(() => {
             checkMobileView();
+            calculateHeight();
             window.addEventListener('resize', checkMobileView);
+            window.addEventListener('resize', calculateHeight);
         });
 
-        watch(() => props.product, (newProduct) => {
+        onBeforeUnmount(() => {
+            window.removeEventListener('resize', checkMobileView);
+            window.removeEventListener('resize', calculateHeight);
+        });
+
+        watch(() => props.product, async (newProduct) => {
             if (newProduct) {
+                await nextTick();
+                calculateHeight();
                 if (newProduct.sizesWithStock && newProduct.sizesWithStock.length > 0) {
                     selectedSize.value = newProduct.sizesWithStock[0].size;
                 } else {
                     selectedSize.value = null;
                 }
+            }
+        });
+
+        watch(() => props.isOpen, async (newVal) => {
+            isVisible.value = newVal;
+            if (newVal) {
+                await nextTick();
+                calculateHeight();
             }
         });
 
@@ -187,13 +235,6 @@ export default {
             }
         };
 
-        watch(
-            () => props.isOpen,
-            (newVal) => {
-                isVisible.value = newVal;
-            }
-        );
-
         return {
             selectedQuantity,
             selectedSize,
@@ -206,6 +247,10 @@ export default {
             updateMaxQuantity,
             isVisible,
             isMobile,
+            dynamicHeight,
+            carouselRef,
+            activeSlideIndex,
+            onSlideChange,
         };
     },
 };
@@ -240,7 +285,7 @@ export default {
 }
 
 .product-carousel {
-    max-height: 400px;
+    height: auto !important;
     overflow: hidden;
 }
 
@@ -251,6 +296,7 @@ export default {
 }
 
 .carouselBtn {
+    color: white;
     background: transparent;
     box-shadow: none;
     mix-blend-mode: exclusion;
@@ -300,9 +346,18 @@ export default {
 .add-to-cart-btn {
     background-color: #444444;
     color: #ffffff;
-    border-radius: 20px;
-    margin-top: 16px;
     text-transform: none;
+    border-radius: 4px;
+    height: 50px;
+}
+
+::v-deep(.add-to-cart-btn .v-btn__content) {
+    font-family: 'Cabazon', sans-serif;
+    font-size: 1.6em;
+}
+
+::v-deep(.v-btn:hover > .v-btn__overlay) {
+    opacity: 0;
 }
 
 .product-description {
@@ -315,13 +370,23 @@ export default {
     margin-left: -16px;
 }
 
+.close-modal-btn {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    background: transparent;
+    color: white;
+    mix-blend-mode: exclusion;
+}
+
 @media (max-width: 960px) {
     .product-modal-card {
         max-height: 85vh;
     }
 
     .product-image-section {
-        max-height: 600px;
+        max-height: none;
         overflow-y: hidden;
         overflow-x: auto;
     }
@@ -341,6 +406,10 @@ export default {
         overflow-x: auto;
         display: flex;
         flex-wrap: nowrap;
+    }
+
+    .selectorContainer {
+        padding-bottom: 0;
     }
 }
 </style>

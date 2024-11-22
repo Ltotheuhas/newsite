@@ -45,7 +45,7 @@ export default {
 }
 
 .comment-box {
-  padding: 0.5rem 1rem;
+  padding-top: 10px;
 }
 
 .comment img {

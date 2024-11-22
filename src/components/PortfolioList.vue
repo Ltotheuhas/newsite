@@ -169,6 +169,7 @@ export default {
 .portfolio-list-container {
     display: flex;
     height: 100vh;
+    margin: -24px;
 }
 
 .scrollable-column {
@@ -228,18 +229,6 @@ export default {
 @media (max-width: 600px) {
     .scrollable-column.md-2 {
         display: none;
-    }
-}
-</style>
-
-<style>
-.mainStuff {
-    padding: 17px 12px 20px 0 !important;
-}
-
-@media (max-width: 600px) {
-    .mainStuff {
-        padding: 17px 20px 30px !important;
     }
 }
 </style>
