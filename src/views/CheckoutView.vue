@@ -4,7 +4,7 @@
             <v-col cols="12" md="8" offset-md="2">
                 <div v-if="cartItems.length > 0">
                     <h2>Order Summary</h2>
-                    <v-list>
+                    <v-list class="listo">
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -232,13 +232,5 @@ export default {
     text-align: center;
     opacity: 0.15;
     font-size: 0.6em;
-}
-
-.v-overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
 }
 </style>
