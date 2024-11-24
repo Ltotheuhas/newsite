@@ -1,5 +1,5 @@
 <template>
-    <v-col :cols="cols" class="d-flex justify-center align-center">
+    <v-col :cols="cols" class="d-flex justify-center align-center inherit">
         <div class="quantity-selector-box">
             <v-btn icon variant="plain" @click="decreaseQuantity" :disabled="isDecreaseDisabled"
                 class="quantity-btn no-background" :ripple="false">
@@ -90,5 +90,10 @@ export default {
 .v-btn[disabled] {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.inherit {
+    flex: inherit;
+    flex-basis: content;
 }
 </style>

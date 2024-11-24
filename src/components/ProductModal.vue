@@ -1,14 +1,13 @@
 <template>
     <v-dialog v-model="isVisible" max-width="900px" @click:outside="close">
         <v-card class="product-modal-card" v-if="product">
-            <!-- Close button -->
             <v-btn icon class="close-modal-btn" @click="close">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
 
             <v-row class="product-modal-content" no-gutters>
                 <v-col cols="12" md="6" class="product-image-section">
-                    <v-carousel ref="carouselRef" hide-delimiters v-if="isMobile && product.images.length > 1"
+                    <v-carousel ref="carouselRef" hide-delimiters v-if="width < 960 && product.images.length > 1"
                         class="product-carousel" v-model="activeSlideIndex" @input="onSlideChange">
                         <template v-slot:prev="{ props }">
                             <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
@@ -79,6 +78,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useCartStore } from '../stores/cartStore';
 import QuantitySelector from './QuantitySelector.vue';
 import { urlFor } from '../sanity.js';
+import { useWindowSize } from '@vueuse/core'
 
 export default {
     name: 'ProductModal',
@@ -93,15 +93,10 @@ export default {
         const selectedQuantity = ref(1);
         const selectedSize = ref(null);
         const isVisible = ref(props.isOpen);
-        const isMobile = ref(false);
         const dynamicHeight = ref(0);
         const carouselRef = ref(null);
-        const activeSlideIndex = ref(0); // Track the active slide index
-
-        // Detect mobile view
-        const checkMobileView = () => {
-            isMobile.value = window.innerWidth <= 960;
-        };
+        const activeSlideIndex = ref(0);
+        const { width } = useWindowSize();
 
         const calculateHeight = () => {
             nextTick(() => {
@@ -121,14 +116,11 @@ export default {
         };
 
         onMounted(() => {
-            checkMobileView();
             calculateHeight();
-            window.addEventListener('resize', checkMobileView);
             window.addEventListener('resize', calculateHeight);
         });
 
         onBeforeUnmount(() => {
-            window.removeEventListener('resize', checkMobileView);
             window.removeEventListener('resize', calculateHeight);
         });
 
@@ -246,11 +238,11 @@ export default {
             urlFor,
             updateMaxQuantity,
             isVisible,
-            isMobile,
             dynamicHeight,
             carouselRef,
             activeSlideIndex,
             onSlideChange,
+            width
         };
     },
 };
@@ -344,8 +336,6 @@ export default {
 }
 
 .add-to-cart-btn {
-    background-color: #444444;
-    color: #ffffff;
     text-transform: none;
     border-radius: 4px;
     height: 50px;
@@ -409,7 +399,14 @@ export default {
     }
 
     .selectorContainer {
-        padding-bottom: 0;
+        padding: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .selectorContainer {
+        justify-content: center;
+        padding-top: 16px;
     }
 }
 </style>

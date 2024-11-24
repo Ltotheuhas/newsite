@@ -16,6 +16,7 @@
     "@sanity/client": "^6.12.3",
     "@sanity/image-url": "^1.1.0",
     "@splidejs/vue-splide": "^0.6.12",
+    "@vueuse/core": "^11.3.0",
     "@yeger/vue-masonry-wall": "^5.0.3",
     "core-js": "^3.8.3",
     "gifuct-js": "^2.1.2",

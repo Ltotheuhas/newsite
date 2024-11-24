@@ -1,24 +1,36 @@
 <template>
     <v-container>
-        <h1>Your Shopping Cart</h1>
         <v-row v-if="cartItems.length > 0">
             <v-col v-for="item in cartItems" :key="item.id" cols="12" md="8" offset-md="2">
-                <v-card class="mb-4">
+                <v-card class="prodCard mb-4 pl-4 py-2">
                     <v-row no-gutters>
                         <v-col cols="4">
-                            <v-img :src="getImageUrl(item.image)" height="100" cover></v-img>
+                            <v-img class="prodImg" :src="getImageUrl(item.image)"></v-img>
                         </v-col>
-                        <v-col cols="8" class="d-flex flex-column">
+                        <v-col cols="8" class="d-flex flex-column pa-2 pb-0">
                             <v-card-title>{{ item.name }}</v-card-title>
                             <v-card-subtitle>
                                 {{ formatCurrency(item.price) }}
-                                <span v-if="item.size"> - Size: {{ item.size }}</span>
+                                <span v-if="item.size"> <span v-if="width > 600">-</span><br v-if="width < 600"> Size: {{ item.size }}</span>
                             </v-card-subtitle>
-                            <v-card-actions>
+                            <v-spacer v-if="width > 600"></v-spacer>
+                            <v-card-actions v-if="width > 600" class="pl-4">
                                 <QuantitySelector :value="item.quantity" :maxQuantity="getMaxQuantity(item)" cols="4"
                                     @update:value="updateItemQuantity(item, $event)" />
                                 <v-spacer></v-spacer>
-                                <v-btn icon @click="removeItem(item.id, item.size)">
+                                <v-btn icon class="close-modal-btn align-end" @click="removeItem(item.id, item.size)">
+                                    <v-icon>mdi-delete</v-icon>
+                                </v-btn>
+                            </v-card-actions>
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="width < 600" no-gutters>
+                        <v-col cols="12">
+                            <v-card-actions class="pb-0">
+                                <QuantitySelector class="pa-0 pl-5" :value="item.quantity" :maxQuantity="getMaxQuantity(item)" cols="4"
+                                    @update:value="updateItemQuantity(item, $event)" />
+                                <v-spacer></v-spacer>
+                                <v-btn icon class="close-modal-btn align-end pr-0" @click="removeItem(item.id, item.size)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                             </v-card-actions>
@@ -31,7 +43,9 @@
         <v-divider v-if="cartItems.length > 0"></v-divider>
         <div class="text-right mt-4" v-if="cartItems.length > 0">
             <h2>Total: {{ formatCurrency(cartTotal) }}</h2>
-            <v-btn color="primary" @click="proceedToCheckout">Proceed to Checkout</v-btn>
+            <v-btn color="primary" large class="checkout-btn" @click="proceedToCheckout"
+                :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Proceed to
+                Checkout</v-btn>
         </div>
     </v-container>
 </template>
@@ -42,6 +56,7 @@ import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 import { getProductById, urlFor } from '../sanity.js';
 import QuantitySelector from '../components/QuantitySelector.vue';
+import { useWindowSize } from '@vueuse/core'
 
 export default {
     name: 'ShoppingCart',
@@ -56,7 +71,8 @@ export default {
 
         const maxQuantities = ref({});
 
-        // Pre-fetch max quantities for all items in the cart
+        const { width } = useWindowSize();
+
         onMounted(async () => {
             const maxQuantitiesObj = {};
             for (const item of cartItems.value) {
@@ -81,7 +97,7 @@ export default {
         };
 
         const getImageUrl = (imageRef) => {
-            return imageRef ? urlFor(imageRef).width(100).url() : '';
+            return imageRef ? urlFor(imageRef).url() : '';
         };
 
         const updateItemQuantity = (item, newQuantity) => {
@@ -107,13 +123,39 @@ export default {
             getImageUrl,
             updateItemQuantity,
             getMaxQuantity,
+            width
         };
     },
 };
 </script>
 
 <style scoped>
-.text-right {
-    text-align: right;
+.close-modal-btn {
+    background: transparent;
+    color: white;
+    mix-blend-mode: exclusion;
+}
+
+.checkout-btn {
+    text-transform: none;
+    border-radius: 4px;
+    height: 50px;
+}
+
+::v-deep(.checkout-btn .v-btn__content) {
+    font-family: 'Cabazon', sans-serif;
+    font-size: 1.6em;
+}
+
+::v-deep(.v-btn:hover > .v-btn__overlay) {
+    opacity: 0;
+}
+
+::v-deep(.prodImg img) {}
+
+@media (max-width: 600px) {
+    .prodCard {
+        padding-top: 0 !important;
+    }
 }
 </style>

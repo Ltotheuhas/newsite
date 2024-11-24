@@ -57,7 +57,7 @@
 
 <span style="font-size: 25px; line-height: 0; display: inline;"> </span>☻/ This is bob. Copy and
 /▌ <span style="font-size: 25px; line-height: 0; display: inline;"> </span>paste him so he can take
-<span style="font-size: 8px; line-height: 0; display: inline;"> </span>/\ <span style="font-size: 17px; line-height: 0; display: inline;"> </span>over luhas.neocities.org</pre>
+<span style="font-size: 8px; line-height: 0; display: inline;"> </span>/\ <span style="font-size: 17px; line-height: 0; display: inline;"> </span>over {{ formattedUrl }}</pre>
                 </v-card-text>
                 <!-- <v-img :src="require('@/assets/myspace/cccp.jpg')" class="cccp rounded-lg"
                     :style="{ filter: `grayscale(80%) invert(1) hue-rotate(${hue + 170}deg)` }"></v-img>
@@ -146,6 +146,7 @@ export default {
             dejikoTop: 580,
             dejikoLeft: 150,
             movingInterval: null,
+            currentUrl: window.location.href
         };
     },
 
@@ -163,6 +164,10 @@ export default {
                 zIndex: 100,
             };
         },
+
+        formattedUrl() {
+            return this.currentUrl.replace(/(^\w+:|^)\/\/([^/]+).*/, '$2');
+        }
     },
 
     mounted() {
