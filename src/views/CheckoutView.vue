@@ -2,6 +2,25 @@
     <v-container>
         <v-row>
             <v-col cols="12" md="8" offset-md="2">
+                <div v-if="cartItems.length > 0">
+                    <h2>Order Summary</h2>
+                    <v-list>
+                        <v-list-item v-for="item in cartItems" :key="item.id">
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ item.name }} <span v-if="item.size"> - {{ item.size }}</span>
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    {{ formatCurrency(item.price) }}
+                                    <span v-if="item.quantity > 1">
+                                        x {{ item.quantity }}
+                                    </span>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                    <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
+                </div>
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
                     <div id="address-element" class="address-container stripe"></div>
                     <div id="payment-element" class="payment-container stripe"></div>
@@ -9,12 +28,12 @@
                         {{ errorMessage }}
                     </v-alert>
                     <div class="d-flex justify-end mt-4">
-                        <v-btn :loading="loading" color="primary" large class="buttonz payment-btn"
-                            @click="submitPayment" :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Confirm
-                            Payment</v-btn>
+                        <v-btn :loading="loading" color="primary" large class="payment-btn" @click="submitPayment"
+                            :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Confirm
+                            Payment
+                        </v-btn>
                     </div>
                 </v-form>
-
                 <div class="info-text">
                     <p>
                         This sale is securely processed through Stripe. Your payment and personal information are
@@ -213,5 +232,13 @@ export default {
     text-align: center;
     opacity: 0.15;
     font-size: 0.6em;
+}
+
+.v-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
 }
 </style>
