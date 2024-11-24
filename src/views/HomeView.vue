@@ -146,7 +146,7 @@ export default {
             dejikoTop: 580,
             dejikoLeft: 150,
             movingInterval: null,
-            currentUrl: window.location.href
+            currentUrl: window.location.hostname
         };
     },
 
