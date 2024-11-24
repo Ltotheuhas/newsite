@@ -57,7 +57,7 @@ export default {
     }
 
     .counter img {
-        width: 60px;
+        width: 78px;
         height: 20px;
         object-fit: cover;
         object-position: 100% 0;

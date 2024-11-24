@@ -2,36 +2,25 @@
     <v-container>
         <v-row>
             <v-col cols="12" md="8" offset-md="2">
-                <div v-if="cartItems.length > 0">
-                    <h2>Order Summary</h2>
-                    <v-list>
-                        <v-list-item v-for="item in cartItems" :key="item.id">
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    {{ item.name }} <span v-if="item.size"> - {{ item.size }}</span>
-                                </v-list-item-title>
-                                <v-list-item-subtitle>
-                                    {{ formatCurrency(item.price) }}
-                                    <span v-if="item.quantity > 1">
-                                        x {{ item.quantity }}
-                                    </span>
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                    <h3>Total: {{ formatCurrency(cartTotal) }}</h3>
-                </div>
                 <v-form ref="checkoutForm" @submit.prevent="submitPayment">
-                    <div id="address-element" class="address-container"></div>
-                    <div id="payment-element" class="payment-container"></div>
+                    <div id="address-element" class="address-container stripe"></div>
+                    <div id="payment-element" class="payment-container stripe"></div>
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
-                    <div class="d-flex justify-space-between mt-4">
-                        <v-btn :loading="loading" color="primary" @click="submitPayment">Confirm Payment</v-btn>
-                        <v-btn text @click="$router.push('/store/cart')">Back to Cart</v-btn>
+                    <div class="d-flex justify-end mt-4">
+                        <v-btn :loading="loading" color="primary" large class="buttonz payment-btn"
+                            @click="submitPayment" :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Confirm
+                            Payment</v-btn>
                     </div>
                 </v-form>
+
+                <div class="info-text">
+                    <p>
+                        This sale is securely processed through Stripe. Your payment and personal information are
+                        encrypted and protected.
+                    </p>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -59,29 +48,14 @@ export default {
         const errorMessage = ref(null);
 
         const formatCartItems = () => {
-            return cartItems.value.map(item => {
-                console.log("Processing item in formatCartItems:", item); // Log each item as it's processed
-                if (item.size) {
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                        size: item.size,
-                        sizeKey: item.sizeKey // Ensure sizeKey is accessed directly from item
-                    };
-                } else {
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                    };
-                }
-            });
+            return cartItems.value.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                ...(item.size && { size: item.size, sizeKey: item.sizeKey })
+            }));
         };
-
-        console.log(JSON.stringify(formatCartItems(), null, 2));
 
         onMounted(async () => {
             try {
@@ -105,39 +79,40 @@ export default {
                 const appearance = {
                     theme: 'flat',
                     variables: {
-                        fontFamily: 'Verdana',
+                        fontFamily: 'Play, sans-serif',
                         fontLineHeight: '1.5',
                         borderRadius: '0',
                         colorBackground: 'transparent',
                         colorText: '#6c6d78',
-                        focusBoxShadow: 'none',
-                        focusOutline: '-webkit-focus-ring-color auto 1px',
-                        tabIconSelectedColor: 'var(--colorText)'
+                        colorLabelText: '#ffffff',
                     },
                     rules: {
                         '.Input, .CheckboxInput, .CodeInput': {
                             transition: 'none',
                             boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
-                            color: 'var(--colorText)'
+                            color: 'var(--colorText)',
+                        },
+                        '.Label': {
+                            color: 'var(--colorLabelText)',
                         },
                         '.Input': {
-                            padding: '12px'
+                            padding: '12px',
                         },
                         '.Input--invalid': {
-                            color: '#DF1B41'
+                            color: '#DF1B41',
                         },
                         '.Tab, .Block, .PickerItem--selected': {
                             backgroundColor: '#dfdfdf',
-                            boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf'
+                            boxShadow: 'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf',
                         },
                         '.Tab:hover': {
-                            backgroundColor: '#eee'
+                            backgroundColor: '#eee',
                         },
                         '.Tab--selected': {
                             color: 'var(--colorText)',
-                            backgroundColor: '#ccc'
-                        }
-                    }
+                            backgroundColor: '#ccc',
+                        },
+                    },
                 };
 
                 elements.value = stripe.value.elements({ clientSecret: clientSecret.value, appearance });
@@ -202,6 +177,12 @@ export default {
 </script>
 
 <style scoped>
+.stripe {
+    filter: hue-rotate(71deg) saturate(494%) contrast(297%) invert(92%) drop-shadow(0px 0px 6px #000000);
+    -webkit-filter: hue-rotate(71deg) saturate(494%) contrast(297%) invert(92%) drop-shadow(0px 0px 6px #000000);
+    -moz-filter: hue-rotate(71deg) saturate(494%) contrast(297%) invert(92%) drop-shadow(0px 0px 6px #000000);
+}
+
 .payment-container,
 .address-container {
     margin-top: 16px;
@@ -210,5 +191,27 @@ export default {
 #payment-element *:focus,
 #address-element *:focus {
     outline: none;
+}
+
+.payment-btn {
+    text-transform: none;
+    border-radius: 4px;
+    height: 50px;
+}
+
+::v-deep(.payment-btn .v-btn__content) {
+    font-family: 'Cabazon', sans-serif;
+    font-size: 1.6em;
+}
+
+.listo {
+    background: none;
+}
+
+.info-text {
+    margin-top: 24px;
+    text-align: center;
+    opacity: 0.15;
+    font-size: 0.6em;
 }
 </style>
