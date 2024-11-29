@@ -4,19 +4,20 @@
     <p>Your order was successful</p>
 
     <div v-if="orderDetails">
-      <h2>Order Summary</h2>
+      <h3>Order Details</h3>
       <v-list>
-        <v-list-item v-for="(item, index) in orderDetails.items" :key="index">
+        <v-list-item v-for="item in orderDetails.items" :key="item.id">
           <v-list-item-content>
-            <v-list-item-title>{{ item.name }} <span v-if="item.size">- {{ item.size }}</span></v-list-item-title>
+            <v-list-item-title>
+              {{ item.name }} <span v-if="item.size">- {{ item.size }}</span>
+            </v-list-item-title>
             <v-list-item-subtitle>
-              {{ formatCurrency(item.price) }}
-              <span v-if="item.quantity > 1"> x {{ item.quantity }}</span>
+              {{ formatCurrency(item.price) }} <span v-if="item.quantity > 1">x {{ item.quantity }}</span>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <h3>Total: {{ formatCurrency(orderDetails.total) }}</h3>
+      <h4>Total: {{ formatCurrency(orderDetails.total) }}</h4>
     </div>
 
     <v-btn color="primary" @click="$router.push('/store')">Back to Store</v-btn>
@@ -24,26 +25,28 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useCartStore } from '../stores/cartStore';
-
 export default {
-  name: 'ConfirmationView',
-  setup() {
-    const cartStore = useCartStore();
-    const orderDetails = computed(() => cartStore.orderDetails);
+  name: 'OrderConfirmationView',
+  data() {
+    return {
+      orderDetails: null,
+    };
+  },
+  mounted() {
+    const savedOrderDetails = sessionStorage.getItem('orderDetails');
+    if (savedOrderDetails) {
+      this.orderDetails = JSON.parse(savedOrderDetails);
 
-    const formatCurrency = (value) => {
+      sessionStorage.removeItem('orderDetails');
+    }
+  },
+  methods: {
+    formatCurrency(value) {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'EUR'
+        currency: 'EUR',
       }).format(value);
-    };
-
-    return {
-      orderDetails,
-      formatCurrency
-    };
-  }
+    },
+  },
 };
 </script>

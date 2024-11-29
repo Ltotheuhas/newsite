@@ -50,7 +50,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51QHPQZBmSyJV72ZkDjAOJy4FTCntA2ZvRidQ0fwAuoGtCQMfl5inUxs0NpqocyG4CUE1AHOj5LnlxlbDemQG3VXK00Fs7s5ir0');
+const stripePromise = loadStripe(import.meta.env.STRIPE_PUBLISHABLE_KEY);
 
 export default {
     name: 'CheckoutView',
@@ -156,30 +156,36 @@ export default {
         const submitPayment = async () => {
             loading.value = true;
 
-            const { error } = await stripe.value.confirmPayment({
-                elements: elements.value,
-                confirmParams: {
-                    return_url: `${window.location.origin}/store/confirmation`,
-                    payment_method_data: {
-                        billing_details: {
-                            name: customerName.value,
-                        }
-                    }
-                }
-            });
-
-            if (error) {
-                errorMessage.value = error.message;
-            } else {
-                cartStore.setOrderDetails({
+            try {
+                const orderDetails = {
                     items: formatCartItems(),
-                    total: cartTotal.value
+                    total: cartTotal.value,
+                };
+
+                sessionStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+
+                const { error } = await stripe.value.confirmPayment({
+                    elements: elements.value,
+                    confirmParams: {
+                        return_url: `${window.location.origin}/store/confirmation`,
+                        payment_method_data: {
+                            billing_details: {
+                                name: customerName.value,
+                            },
+                        },
+                    },
                 });
 
-                cartStore.clearCart();
-            }
+                if (error) {
+                    throw new Error(error.message);
+                }
 
-            loading.value = false;
+                cartStore.clearCart();
+            } catch (error) {
+                errorMessage.value = error.message;
+            } finally {
+                loading.value = false;
+            }
         };
 
         return {

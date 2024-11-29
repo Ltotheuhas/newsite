@@ -3,8 +3,7 @@ import { getProductById } from '../sanity.js';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: [],
-        orderDetails: null
+        items: []
     }),
     actions: {
         addToCart(product, selectedSize = null, quantity = 1, sizeKey = null) {
@@ -93,10 +92,6 @@ export const useCartStore = defineStore('cart', {
         },
         clearCart() {
             this.items = [];
-            this.orderDetails = null;
-        },
-        setOrderDetails(details) {
-            this.orderDetails = details;
         },
     },
     getters: {
