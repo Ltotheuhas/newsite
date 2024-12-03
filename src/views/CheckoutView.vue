@@ -95,8 +95,6 @@ export default {
                 const data = await response.json();
                 clientSecret.value = data.clientSecret;
 
-                console.log('Client Secret:', clientSecret);
-
                 const appearance = {
                     theme: 'flat',
                     variables: {
