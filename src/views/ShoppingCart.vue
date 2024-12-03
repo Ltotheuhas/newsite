@@ -151,8 +151,6 @@ export default {
     opacity: 0;
 }
 
-::v-deep(.prodImg img) {}
-
 @media (max-width: 600px) {
     .prodCard {
         padding-top: 0 !important;
