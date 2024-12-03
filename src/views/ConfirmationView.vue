@@ -3,9 +3,9 @@
     <v-img :src="require(`../assets/arigato.png`)" style="max-width: 600px;"></v-img>
     <p>Your order was successful</p>
 
-    <div v-if="orderDetails">
+    <div class="mt-8" v-if="orderDetails">
       <h3>Order Details</h3>
-      <v-list>
+      <v-list style="background: none;">
         <v-list-item v-for="item in orderDetails.items" :key="item.id">
           <v-list-item-content>
             <v-list-item-title>
@@ -18,9 +18,10 @@
         </v-list-item>
       </v-list>
       <h4>Total: {{ formatCurrency(orderDetails.total) }}</h4>
-    </div>
 
-    <v-btn color="primary" @click="$router.push('/store')">Back to Store</v-btn>
+      <v-btn color="primary" large class="store-btn mt-4" @click="$router.push('/store')"
+        :style="{ filter: `hue-rotate(${orderDetails.total}deg)` }">Back 2 Store</v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -50,3 +51,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.store-btn {
+  text-transform: none;
+  border-radius: 4px;
+  height: 50px;
+}
+
+::v-deep(.store-btn .v-btn__content) {
+  font-family: 'Cabazon', sans-serif;
+  font-size: 1.6em;
+}
+</style>

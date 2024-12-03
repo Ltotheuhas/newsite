@@ -29,15 +29,6 @@ export const useCartStore = defineStore('cart', {
                             sizeKey: sizeKey, // Include sizeKey in the cart item
                             image: product.images[0],
                         });
-
-                        // Log the item added to the cart
-                        console.log("Item added to cart:", {
-                            id: product._id,
-                            name: product.name,
-                            size: selectedSize,
-                            sizeKey: sizeKey,
-                            quantity
-                        });
                     }
                     sizeStock.stock -= quantity;
                 }
@@ -64,7 +55,6 @@ export const useCartStore = defineStore('cart', {
                     product.quantity -= quantity; // Reduce general quantity
                 }
             }
-            console.log("Items in cart after adding:", JSON.stringify(this.items, null, 2));
         },
         async updateQuantity(productId, selectedSize = null, amount = 1) {
             const product = await getProductById(productId);
