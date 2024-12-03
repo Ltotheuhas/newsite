@@ -78,6 +78,8 @@ export default {
 
         onMounted(async () => {
             try {
+                console.log('Client Secret:', clientSecret);
+
                 stripe.value = await stripePromise;
 
                 const itemsPayload = formatCartItems();
