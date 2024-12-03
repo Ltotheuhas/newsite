@@ -11,7 +11,8 @@
                             <v-card-title>{{ item.name }}</v-card-title>
                             <v-card-subtitle>
                                 {{ formatCurrency(item.price) }}
-                                <span v-if="item.size"> <span v-if="width > 600">-</span><br v-if="width < 600"> Size: {{ item.size }}</span>
+                                <span v-if="item.size"> <span v-if="width > 600">-</span><br v-if="width < 600"> Size:
+                                    {{ item.size }}</span>
                             </v-card-subtitle>
                             <v-spacer v-if="width > 600"></v-spacer>
                             <v-card-actions v-if="width > 600" class="pl-4">
@@ -27,10 +28,12 @@
                     <v-row v-if="width < 600" no-gutters>
                         <v-col cols="12">
                             <v-card-actions class="pb-0">
-                                <QuantitySelector class="pa-0 pl-5" :value="item.quantity" :maxQuantity="getMaxQuantity(item)" cols="4"
+                                <QuantitySelector class="pa-0 pl-5" :value="item.quantity"
+                                    :maxQuantity="getMaxQuantity(item)" cols="4"
                                     @update:value="updateItemQuantity(item, $event)" />
                                 <v-spacer></v-spacer>
-                                <v-btn icon class="close-modal-btn align-end pr-0" @click="removeItem(item.id, item.size)">
+                                <v-btn icon class="close-modal-btn align-end pr-0"
+                                    @click="removeItem(item.id, item.size)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                             </v-card-actions>
@@ -43,9 +46,19 @@
         <v-divider v-if="cartItems.length > 0"></v-divider>
         <div class="text-right mt-4" v-if="cartItems.length > 0">
             <h2>Total: {{ formatCurrency(cartTotal) }}</h2>
-            <v-btn color="primary" large class="checkout-btn" @click="proceedToCheckout"
-                :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Proceed to
-                Checkout</v-btn>
+            <v-row>
+                <v-col cols="12" md="6" class="d-flex justify-start">
+                    <v-btn outlined large class="buttn back-to-store-btn" @click="backToStore">
+                        Back 2 Store
+                    </v-btn>
+                </v-col>
+                <v-col cols="12" md="6" class="d-flex justify-end">
+                    <v-btn color="primary" large class="buttn checkout-btn" @click="proceedToCheckout"
+                        :style="{ filter: `hue-rotate(${cartTotal}deg)` }">
+                        Proceed to Checkout
+                    </v-btn>
+                </v-col>
+            </v-row>
         </div>
     </v-container>
 </template>
@@ -114,6 +127,10 @@ export default {
             router.push({ name: 'checkout' });
         };
 
+        const backToStore = () => {
+            router.push({ path: '/store' });
+        };
+
         return {
             cartItems,
             cartTotal,
@@ -123,6 +140,7 @@ export default {
             getImageUrl,
             updateItemQuantity,
             getMaxQuantity,
+            backToStore,
             width
         };
     },
@@ -136,15 +154,26 @@ export default {
     mix-blend-mode: exclusion;
 }
 
-.checkout-btn {
+.buttn {
     text-transform: none;
     border-radius: 4px;
     height: 50px;
 }
 
+.back-to-store-btn {
+    filter: invert(1);
+}
+
+::v-deep(.buttn .v-btn__content) {
+    font-size: 1.6em;
+}
+
 ::v-deep(.checkout-btn .v-btn__content) {
     font-family: 'Cabazon', sans-serif;
-    font-size: 1.6em;
+}
+
+::v-deep(.back-to-store-btn .v-btn__content) {
+    mix-blend-mode: difference;
 }
 
 ::v-deep(.v-btn:hover > .v-btn__overlay) {

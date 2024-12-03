@@ -63,6 +63,12 @@ const routes = [
     component: () => import('../views/StoreView.vue')
   },
   {
+    path: '/store/:productId',
+    name: 'ProductModal',
+    component: () => import('../views/StoreView.vue'),
+    props: true,
+  },
+  {
     path: '/store/cart',
     name: 'shoppingcart',
     component: () => import('../views/ShoppingCart.vue')

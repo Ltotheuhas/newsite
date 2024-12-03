@@ -27,10 +27,14 @@
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
-                    <div class="d-flex justify-end mt-4">
-                        <v-btn :loading="loading" color="primary" large class="payment-btn" @click="submitPayment"
-                            :style="{ filter: `hue-rotate(${cartTotal}deg)` }">Confirm
-                            Payment
+                    <div class="d-flex justify-space-between mt-4">
+                        <v-btn outlined large class="buttn back-to-cart-btn" @click="backToCart">
+                            Back 2 Cart
+                        </v-btn>
+
+                        <v-btn :loading="loading" color="primary" large class=" buttn payment-btn"
+                            @click="submitPayment" :style="{ filter: `hue-rotate(${cartTotal}deg)` }">
+                            Confirm Payment
                         </v-btn>
                     </div>
                 </v-form>
@@ -47,6 +51,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -55,6 +60,7 @@ const stripePromise = loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY);
 export default {
     name: 'CheckoutView',
     setup() {
+        const router = useRouter();
         const cartStore = useCartStore();
         const cartItems = computed(() => cartStore.items);
         const cartTotal = computed(() => cartStore.cartTotal);
@@ -188,6 +194,10 @@ export default {
             }
         };
 
+        const backToCart = () => {
+            router.push({ path: '/store/cart' });
+        };
+
         return {
             cartItems,
             cartTotal,
@@ -195,7 +205,8 @@ export default {
             formatCurrency,
             submitPayment,
             loading,
-            errorMessage
+            errorMessage,
+            backToCart
         };
     }
 };
@@ -218,15 +229,26 @@ export default {
     outline: none;
 }
 
-.payment-btn {
+.buttn {
     text-transform: none;
     border-radius: 4px;
     height: 50px;
 }
 
+.back-to-cart-btn {
+    filter: invert(1);
+}
+
+::v-deep(.buttn .v-btn__content) {
+    font-size: 1.6em;
+}
+
 ::v-deep(.payment-btn .v-btn__content) {
     font-family: 'Cabazon', sans-serif;
-    font-size: 1.6em;
+}
+
+::v-deep(.back-to-cart-btn .v-btn__content) {
+    mix-blend-mode: difference;
 }
 
 .listo {

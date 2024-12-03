@@ -11,13 +11,14 @@
       </v-col>
     </v-row>
 
-    <ProductModal :product="selectedProduct" :isOpen="isModalOpen" @update:isOpen="isModalOpen = $event"
-      @add-to-cart="addToCart" />
+    <ProductModal :product="selectedProduct" :isOpen="isModalOpen"
+      @update:isOpen="isModalOpen = $event; if (!isModalOpen) closeModal()" @add-to-cart="addToCart" />
   </v-container>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { getProducts, urlFor } from '../sanity.js';
 import ProductModal from '../components/ProductModal.vue';
 import { useCartStore } from '../stores/cartStore';
@@ -26,15 +27,30 @@ export default {
   name: 'StoreView',
   components: { ProductModal },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
     const products = ref([]);
     const selectedProduct = ref(null);
     const isModalOpen = ref(false);
     const cartStore = useCartStore();
     const glitchIntervals = new Map();
 
-    onMounted(async () => {
-      products.value = await getProducts();
-    });
+    const fetchProducts = async () => {
+      if (products.value.length === 0) {
+        products.value = await getProducts();
+      }
+
+      if (route.params.productId) {
+        const productToOpen = products.value.find(
+          (product) => product._id === route.params.productId
+        );
+        if (productToOpen) {
+          openProductModal(productToOpen);
+        }
+      }
+    }
+
+    onMounted(fetchProducts);
 
     const formatCurrency = (value) => {
       return new Intl.NumberFormat('en-US', {
@@ -46,7 +62,32 @@ export default {
     const openProductModal = (product) => {
       selectedProduct.value = product;
       isModalOpen.value = true;
+
+      router.push({ name: 'ProductModal', params: { productId: product._id } });
     };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+      selectedProduct.value = null;
+
+      router.replace({ path: '/store', query: {} });
+    };
+
+    watch(
+      () => route.params.productId,
+      (newProductId) => {
+        if (newProductId) {
+          const productToOpen = products.value.find(
+            (product) => product._id === newProductId
+          );
+          if (productToOpen) {
+            openProductModal(productToOpen);
+          }
+        } else {
+          closeModal();
+        }
+      }
+    );
 
     const addToCart = (product, quantity, size, sizeKey) => {
       cartStore.addToCart(product, size, quantity, sizeKey);
@@ -89,6 +130,7 @@ export default {
       products,
       formatCurrency,
       openProductModal,
+      closeModal,
       addToCart,
       selectedProduct,
       isModalOpen,
