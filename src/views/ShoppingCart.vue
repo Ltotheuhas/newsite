@@ -97,7 +97,7 @@ export default {
         };
 
         const getImageUrl = (imageRef) => {
-            return imageRef ? urlFor(imageRef).url() : '';
+            return imageRef ? urlFor(imageRef).width(200).url() : '';
         };
 
         const updateItemQuantity = (item, newQuantity) => {

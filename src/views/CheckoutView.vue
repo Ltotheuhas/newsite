@@ -50,7 +50,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cartStore';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(import.meta.env.STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY);
 
 export default {
     name: 'CheckoutView',

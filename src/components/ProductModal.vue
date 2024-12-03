@@ -20,13 +20,13 @@
                             </v-btn>
                         </template>
                         <v-carousel-item v-for="(image, index) in product.images" :key="index">
-                            <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).url()" cover />
+                            <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).width(600).url()" cover />
                         </v-carousel-item>
                     </v-carousel>
 
                     <v-row v-else class="image-scroll-container ma-0" no-gutters>
                         <v-col v-for="(image, index) in product.images" :key="index" cols="12" class="scroll-image">
-                            <v-img :src="urlFor(image).url()" />
+                            <v-img :src="urlFor(image).width(600).url()" />
                         </v-col>
                     </v-row>
                 </v-col>
