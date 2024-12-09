@@ -27,16 +27,19 @@
                     <v-alert v-if="errorMessage" type="error" dismissible>
                         {{ errorMessage }}
                     </v-alert>
-                    <div class="d-flex justify-space-between mt-4">
-                        <v-btn outlined large class="buttn back-to-cart-btn" @click="backToCart">
-                            Back 2 Cart
-                        </v-btn>
-
-                        <v-btn :loading="loading" color="primary" large class=" buttn payment-btn"
-                            @click="submitPayment" :style="{ filter: `hue-rotate(${cartTotal}deg)` }">
-                            Confirm Payment
-                        </v-btn>
-                    </div>
+                    <v-row class="buttonz">
+                        <v-col cols="12" sm="6" class="d-flex justify-start buttoncol">
+                            <v-btn outlined large class="buttn back-to-cart-btn" @click="backToCart">
+                                Back 2 Cart
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="12" sm="6" class="d-flex justify-end buttoncol">
+                            <v-btn :loading="loading" color="primary" large class=" buttn payment-btn"
+                                @click="submitPayment" :style="{ filter: `hue-rotate(${cartTotal}deg)` }">
+                                Confirm Payment
+                            </v-btn>
+                        </v-col>
+                    </v-row>
                 </v-form>
                 <div class="info-text">
                     <p>
@@ -248,6 +251,7 @@ export default {
 }
 
 ::v-deep(.back-to-cart-btn .v-btn__content) {
+    color: white;
     mix-blend-mode: difference;
 }
 
@@ -260,5 +264,23 @@ export default {
     text-align: center;
     opacity: 0.15;
     font-size: 0.6em;
+}
+
+@media (max-width: 600px) {
+    .prodCard {
+        padding-top: 0 !important;
+    }
+
+    .buttonz {
+        margin-top: 20px;
+    }
+
+    .buttn {
+        width: 100%;
+    }
+
+    .buttoncol {
+        padding: 8px 0;
+    }
 }
 </style>

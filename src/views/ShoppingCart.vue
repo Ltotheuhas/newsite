@@ -46,13 +46,13 @@
         <v-divider v-if="cartItems.length > 0"></v-divider>
         <div class="text-right mt-4" v-if="cartItems.length > 0">
             <h2>Total: {{ formatCurrency(cartTotal) }}</h2>
-            <v-row>
-                <v-col cols="12" md="6" class="d-flex justify-start">
+            <v-row class="buttonz">
+                <v-col cols="12" sm="6" class="d-flex justify-start buttoncol">
                     <v-btn outlined large class="buttn back-to-store-btn" @click="backToStore">
                         Back 2 Store
                     </v-btn>
                 </v-col>
-                <v-col cols="12" md="6" class="d-flex justify-end">
+                <v-col cols="12" sm="6" class="d-flex justify-end buttoncol">
                     <v-btn color="primary" large class="buttn checkout-btn" @click="proceedToCheckout"
                         :style="{ filter: `hue-rotate(${cartTotal}deg)` }">
                         Proceed to Checkout
@@ -173,6 +173,7 @@ export default {
 }
 
 ::v-deep(.back-to-store-btn .v-btn__content) {
+    color: white;
     mix-blend-mode: difference;
 }
 
@@ -183,6 +184,18 @@ export default {
 @media (max-width: 600px) {
     .prodCard {
         padding-top: 0 !important;
+    }
+
+    .buttonz {
+        margin-top: 20px;
+    }
+
+    .buttn {
+        width: 100%;
+    }
+
+    .buttoncol {
+        padding: 8px 0;
     }
 }
 </style>
