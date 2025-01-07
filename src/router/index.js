@@ -82,7 +82,12 @@ const routes = [
     path: '/store/confirmation',
     name: 'confirmation',
     component: () => import('../views/ConfirmationView.vue'),
-  }
+  },
+  {
+    path: '/radio',
+    name: 'radio',
+    component: () => import('../views/RadioView.vue')
+  },
 ];
 
 const router = createRouter({

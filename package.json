@@ -18,6 +18,8 @@
     "@splidejs/vue-splide": "^0.6.12",
     "@vueuse/core": "^11.3.0",
     "@yeger/vue-masonry-wall": "^5.0.3",
+    "butterchurn": "^3.0.0-beta.4",
+    "butterchurn-presets": "^2.4.7",
     "core-js": "^3.8.3",
     "gifuct-js": "^2.1.2",
     "p5": "^1.9.4",
