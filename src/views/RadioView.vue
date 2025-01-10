@@ -47,8 +47,8 @@ export default {
     },
     data() {
         return {
-            radioStreamUrl: "http://192.168.0.231:8000/stream.mp3", // Replace with your radio stream URL
-            historyApiUrl: "http://192.168.0.231:3121/api/history", // Replace with your backend history API
+            radioStreamUrl: "http://192.168.0.180:8000/stream.mp3", // Replace with your radio stream URL
+            historyApiUrl: "http://192.168.0.180:3121/api/history", // Replace with your backend history API
             status: "Stopped",
             nowPlaying: null, // Metadata for now playing
             history: [], // History of the last 5 songs excluding the now playing
