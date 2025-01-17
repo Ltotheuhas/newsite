@@ -115,7 +115,7 @@
     </v-row>
 
     <v-row class="content">
-        <v-col cols="12" class="smallComments">
+        <v-col cols="12" class="smallComments column">
             <v-card class="w-100">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
                 <CommentComp></CommentComp>
@@ -462,10 +462,6 @@ a:hover {
     margin-top: 20px;
 }
 
-.smallComments {
-    margin-top: -38px;
-}
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -477,12 +473,6 @@ a:hover {
 /* .fade-leave-active in <2.1.8 */
     {
     opacity: 0;
-}
-
-@media only screen and (max-width: 1280px) {
-    .smallComments {
-        margin-top: 0px;
-    }
 }
 
 @media only screen and (max-width: 600px) {
