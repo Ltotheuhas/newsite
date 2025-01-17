@@ -93,19 +93,34 @@
             </v-card>
         </v-col>
 
-        <v-col v-if="windowWidth >= 1280" class="d-none d-lg-flex column" cols="12" lg="5" md="8">
-            <v-card style="width: 100%;">
-                <v-card-title>Comments (o≧∇≦)o</v-card-title>
-                <CommentComp></CommentComp>
+        <v-col cols="12" lg="5" md="8" class="column">
+            <v-card>
+                <v-card-title class="d-none d-sm-block">Store [<router-link to="store">View
+                        Store</router-link>]</v-card-title>
+                <v-card-title class="d-sm-none pb-0">Store</v-card-title>
+                <v-card-title class="d-sm-none pt-0">[<router-link to="store">View
+                        Store</router-link>]</v-card-title>
+                storee
+            </v-card>
+
+            <v-card>
+                <v-card-title class="d-none d-sm-block">Radio [<router-link to="radio">View
+                        Radio</router-link>]</v-card-title>
+                <v-card-title class="d-sm-none pb-0">Radio</v-card-title>
+                <v-card-title class="d-sm-none pt-0">[<router-link to="radio">View
+                        Radio</router-link>]</v-card-title>
+                radioo
             </v-card>
         </v-col>
     </v-row>
 
-    <v-row class="content" v-if="windowWidth < 1280">
-        <v-card class="d-lg-none w-100 smallComments">
-            <v-card-title>Comments (o≧∇≦)o</v-card-title>
-            <CommentComp></CommentComp>
-        </v-card>
+    <v-row class="content">
+        <v-col cols="12" class="smallComments">
+            <v-card class="w-100">
+                <v-card-title>Comments (o≧∇≦)o</v-card-title>
+                <CommentComp></CommentComp>
+            </v-card>
+        </v-col>
     </v-row>
 
     <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
@@ -427,8 +442,11 @@ a:hover {
 }
 
 .reimu {
-    max-width: 400px;
-    margin-top: -400px
+    width: 400px;
+    margin-top: -400px;
+    position: absolute;
+    right: 0;
+    transform: scaleX(-1);
 }
 
 .cccp {
@@ -459,6 +477,12 @@ a:hover {
 /* .fade-leave-active in <2.1.8 */
     {
     opacity: 0;
+}
+
+@media only screen and (max-width: 1280px) {
+    .smallComments {
+        margin-top: 0px;
+    }
 }
 
 @media only screen and (max-width: 600px) {
