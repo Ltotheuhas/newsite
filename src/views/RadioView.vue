@@ -3,13 +3,13 @@
         <h1>Welcome to the Radio</h1>
         <audio ref="audioPlayer" :src="radioStreamUrl" controls></audio>
 
-        <div class="controls">
+        <div style="display: none;" class="controls">
             <button @click="play">Play</button>
             <button @click="pause">Pause</button>
             <button @click="stop">Stop</button>
         </div>
 
-        <p>Status: <strong>{{ status }}</strong></p>
+        <p style="display: none;">Status: <strong>{{ status }}</strong></p>
 
         <div class="now-playing" v-if="nowPlaying">
             <h2>Now Playing:</h2>
