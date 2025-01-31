@@ -1,21 +1,22 @@
 <template>
     <div class="radio-view">
         <h1>Welcome to the Radio</h1>
-        <audio ref="audioPlayer" :src="radioStreamUrl" controls></audio>
 
-        <div style="display: none;" class="controls">
-            <button @click="play">Play</button>
-            <button @click="pause">Pause</button>
-            <button @click="stop">Stop</button>
+        <!-- Hidden audio element (no native controls) -->
+        <audio ref="audioPlayer" :src="radioStreamUrl" preload="auto" style="display: none;"></audio>
+
+        <!-- Custom Controls -->
+        <div class="controls">
+            <button @click="toggleMute">{{ isMuted ? "Unmute" : "Mute" }}</button>
+
+            <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="onVolumeChange" />
         </div>
-
-        <p style="display: none;">Status: <strong>{{ status }}</strong></p>
 
         <div class="now-playing" v-if="nowPlaying">
             <h2>Now Playing:</h2>
             <p>
-                <strong v-html="decodeHtml(nowPlaying.artist)"></strong> -
-                <span v-html="decodeHtml(nowPlaying.title)"></span>
+                <strong>{{ decodeHtml(nowPlaying.artist) }}</strong> -
+                <span>{{ decodeHtml(nowPlaying.title) }}</span>
             </p>
         </div>
 
@@ -23,16 +24,15 @@
             <h2>Recent Tracks:</h2>
             <ul>
                 <li v-for="(song, index) in history" :key="index">
-                    <strong v-html="decodeHtml(song.artist)"></strong> -
-                    <span v-html="decodeHtml(song.title)"></span>
+                    <strong>{{ decodeHtml(song.artist) }}</strong> -
+                    <span>{{ decodeHtml(song.title) }}</span>
                 </li>
             </ul>
         </div>
 
-        <!-- Add Butterchurn Visualizer -->
-        <div class="visualizer">
-            <ButterchurnVisualizer v-if="audioContext && analyserNode" :audioContext="audioContext"
-                :audioSource="analyserNode" />
+        <!-- Optional Butterchurn Visualizer -->
+        <div class="visualizer" v-if="audioContext && analyserNode">
+            <ButterchurnVisualizer :audioContext="audioContext" :audioSource="analyserNode" />
         </div>
     </div>
 </template>
@@ -49,92 +49,131 @@ export default {
         return {
             radioStreamUrl: "https://radio.luhas.gratis/stream.mp3",
             historyApiUrl: "https://api.luhas.gratis/api/history",
-            status: "Stopped",
-            nowPlaying: null, // Metadata for now playing
-            history: [], // History of the last 5 songs excluding the now playing
+
+            // New player states
+            isMuted: true,
+            volume: 0,              // Start slider fully left (0)
+            autoplayBlocked: false, // Track if autoplay was blocked
+
+            nowPlaying: null,
+            history: [],
             audioContext: null,
             analyserNode: null,
         };
     },
+    mounted() {
+        // 1. Fetch history (nowPlaying + recent tracks)
+        this.fetchHistory();
+        setInterval(this.fetchHistory, 10000);
+
+        // 2. Initialize audio + attempt autoplay (muted)
+        const audioPlayer = this.$refs.audioPlayer;
+        audioPlayer.muted = this.isMuted;
+        audioPlayer.volume = this.volume;
+
+        // Try to start playing silently
+        audioPlayer.play().catch((err) => {
+            console.warn("Autoplay blocked or not possible:", err);
+            this.autoplayBlocked = true;
+        });
+    },
     methods: {
-        play() {
-            const audioPlayer = this.$refs.audioPlayer;
-
-            if (!audioPlayer) {
-                console.error("Audio player not found.");
-                return;
+        async fetchHistory() {
+            try {
+                const response = await fetch(this.historyApiUrl);
+                const data = await response.json();
+                if (data.length > 0) {
+                    this.nowPlaying = data[0];
+                    this.history = data.slice(1);
+                }
+            } catch (error) {
+                console.error("Error fetching history:", error);
             }
+        },
 
-            // Initialize AudioContext if not already initialized
-            if (!this.audioContext) {
-                this.initAudioContext();
-            }
-
-            // Resume AudioContext if it is suspended
-            if (this.audioContext.state === "suspended") {
-                this.audioContext.resume();
-            }
-
-            console.log("Audio player paused:", audioPlayer.paused);
-            audioPlayer.play().then(() => {
-                console.log("Playback started.");
-            }).catch((error) => {
-                console.error("Error starting playback:", error);
-            });
-        },
-        pause() {
-            const audioPlayer = this.$refs.audioPlayer;
-            audioPlayer.pause();
-            this.status = "Paused";
-        },
-        stop() {
-            const audioPlayer = this.$refs.audioPlayer;
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-            this.status = "Stopped";
-        },
-        fetchHistory() {
-            fetch(this.historyApiUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.length > 0) {
-                        this.nowPlaying = data[0]; // First song is now playing
-                        this.history = data.slice(1); // Remaining songs are the history
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching history:", error);
-                });
-        },
         decodeHtml(html) {
             const textarea = document.createElement("textarea");
             textarea.innerHTML = html;
             return textarea.value;
         },
+
+        // Initialize AudioContext and connect to the visualizer
         initAudioContext() {
             if (!this.audioContext) {
-                // Create the AudioContext
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-                // Reference the audio player element
                 const audioPlayer = this.$refs.audioPlayer;
-
-                // Create a MediaElementAudioSourceNode
                 const source = this.audioContext.createMediaElementSource(audioPlayer);
 
-                // Create an AnalyserNode for the visualizer
                 this.analyserNode = this.audioContext.createAnalyser();
-
-                // Connect the nodes: source -> analyser -> destination
                 source.connect(this.analyserNode);
-                this.analyserNode.connect(this.audioContext.destination); // Forward audio to speakers
+                this.analyserNode.connect(this.audioContext.destination);
             }
         },
-    },
-    mounted() {
-        // Fetch history every 10 seconds
-        this.fetchHistory();
-        setInterval(this.fetchHistory, 10000);
+
+        /**
+         * Toggle muted/unmuted when the button is clicked
+         * If unmuting, ensure playback starts
+         */
+        toggleMute() {
+            const audioPlayer = this.$refs.audioPlayer;
+
+            if (this.isMuted) {
+                // We are currently muted => unmute
+                this.isMuted = false;
+                audioPlayer.muted = false;
+
+                // Set a default volume if slider is at 0
+                if (this.volume === 0) {
+                    this.volume = 0.5;
+                    audioPlayer.volume = 0.5;
+                }
+
+                // Attempt to play
+                audioPlayer.play().then(() => {
+                    // Initialize audio context once user unmutes (if not done yet)
+                    this.initAudioContext();
+                }).catch((err) => {
+                    console.error("Play error after unmute:", err);
+                });
+
+            } else {
+                // We are currently unmuted => mute
+                this.isMuted = true;
+                audioPlayer.muted = true;
+
+                // Move slider to 0 so the user sees it's muted
+                this.volume = 0;
+                audioPlayer.volume = 0;
+            }
+        },
+
+        /**
+         * Called when volume slider changes
+         * If volume > 0 => unmute & attempt playback
+         * If volume = 0 => mute
+         */
+        onVolumeChange() {
+            const audioPlayer = this.$refs.audioPlayer;
+            audioPlayer.volume = this.volume;
+
+            // If user drags above 0 and we're muted => unmute
+            if (this.volume > 0 && this.isMuted) {
+                this.isMuted = false;
+                audioPlayer.muted = false;
+
+                audioPlayer.play().then(() => {
+                    this.initAudioContext();
+                }).catch((err) => {
+                    console.error("Play error after volume change:", err);
+                });
+            }
+            // If user drags volume to 0 => mute
+            else if (this.volume === 0) {
+                this.isMuted = true;
+                audioPlayer.muted = true;
+            }
+        },
     },
 };
 </script>
@@ -148,6 +187,11 @@ export default {
 
 .controls {
     margin-top: 15px;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 button {
@@ -162,6 +206,11 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+input[type="range"] {
+    width: 150px;
+    cursor: pointer;
 }
 
 .now-playing {

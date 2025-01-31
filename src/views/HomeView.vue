@@ -104,12 +104,12 @@
             </v-card>
 
             <v-card>
-                <v-card-title class="d-none d-sm-block">Radio [<router-link to="radio">View
-                        Radio</router-link>]</v-card-title>
+                <v-card-title class="d-none d-sm-block">Radio <!--[<router-link to="radio">View
+                        Radio</router-link>]--></v-card-title>
                 <v-card-title class="d-sm-none pb-0">Radio</v-card-title>
-                <v-card-title class="d-sm-none pt-0">[<router-link to="radio">View
-                        Radio</router-link>]</v-card-title>
-                radioo
+                <!--<v-card-title class="d-sm-none pt-0">[<router-link to="radio">View
+                        Radio</router-link>]</v-card-title>-->
+                <RadioComp></RadioComp>
             </v-card>
         </v-col>
     </v-row>
@@ -131,6 +131,7 @@ import BlogComp from '@/components/BlogComp.vue';
 import CommentComp from '@/components/CommentComp.vue';
 import { portfolioItems } from '@/data/portfolioItems';
 import { getDailyMessages } from '../sanity';
+import RadioComp from '@/components/RadioComp.vue';
 
 export default {
     name: 'MySpace',
@@ -138,6 +139,7 @@ export default {
     components: {
         CommentComp,
         BlogComp,
+        RadioComp
     },
 
     data() {

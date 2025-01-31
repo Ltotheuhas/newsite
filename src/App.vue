@@ -1,13 +1,16 @@
 <template>
   <v-app>
+    <audio ref="globalAudio" :src="radioStreamUrl" preload="auto" style="display: none;"></audio>
     <NavbarComp />
     <PopupAd v-if="showPopupAd" />
-    <v-main>
-      <div :class="{ 'mainStuff': !reveal, 'hidden': reveal }">
-        <router-view />
-      </div>
-      <RandomImage :numImages="randomNumImages" :class="{ 'randomimage': !reveal, 'revealed': reveal }" />
-    </v-main>
+    <div :class="['main-content', { 'has-radio-bar': showNowPlaying }]">
+      <v-main>
+        <div :class="{ 'mainStuff': !reveal, 'hidden': reveal }">
+          <router-view />
+        </div>
+        <RandomImage :numImages="randomNumImages" :class="{ 'randomimage': !reveal, 'revealed': reveal }" />
+      </v-main>
+    </div>
     <FooterComp />
     <div class="sticky-neko">
       <WebNeko />
@@ -16,7 +19,7 @@
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted, provide } from 'vue';
 import { useRoute } from 'vue-router';
 import NavbarComp from './components/NavbarComp.vue';
 import FooterComp from './components/FooterComp.vue';
@@ -53,12 +56,51 @@ export default {
     });
 
     const showPopupAd = computed(() => !route.path.startsWith('/store'));
+    const isHome = computed(() => route.name === 'home');
+
+    const radioStreamUrl = "https://radio.luhas.gratis/stream.mp3";
+
+    // The global <audio> element reference
+    const globalAudio = ref(null);
+
+    // Basic audio states
+    const isMuted = ref(true);
+    const volume = ref(0);
+
+    const nowPlaying = ref({
+      artist: "",
+      title: "",
+    });
+
+    const showNowPlaying = computed(() => {
+      return !isMuted.value && (nowPlaying.value.artist || nowPlaying.value.title) && !isHome.value;
+    });
+
+
+    onMounted(() => {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
+
+    // Provide these so child components can inject them
+    provide("globalAudio", globalAudio);
+    provide("isMuted", isMuted);
+    provide("volume", volume);
+    provide("nowPlaying", nowPlaying);
+    provide("showNowPlaying", showNowPlaying);
 
     return {
       randomNumImages,
       generateRandomNumImages,
       reveal,
-      showPopupAd
+      showPopupAd,
+      radioStreamUrl,
+      globalAudio,
+      isMuted,
+      volume,
+      nowPlaying,
+      showNowPlaying
     };
   }
 }
@@ -123,5 +165,14 @@ export default {
 .sticky-neko {
   position: fixed;
   z-index: 1100;
+}
+
+.v-main {
+  transition: margin-top 0.5s;
+}
+
+.has-radio-bar {
+  margin-top: 15px;
+  /* Push down same as the now-playing bar height */
 }
 </style>
