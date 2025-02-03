@@ -93,28 +93,37 @@ export default {
                 albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
                 return;
             }
+
             try {
-                const url = `https://ws.audioscrobbler.com/2.0/
-            ?method=track.getInfo
+                // First, try fetching track info (for the album cover)
+                const trackUrl = `
+            https://ws.audioscrobbler.com/2.0/?method=track.getInfo
             &api_key=${lastFmApiKey}
             &artist=${encodeURIComponent(artist)}
             &track=${encodeURIComponent(title)}
-            &format=json`.replace(/\s+/g, "");
+            &format=json
+        `.replace(/\s+/g, "");
 
-                const resp = await fetch(url);
-                const data = await resp.json();
+                const trackResp = await fetch(trackUrl);
+                const trackData = await trackResp.json();
 
                 if (
-                    data.track &&
-                    data.track.album &&
-                    data.track.album.image &&
-                    data.track.album.image.length > 0
+                    trackData.track &&
+                    trackData.track.album &&
+                    trackData.track.album.image &&
+                    trackData.track.album.image.length > 0
                 ) {
-                    const images = data.track.album.image;
-                    albumCoverUrl.value = images[images.length - 1]["#text"] || null;
-                } else {
-                    albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
+                    const albumImages = trackData.track.album.image;
+                    // Choose the largest image (usually the last in the array)
+                    const albumCover = albumImages[albumImages.length - 1]["#text"];
+                    if (albumCover) {
+                        albumCoverUrl.value = albumCover;
+                        return;
+                    }
                 }
+
+                // Fallback image if neither album cover nor artist image is found.
+                albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
             } catch (err) {
                 console.error("Error fetching album cover:", err);
                 albumCoverUrl.value = "https://placehold.co/200x200?text=Error";

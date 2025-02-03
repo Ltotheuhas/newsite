@@ -146,6 +146,7 @@ export default {
   filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
   -webkit-filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
   -moz-filter: invert(1) grayscale(100%) blur(6px) brightness(49%) saturate(0%) opacity(76%) contrast(154%);
+  pointer-events: none;
 }
 
 .v-btn {
