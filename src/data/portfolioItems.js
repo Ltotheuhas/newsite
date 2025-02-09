@@ -452,4 +452,11 @@ export const portfolioItems = [
     primary: require("@/assets/grid/visoki napon.jpg"),
     secondary: [require("@/assets/grid/visoki napon_.jpg"), require("@/assets/grid/visoki napon__.jpg")]
   },
+  {
+    name: "netcronomicon",
+    title: "Netcronomicon",
+    year: "2025",
+    category: "etc",
+    primary: require("@/assets/grid/netcroo.png")
+  },
 ];

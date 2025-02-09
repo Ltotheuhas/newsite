@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-//import HomeView from '../views/HomeView.vue';
-import NetcroNomicon from '@/views/NetcroNomicon.vue';
+import HomeView from '../views/HomeView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    //component: HomeView
-    component: NetcroNomicon
+    component: HomeView
   },
   {
     path: '/portfolio',
@@ -89,6 +87,11 @@ const routes = [
     path: '/radio',
     name: 'radio',
     component: () => import('../views/RadioView.vue')
+  },
+  {
+    path: '/netcronomicon',
+    name: 'netcronomicon',
+    component: () => import('../views/NetcroNomicon.vue')
   },
 ];
 

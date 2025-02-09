@@ -2235,7 +2235,7 @@ function updateScale() {
     const naturalWidth = rect.width;
 
     // Get the viewport dimensions.
-    const windowWidth = window.innerWidth - 40;
+    const windowWidth = el.parentElement.clientWidth;
 
     // Avoid division by zero.
     if (naturalWidth) {
@@ -2267,6 +2267,7 @@ onBeforeUnmount(() => {
     position: relative;
     overflow: hidden;
     height: 100px;
+    text-align: left;
 }
 
 /* Ensure the text element is an inline-block so we can measure it properly.
@@ -2282,6 +2283,7 @@ onBeforeUnmount(() => {
     font-size: 2.2rem;
     font-weight: bold;
     margin-top: 20px;
+    text-align: left;
 }
 
 .subsection-title {
@@ -2289,6 +2291,7 @@ onBeforeUnmount(() => {
     font-weight: bold;
     margin-top: 40px;
     margin-right: 30px;
+    text-align: left;
 }
 
 p {

@@ -93,24 +93,29 @@
             </v-card>
         </v-col>
 
-        <v-col cols="12" lg="5" md="8" class="column">
-            <v-card>
-                <v-card-title class="d-none d-sm-block">Store [<router-link to="store">View
-                        Store</router-link>]</v-card-title>
-                <v-card-title class="d-sm-none pb-0">Store</v-card-title>
-                <v-card-title class="d-sm-none pt-0">[<router-link to="store">View
-                        Store</router-link>]</v-card-title>
-                storee
-            </v-card>
+        <v-col cols="12" lg="5" class="column">
+            <v-row class="store-radio-row">
+                <v-col cols="12" lg="12" md="6">
+                    <v-card>
+                        <v-card-title class="d-none d-sm-block">
+                            Store [<router-link to="store">View Store</router-link>]
+                        </v-card-title>
+                        <v-card-title class="d-sm-none pb-0">Store</v-card-title>
+                        <v-card-title class="d-sm-none pt-0">
+                            [<router-link to="store">View Store</router-link>]
+                        </v-card-title>
+                        <StoreComp></StoreComp>
+                    </v-card>
+                </v-col>
 
-            <v-card>
-                <v-card-title class="d-none d-sm-block">Radio <!--[<router-link to="radio">View
-                        Radio</router-link>]--></v-card-title>
-                <v-card-title class="d-sm-none pb-0">Radio</v-card-title>
-                <!--<v-card-title class="d-sm-none pt-0">[<router-link to="radio">View
-                        Radio</router-link>]</v-card-title>-->
-                <RadioComp></RadioComp>
-            </v-card>
+                <v-col cols="12" lg="12" md="6">
+                    <v-card>
+                        <v-card-title class="d-none d-sm-block">Radio</v-card-title>
+                        <v-card-title class="d-sm-none pb-0">Radio</v-card-title>
+                        <RadioComp></RadioComp>
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 
@@ -132,6 +137,7 @@ import CommentComp from '@/components/CommentComp.vue';
 import { portfolioItems } from '@/data/portfolioItems';
 import { getDailyMessages } from '../sanity';
 import RadioComp from '@/components/RadioComp.vue';
+import StoreComp from '@/components/StoreComp.vue';
 
 export default {
     name: 'MySpace',
@@ -139,7 +145,8 @@ export default {
     components: {
         CommentComp,
         BlogComp,
-        RadioComp
+        RadioComp,
+        StoreComp
     },
 
     data() {
@@ -475,6 +482,20 @@ a:hover {
 /* .fade-leave-active in <2.1.8 */
     {
     opacity: 0;
+}
+
+@media (min-width: 1280px) {
+
+    /* Force the inner row to display in a column direction */
+    .store-radio-row {
+        flex-direction: column !important;
+    }
+
+    /* Make sure each inner v-col takes the full width */
+    .store-radio-row>.v-col {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
 }
 
 @media only screen and (max-width: 600px) {
