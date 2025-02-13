@@ -55,10 +55,7 @@
     </div>
   </div>
   <div class="detail-view" v-else>
-    <img :src="require('@/assets/404.gif')" loading="lazy">
-    <h2>oopsieeeee !!!!!! &gt;////////////&lt;</h2>
-    <p>it seem liek there is nothing here..... empty web page.....</p>
-    <p>الورشة بالفشل</p>
+    <FourOhFour></FourOhFour>
   </div>
   <p class="back" v-if="!fromList">
     <router-link class="back" :to="{ path: '/portfolio', query: { view: 'grid' } }">back</router-link>
@@ -72,12 +69,14 @@ import { portfolioItems } from '@/data/portfolioItems';
 import EvaView from './EvaView.vue';
 import NotebookView from './NotebookView.vue';
 import NetcroNomicon from './NetcroNomicon.vue';
+import FourOhFour from './FourOhFour.vue';
 
 export default {
   components: {
     EvaView,
     NotebookView,
-    NetcroNomicon
+    NetcroNomicon,
+    FourOhFour
   },
 
   props: {

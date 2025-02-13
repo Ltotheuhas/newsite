@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <audio ref="globalAudio" :src="radioStreamUrl" preload="auto" style="display: none;"></audio>
+    <audio ref="globalAudio" :src="radioStreamUrl" preload="auto" crossorigin="anonymous"
+      style="display: none;"></audio>
     <NavbarComp />
     <PopupAd v-if="showPopupAd" />
     <div :class="['main-content', { 'has-radio-bar': showNowPlaying }]">
@@ -57,6 +58,7 @@ export default {
 
     const showPopupAd = computed(() => !route.path.startsWith('/store'));
     const isHome = computed(() => route.name === 'home');
+    const isRadio = computed(() => route.name === 'radio');
 
     const radioStreamUrl = "https://radio.luhas.gratis/stream.mp3";
 
@@ -73,7 +75,7 @@ export default {
     });
 
     const showNowPlaying = computed(() => {
-      return !isMuted.value && (nowPlaying.value.artist || nowPlaying.value.title) && !isHome.value;
+      return !isMuted.value && (nowPlaying.value.artist || nowPlaying.value.title) && !isHome.value && !isRadio.value;
     });
 
 

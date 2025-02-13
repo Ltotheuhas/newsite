@@ -2,22 +2,18 @@
     <div class="radio-view">
         <h1>Welcome to the Radio</h1>
 
-        <!-- Hidden audio element (no native controls) -->
-        <audio ref="audioPlayer" :src="radioStreamUrl" preload="auto" style="display: none;"></audio>
-
-        <!-- Custom Controls -->
         <div class="controls">
             <button @click="toggleMute">{{ isMuted ? "Unmute" : "Mute" }}</button>
-
             <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="onVolumeChange" />
         </div>
 
         <div class="now-playing" v-if="nowPlaying">
             <h2>Now Playing:</h2>
             <p>
-                <strong>{{ decodeHtml(nowPlaying.artist) }}</strong> -
-                <span>{{ decodeHtml(nowPlaying.title) }}</span>
+                <strong>{{ decodeHtml(nowPlaying.artist || "Unknown Artist") }}</strong> -
+                <span>{{ decodeHtml(nowPlaying.title || "Unknown Title") }}</span>
             </p>
+            <img v-if="albumCoverUrl" :src="albumCoverUrl" class="album-cover" />
         </div>
 
         <div class="history" v-if="history.length > 0">
@@ -30,7 +26,6 @@
             </ul>
         </div>
 
-        <!-- Optional Butterchurn Visualizer -->
         <div class="visualizer" v-if="audioContext && analyserNode">
             <ButterchurnVisualizer :audioContext="audioContext" :audioSource="analyserNode" />
         </div>
@@ -38,6 +33,7 @@
 </template>
 
 <script>
+import { inject, ref, onMounted } from "vue";
 import ButterchurnVisualizer from "../components/ButterchurnVisualizer.vue";
 
 export default {
@@ -45,135 +41,187 @@ export default {
     components: {
         ButterchurnVisualizer,
     },
-    data() {
-        return {
-            radioStreamUrl: "https://radio.luhas.gratis/stream.mp3",
-            historyApiUrl: "https://api.luhas.gratis/api/history",
+    setup() {
+        const globalAudio = inject("globalAudio");
+        const isMuted = inject("isMuted");
+        const volume = inject("volume");
+        const nowPlaying = inject("nowPlaying");
 
-            // New player states
-            isMuted: true,
-            volume: 0,              // Start slider fully left (0)
-            autoplayBlocked: false, // Track if autoplay was blocked
+        const albumCoverUrl = ref(null);
+        const history = ref([]);
 
-            nowPlaying: null,
-            history: [],
-            audioContext: null,
-            analyserNode: null,
-        };
-    },
-    mounted() {
-        // 1. Fetch history (nowPlaying + recent tracks)
-        this.fetchHistory();
-        setInterval(this.fetchHistory, 10000);
+        const historyApiUrl = "https://api.luhas.gratis/api/history";
+        const lastFmApiKey = "5b76a7a11283ba1fbe8d1871b9756514";
 
-        // 2. Initialize audio + attempt autoplay (muted)
-        const audioPlayer = this.$refs.audioPlayer;
-        audioPlayer.muted = this.isMuted;
-        audioPlayer.volume = this.volume;
+        const audioContext = ref(null);
+        const analyserNode = ref(null);
 
-        // Try to start playing silently
-        audioPlayer.play().catch((err) => {
-            console.warn("Autoplay blocked or not possible:", err);
-            this.autoplayBlocked = true;
-        });
-    },
-    methods: {
-        async fetchHistory() {
+        async function ensureAudioContext() {
+            if (audioContext.value && audioContext.value.state === "suspended") {
+                await audioContext.value.resume();
+            }
+        }
+
+        function initAudioContext() {
+            if (!audioContext.value) {
+                audioContext.value = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (!analyserNode.value) {
+                analyserNode.value = audioContext.value.createAnalyser();
+                analyserNode.value.fftSize = 2048;
+            }
+
+            if (!globalAudio.value.audioSource) {
+                globalAudio.value.audioSource = audioContext.value.createMediaElementSource(globalAudio.value);
+                globalAudio.value.audioSource.connect(analyserNode.value);
+                analyserNode.value.connect(audioContext.value.destination);
+            }
+        }
+
+        function toggleMute() {
+            if (!globalAudio.value) return;
+
+            if (isMuted.value) {
+                isMuted.value = false;
+                globalAudio.value.muted = false;
+
+                if (volume.value === 0) {
+                    volume.value = 0.5;
+                    globalAudio.value.volume = 0.5;
+                }
+
+                ensureAudioContext().then(() => {
+                    globalAudio.value.play().then(() => {
+                        initAudioContext();
+                    }).catch(err => console.error("Play error after unmute:", err));
+                });
+
+            } else {
+                isMuted.value = true;
+                globalAudio.value.muted = true;
+                volume.value = 0;
+                globalAudio.value.volume = 0;
+            }
+        }
+
+        function onVolumeChange() {
+            if (!globalAudio.value) return;
+            globalAudio.value.volume = volume.value;
+
+            if (volume.value > 0 && isMuted.value) {
+                isMuted.value = false;
+                globalAudio.value.muted = false;
+                ensureAudioContext().then(() => {
+                    globalAudio.value.play().then(() => {
+                        initAudioContext();
+                    }).catch(err => console.error("Play error after volume change:", err));
+                });
+            } else if (volume.value === 0) {
+                isMuted.value = true;
+                globalAudio.value.muted = true;
+            }
+        }
+
+        async function fetchHistory() {
             try {
-                const response = await fetch(this.historyApiUrl);
+                const response = await fetch(historyApiUrl);
                 const data = await response.json();
                 if (data.length > 0) {
-                    this.nowPlaying = data[0];
-                    this.history = data.slice(1);
+                    nowPlaying.value = { artist: data[0].artist, title: data[0].title };
+                    history.value = data.slice(1);
+                    await fetchAlbumCover(nowPlaying.value.artist, nowPlaying.value.title);
+                } else {
+                    nowPlaying.value = { artist: "", title: "" };
+                    history.value = [];
+                    albumCoverUrl.value = null;
                 }
             } catch (error) {
                 console.error("Error fetching history:", error);
             }
-        },
+        }
 
-        decodeHtml(html) {
-            const textarea = document.createElement("textarea");
-            textarea.innerHTML = html;
-            return textarea.value;
-        },
-
-        // Initialize AudioContext and connect to the visualizer
-        initAudioContext() {
-            if (!this.audioContext) {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-                const audioPlayer = this.$refs.audioPlayer;
-                const source = this.audioContext.createMediaElementSource(audioPlayer);
-
-                this.analyserNode = this.audioContext.createAnalyser();
-                source.connect(this.analyserNode);
-                this.analyserNode.connect(this.audioContext.destination);
+        async function fetchAlbumCover(artist, title) {
+            if (!artist || !title) {
+                albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
+                return;
             }
-        },
 
-        /**
-         * Toggle muted/unmuted when the button is clicked
-         * If unmuting, ensure playback starts
-         */
-        toggleMute() {
-            const audioPlayer = this.$refs.audioPlayer;
+            try {
+                // URL encode parameters to handle special characters
+                const encodedArtist = encodeURIComponent(artist.trim());
+                const encodedTitle = encodeURIComponent(title.trim());
 
-            if (this.isMuted) {
-                // We are currently muted => unmute
-                this.isMuted = false;
-                audioPlayer.muted = false;
+                // Try fetching track info first
+                const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&track=${encodedTitle}&format=json`;
+                const trackResp = await fetch(trackUrl);
+                const trackData = await trackResp.json();
 
-                // Set a default volume if slider is at 0
-                if (this.volume === 0) {
-                    this.volume = 0.5;
-                    audioPlayer.volume = 0.5;
+                if (trackData?.track?.album?.image?.length) {
+                    const albumImages = trackData.track.album.image;
+                    const largestImage = albumImages[albumImages.length - 1]["#text"];
+                    if (largestImage) {
+                        albumCoverUrl.value = largestImage;
+                        return;
+                    }
                 }
 
-                // Attempt to play
-                audioPlayer.play().then(() => {
-                    // Initialize audio context once user unmutes (if not done yet)
-                    this.initAudioContext();
-                }).catch((err) => {
-                    console.error("Play error after unmute:", err);
-                });
+                // If track info fails, try album info lookup
+                const albumUrl = `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&album=${encodedTitle}&format=json`;
+                const albumResp = await fetch(albumUrl);
+                const albumData = await albumResp.json();
 
-            } else {
-                // We are currently unmuted => mute
-                this.isMuted = true;
-                audioPlayer.muted = true;
+                if (albumData?.album?.image?.length) {
+                    const albumImages = albumData.album.image;
+                    const largestImage = albumImages[albumImages.length - 1]["#text"];
+                    if (largestImage) {
+                        albumCoverUrl.value = largestImage;
+                        return;
+                    }
+                }
 
-                // Move slider to 0 so the user sees it's muted
-                this.volume = 0;
-                audioPlayer.volume = 0;
+                // Fallback if no cover found
+                albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
+            } catch (err) {
+                console.error("Error fetching album cover:", err);
+                albumCoverUrl.value = "https://placehold.co/200x200?text=Error";
             }
-        },
+        }
 
-        /**
-         * Called when volume slider changes
-         * If volume > 0 => unmute & attempt playback
-         * If volume = 0 => mute
-         */
-        onVolumeChange() {
-            const audioPlayer = this.$refs.audioPlayer;
-            audioPlayer.volume = this.volume;
+        function decodeHtml(str) {
+            const textarea = document.createElement("textarea");
+            textarea.innerHTML = str;
+            return textarea.value;
+        }
 
-            // If user drags above 0 and we're muted => unmute
-            if (this.volume > 0 && this.isMuted) {
-                this.isMuted = false;
-                audioPlayer.muted = false;
+        onMounted(() => {
+            fetchHistory();
+            setInterval(fetchHistory, 10000);
 
-                audioPlayer.play().then(() => {
-                    this.initAudioContext();
-                }).catch((err) => {
-                    console.error("Play error after volume change:", err);
+            if (!isMuted.value) {
+                ensureAudioContext().then(() => {
+                    initAudioContext();
                 });
             }
-            // If user drags volume to 0 => mute
-            else if (this.volume === 0) {
-                this.isMuted = true;
-                audioPlayer.muted = true;
-            }
-        },
+        });
+
+        return {
+            globalAudio,
+            isMuted,
+            volume,
+            nowPlaying,
+            albumCoverUrl,
+            history,
+            audioContext,
+            analyserNode,
+            decodeHtml,
+            fetchHistory,
+            fetchAlbumCover,
+            initAudioContext,
+            ensureAudioContext,
+            toggleMute,
+            onVolumeChange,
+        };
     },
 };
 </script>
@@ -216,6 +264,14 @@ input[type="range"] {
 .now-playing {
     margin-top: 20px;
     padding: 10px;
+}
+
+.album-cover {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
 .history {

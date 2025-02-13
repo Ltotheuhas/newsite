@@ -85,9 +85,6 @@ export default {
             }
         }
 
-        /**
-         * Fetch album cover from Last.fm or fallback.
-         */
         async function fetchAlbumCover(artist, title) {
             if (!artist || !title) {
                 albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
@@ -95,34 +92,39 @@ export default {
             }
 
             try {
-                // First, try fetching track info (for the album cover)
-                const trackUrl = `
-            https://ws.audioscrobbler.com/2.0/?method=track.getInfo
-            &api_key=${lastFmApiKey}
-            &artist=${encodeURIComponent(artist)}
-            &track=${encodeURIComponent(title)}
-            &format=json
-        `.replace(/\s+/g, "");
+                // URL encode parameters to handle special characters
+                const encodedArtist = encodeURIComponent(artist.trim());
+                const encodedTitle = encodeURIComponent(title.trim());
 
+                // Try fetching track info first
+                const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&track=${encodedTitle}&format=json`;
                 const trackResp = await fetch(trackUrl);
                 const trackData = await trackResp.json();
 
-                if (
-                    trackData.track &&
-                    trackData.track.album &&
-                    trackData.track.album.image &&
-                    trackData.track.album.image.length > 0
-                ) {
+                if (trackData?.track?.album?.image?.length) {
                     const albumImages = trackData.track.album.image;
-                    // Choose the largest image (usually the last in the array)
-                    const albumCover = albumImages[albumImages.length - 1]["#text"];
-                    if (albumCover) {
-                        albumCoverUrl.value = albumCover;
+                    const largestImage = albumImages[albumImages.length - 1]["#text"];
+                    if (largestImage) {
+                        albumCoverUrl.value = largestImage;
                         return;
                     }
                 }
 
-                // Fallback image if neither album cover nor artist image is found.
+                // If track info fails, try album info lookup
+                const albumUrl = `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&album=${encodedTitle}&format=json`;
+                const albumResp = await fetch(albumUrl);
+                const albumData = await albumResp.json();
+
+                if (albumData?.album?.image?.length) {
+                    const albumImages = albumData.album.image;
+                    const largestImage = albumImages[albumImages.length - 1]["#text"];
+                    if (largestImage) {
+                        albumCoverUrl.value = largestImage;
+                        return;
+                    }
+                }
+
+                // Fallback if no cover found
                 albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
             } catch (err) {
                 console.error("Error fetching album cover:", err);

@@ -80,10 +80,10 @@
 
             <v-card>
                 <v-card-title class="d-none d-sm-block">My Portfolio :3 [<router-link to="portfolio">View
-                        Full Portfolio</router-link>]</v-card-title>
+                        Portfolio</router-link>]</v-card-title>
                 <v-card-title class="d-sm-none pb-0">My Portfolio :3</v-card-title>
                 <v-card-title class="d-sm-none pt-0">[<router-link to="portfolio">View
-                        Full Portfolio</router-link>]</v-card-title>
+                        Portfolio</router-link>]</v-card-title>
                 <div class="image-container mx-auto">
                     <transition name="fade" mode="out-in" @after-leave="onAfterLeave">
                         <v-img v-if="isVisible" :key="randomPortfolioItemKey"
@@ -98,11 +98,11 @@
                 <v-col cols="12" lg="12" md="6">
                     <v-card>
                         <v-card-title class="d-none d-sm-block">
-                            Store [<router-link to="store">View Store</router-link>]
+                            My Products :E [<router-link to="store">Buy</router-link>]
                         </v-card-title>
-                        <v-card-title class="d-sm-none pb-0">Store</v-card-title>
+                        <v-card-title class="d-sm-none pb-0">My Products :E</v-card-title>
                         <v-card-title class="d-sm-none pt-0">
-                            [<router-link to="store">View Store</router-link>]
+                            [<router-link to="store">Buy</router-link>]
                         </v-card-title>
                         <StoreComp></StoreComp>
                     </v-card>
@@ -110,8 +110,13 @@
 
                 <v-col cols="12" lg="12" md="6">
                     <v-card>
-                        <v-card-title class="d-none d-sm-block">Radio</v-card-title>
-                        <v-card-title class="d-sm-none pb-0">Radio</v-card-title>
+                        <v-card-title class="d-none d-sm-block">
+                            LuhasFM d(-_-)b [<router-link to="radio">View Radio</router-link>]
+                        </v-card-title>
+                        <v-card-title class="d-sm-none pb-0">LuhasFM d(-_-)b</v-card-title>
+                        <v-card-title class="d-sm-none pt-0">
+                            [<router-link to="radio">View Radio</router-link>]
+                        </v-card-title>
                         <RadioComp></RadioComp>
                     </v-card>
                 </v-col>

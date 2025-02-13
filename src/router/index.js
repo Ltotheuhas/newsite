@@ -93,6 +93,10 @@ const routes = [
     name: 'netcronomicon',
     component: () => import('../views/NetcroNomicon.vue')
   },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('../views/FourOhFour.vue')
+  },
 ];
 
 const router = createRouter({

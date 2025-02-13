@@ -457,6 +457,6 @@ export const portfolioItems = [
     title: "Netcronomicon",
     year: "2025",
     category: "etc",
-    primary: require("@/assets/grid/netcroo.png")
+    primary: require("@/assets/grid/netcro.png")
   },
 ];
