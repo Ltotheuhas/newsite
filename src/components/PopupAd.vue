@@ -44,7 +44,7 @@ export default {
         { src: require('@/assets/ads/hard.png'), url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA', title: "listen to this song its dope af" },
         { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE" },
         { type: '3D', title: "ESCAPE", url: 'https://ltotheuhas.github.io/meganew/'},
-        { src: require('@/assets/ads/consumecs9.gif'), route: '/store', title: "CONSUME"},
+        { src: require('@/assets/ads/psyops.jpg'), title: "YOUR DESIRES ARE COMPROMISED", news: true},
       ],
       positionStyle: {
         top: '0px',
