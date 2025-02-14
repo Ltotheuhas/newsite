@@ -1,32 +1,48 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col v-for="product in products" :key="product._id" cols="12" sm="6" md="4">
-        <v-card :ripple="false" class="product-card" @click="openProductModal(product)" @mouseenter="applyGlitchEffect"
-          @mouseleave="resetFilter" ref="productCards">
-          <v-img :src="mainImage(product)" height="250px" class="product-image" />
-          <v-card-title class="product-title">{{ product.name }}</v-card-title>
-          <v-card-subtitle class="product-price pb-2">{{ formatCurrency(product.price) }}</v-card-subtitle>
-        </v-card>
-      </v-col>
-    </v-row>
+    <template v-if="isMobile && selectedProduct">
+      <ProductDetails :product="selectedProduct" @add-to-cart="addToCart" @go-back="closeModal" />
+    </template>
 
-    <ProductModal :product="selectedProduct" :isOpen="isModalOpen"
-      @update:isOpen="isModalOpen = $event; if (!isModalOpen) closeModal()" @add-to-cart="addToCart" />
+    <template v-else>
+      <v-row>
+        <v-col v-for="product in products" :key="product._id" cols="12" sm="6" md="4">
+          <v-card class="product-card" @click="openProduct(product)" @mouseenter="applyGlitchEffect"
+            @mouseleave="resetFilter">
+            <v-img :src="mainImage(product)" height="250px" class="product-image" />
+            <v-card-title class="product-title">{{ product.name }}</v-card-title>
+            <v-card-subtitle class="product-price pb-2">
+              {{ formatCurrency(product.price) }}
+            </v-card-subtitle>
+          </v-card>
+        </v-col>
+      </v-row>
+      
+      <ProductModal v-if="!isMobile && selectedProduct" :product="selectedProduct" :isOpen="isModalOpen"
+        @update:isOpen="handleModalUpdate" @add-to-cart="addToCart" />
+    </template>
   </v-container>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getProducts, urlFor } from '../sanity.js';
 import ProductModal from '../components/ProductModal.vue';
+import ProductDetails from '../components/ProductDetails.vue';
 import { useCartStore } from '../stores/cartStore';
+import { useWindowSize } from '@vueuse/core';
 
 export default {
   name: 'StoreView',
-  components: { ProductModal },
-  setup() {
+  components: {
+    ProductModal,
+    ProductDetails,
+  },
+  props: {
+    productId: String, // from the route if provided
+  },
+  setup(props) {
     const route = useRoute();
     const router = useRouter();
     const products = ref([]);
@@ -34,21 +50,25 @@ export default {
     const isModalOpen = ref(false);
     const cartStore = useCartStore();
     const glitchIntervals = new Map();
+    const { width } = useWindowSize();
+
+    // Define a breakpoint for mobile, for example 960px:
+    const isMobile = computed(() => width.value < 960);
 
     const fetchProducts = async () => {
-      if (products.value.length === 0) {
+      if (!products.value.length) {
         products.value = await getProducts();
       }
-
-      if (route.params.productId) {
+      // If a productId exists in the URL, open that product.
+      if (props.productId) {
         const productToOpen = products.value.find(
-          (product) => product._id === route.params.productId
+          (product) => product._id === props.productId
         );
         if (productToOpen) {
-          openProductModal(productToOpen);
+          openProduct(productToOpen);
         }
       }
-    }
+    };
 
     onMounted(fetchProducts);
 
@@ -59,20 +79,21 @@ export default {
       }).format(value);
     };
 
-    const openProductModal = (product) => {
+    const openProduct = (product) => {
       selectedProduct.value = product;
       isModalOpen.value = true;
 
+      // Update the URL. (The route already exists in your config.)
       router.push({ name: 'ProductModal', params: { productId: product._id } });
     };
 
     const closeModal = () => {
       isModalOpen.value = false;
       selectedProduct.value = null;
-
       router.replace({ path: '/store', query: {} });
     };
 
+    // Watch for route changes (e.g. if user manually navigates away)
     watch(
       () => route.params.productId,
       (newProductId) => {
@@ -81,7 +102,7 @@ export default {
             (product) => product._id === newProductId
           );
           if (productToOpen) {
-            openProductModal(productToOpen);
+            openProduct(productToOpen);
           }
         } else {
           closeModal();
@@ -100,15 +121,12 @@ export default {
 
     const applyGlitchEffect = (event) => {
       const element = event.currentTarget;
-
       if (glitchIntervals.has(element)) return;
-
       const glitchInterval = setInterval(() => {
         const randomBlur = Math.random() * 8;
         const randomHue = Math.random() * 360;
         element.style.filter = `blur(${randomBlur}px) hue-rotate(${randomHue}deg) drop-shadow(0px 0px 15px #000000)`;
       }, 100);
-
       glitchIntervals.set(element, glitchInterval);
       setTimeout(() => {
         clearInterval(glitchInterval);
@@ -126,10 +144,15 @@ export default {
       }
     };
 
+    const handleModalUpdate = (newVal) => {
+      isModalOpen.value = newVal;
+      if (!newVal) closeModal();
+    };
+
     return {
       products,
       formatCurrency,
-      openProductModal,
+      openProduct,
       closeModal,
       addToCart,
       selectedProduct,
@@ -137,6 +160,8 @@ export default {
       mainImage,
       applyGlitchEffect,
       resetFilter,
+      isMobile,
+      handleModalUpdate
     };
   },
 };

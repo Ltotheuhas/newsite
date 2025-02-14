@@ -12,7 +12,7 @@
             <div v-if="showShelfIcon" class="year-display" @click="toggleDrawer">Menu</div>
         </v-col>
         <v-navigation-drawer v-if="isMobile" v-model="drawer" location="start" temporary
-            :class="{ 'drawer-retracted': !drawer }" :style="{ width: '100vw' }">
+            :class="{ 'drawer-retracted': !drawer, 'drawer-with-margin': showRadioBar }" :style="{ width: '100vw' }">
             <v-list>
                 <v-btn v-for="item in sortedPortfolioItems" :key="item.name" @click="selectItem(item.name)">
                     {{ item.title ? item.title : item.name }}
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick, inject } from 'vue';
 import { portfolioItems } from '@/data/portfolioItems';
 import DetailView from '../views/DetailView.vue';
 
@@ -39,6 +39,7 @@ export default {
         const detailViewComponent = ref(null);
         const detailViewClass = ref('scrollable-column');
         const selectedButton = ref(null);
+        const isMuted = inject("isMuted");
 
         const updateDetailViewClass = () => {
             detailViewComponent.value = detailViewColumn.value?.$el.querySelector('.detail-view');
@@ -148,6 +149,8 @@ export default {
             return isMobile.value && (!selectedItem.value || !selectedItem.value.year) && !drawer.value;
         });
 
+        const showRadioBar = computed(() => !isMuted.value);
+
         return {
             sortedPortfolioItems,
             selectItem,
@@ -160,6 +163,8 @@ export default {
             detailViewClass,
             toggleDrawer,
             showShelfIcon,
+            isMuted,
+            showRadioBar,
         };
     },
 };
@@ -225,6 +230,11 @@ export default {
     letter-spacing: 2rem;
     font-style: italic;
 }
+
+.drawer-with-margin {
+    margin-top: 12px;
+}
+
 
 @media (max-width: 600px) {
     .scrollable-column.md-2 {

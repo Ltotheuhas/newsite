@@ -73,9 +73,13 @@ export default {
             }
 
             if (!globalAudio.value.audioSource) {
-                globalAudio.value.audioSource = audioContext.value.createMediaElementSource(globalAudio.value);
-                globalAudio.value.audioSource.connect(analyserNode.value);
-                analyserNode.value.connect(audioContext.value.destination);
+                try {
+                    globalAudio.value.audioSource = audioContext.value.createMediaElementSource(globalAudio.value);
+                    globalAudio.value.audioSource.connect(analyserNode.value);
+                    analyserNode.value.connect(audioContext.value.destination);
+                } catch (error) {
+                    console.warn("MediaElementSource already created, using existing node.");
+                }
             }
         }
 
@@ -198,11 +202,9 @@ export default {
             fetchHistory();
             setInterval(fetchHistory, 10000);
 
-            if (!isMuted.value) {
-                ensureAudioContext().then(() => {
-                    initAudioContext();
-                });
-            }
+            ensureAudioContext().then(() => {
+                initAudioContext();
+            });
         });
 
         return {

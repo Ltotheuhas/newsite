@@ -1,76 +1,74 @@
 <template>
-    <v-dialog v-model="isVisible" max-width="900px" @click:outside="close">
-        <v-card class="product-modal-card" v-if="product">
-            <v-btn icon class="close-modal-btn" @click="close">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+    <v-card class="product-modal-card" v-if="product">
+        <v-btn icon class="close-modal-btn" @click="$router.push('./')">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
 
-            <v-row class="product-modal-content" no-gutters>
-                <v-col cols="12" md="6" class="product-image-section">
-                    <v-carousel ref="carouselRef" hide-delimiters v-if="width < 960 && product.images.length > 1"
-                        class="product-carousel" v-model="activeSlideIndex" @input="onSlideChange">
-                        <template v-slot:prev="{ props }">
-                            <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
-                                <v-icon>mdi-chevron-left</v-icon>
-                            </v-btn>
-                        </template>
-                        <template v-slot:next="{ props }">
-                            <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
-                                <v-icon>mdi-chevron-right</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-carousel-item v-for="(image, index) in product.images" :key="index">
-                            <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).width(600).url()" cover />
-                        </v-carousel-item>
-                    </v-carousel>
+        <v-row class="product-modal-content" no-gutters>
+            <v-col cols="12" md="6" class="product-image-section">
+                <v-carousel ref="carouselRef" hide-delimiters v-if="width < 960 && product.images.length > 1"
+                    class="product-carousel" v-model="activeSlideIndex" @input="onSlideChange">
+                    <template v-slot:prev="{ props }">
+                        <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
+                            <v-icon>mdi-chevron-left</v-icon>
+                        </v-btn>
+                    </template>
+                    <template v-slot:next="{ props }">
+                        <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
+                            <v-icon>mdi-chevron-right</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-carousel-item v-for="(image, index) in product.images" :key="index">
+                        <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).width(600).url()" cover />
+                    </v-carousel-item>
+                </v-carousel>
 
-                    <v-row v-else class="image-scroll-container ma-0" no-gutters>
-                        <v-col v-for="(image, index) in product.images" :key="index" cols="12" class="scroll-image">
-                            <v-img :src="urlFor(image).width(600).url()" />
-                        </v-col>
-                    </v-row>
-                </v-col>
+                <v-row v-else class="image-scroll-container ma-0" no-gutters>
+                    <v-col v-for="(image, index) in product.images" :key="index" cols="12" class="scroll-image">
+                        <v-img :src="urlFor(image).width(600).url()" />
+                    </v-col>
+                </v-row>
+            </v-col>
 
-                <v-col cols="12" md="6" class="product-details">
-                    <h3 class="product-title">
-                        {{ product.name }}
-                        <span class="preorder-label">(Pre-Order)</span>
-                    </h3>
-                    <div class="product-price">{{ formatCurrency(product.price) }}</div>
-                    <div class="shipping-info">Shipping calculated at checkout.</div>
+            <v-col cols="12" md="6" class="product-details">
+                <h3 class="product-title">
+                    {{ product.name }}
+                    <span class="preorder-label">(Pre-Order)</span>
+                </h3>
+                <div class="product-price">{{ formatCurrency(product.price) }}</div>
+                <div class="shipping-info">Shipping calculated at checkout.</div>
 
-                    <v-divider class="my-3"></v-divider>
+                <v-divider class="my-3"></v-divider>
 
-                    <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
-                        <v-btn-toggle v-model="selectedSize" class="size-buttons" dense>
-                            <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size" :value="size"
-                                :ripple="false">
-                                {{ size }}
-                            </v-btn>
-                        </v-btn-toggle>
-                    </div>
-                    <v-row>
-                        <v-col class="d-flex align-center selectorContainer" cols="12" sm="4">
-                            <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
-                                @update:value="selectedQuantity = $event" />
-                        </v-col>
-                        <v-col class="d-flex align-center" cols="12" sm="8">
-                            <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart"
-                                :style="{ filter: `hue-rotate(${product.price}deg)` }">
-                                Add to cart
-                            </v-btn>
-                        </v-col>
-                    </v-row>
+                <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
+                    <v-btn-toggle v-model="selectedSize" class="size-buttons" dense>
+                        <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size" :value="size"
+                            :ripple="false">
+                            {{ size }}
+                        </v-btn>
+                    </v-btn-toggle>
+                </div>
+                <v-row>
+                    <v-col class="d-flex align-center selectorContainer" cols="12" sm="4">
+                        <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
+                            @update:value="selectedQuantity = $event" />
+                    </v-col>
+                    <v-col class="d-flex align-center" cols="12" sm="8">
+                        <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart"
+                            :style="{ filter: `hue-rotate(${product.price}deg)` }">
+                            Add to cart
+                        </v-btn>
+                    </v-col>
+                </v-row>
 
-                    <v-divider class="my-3"></v-divider>
+                <v-divider class="my-3"></v-divider>
 
-                    <div class="product-description">
-                        <p>{{ product.description }}</p>
-                    </div>
-                </v-col>
-            </v-row>
-        </v-card>
-    </v-dialog>
+                <div class="product-description">
+                    <p>{{ product.description }}</p>
+                </div>
+            </v-col>
+        </v-row>
+    </v-card>
 </template>
 
 <script>
@@ -79,6 +77,7 @@ import { useCartStore } from '../stores/cartStore';
 import QuantitySelector from './QuantitySelector.vue';
 import { urlFor } from '../sanity.js';
 import { useWindowSize } from '@vueuse/core'
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'ProductModal',
@@ -97,6 +96,7 @@ export default {
         const carouselRef = ref(null);
         const activeSlideIndex = ref(0);
         const { width } = useWindowSize();
+        const router = useRouter();
 
         const calculateHeight = () => {
             nextTick(() => {
@@ -164,11 +164,6 @@ export default {
             }).format(value);
         };
 
-        const close = () => {
-            isVisible.value = false;
-            emit('update:isOpen', false);
-        };
-
         const maxQuantity = computed(() => {
             if (!props.product) return 1;
             if (props.product.sizesWithStock?.length > 0 && selectedSize.value) {
@@ -212,7 +207,8 @@ export default {
                 selectedSize.value,
                 sizeKey
             );
-            close();
+
+            router.push('./');
         };
 
         const productHasSizes = computed(
@@ -231,7 +227,6 @@ export default {
             selectedQuantity,
             selectedSize,
             formatCurrency,
-            close,
             handleAddToCart,
             maxQuantity,
             productHasSizes,
@@ -242,7 +237,8 @@ export default {
             carouselRef,
             activeSlideIndex,
             onSlideChange,
-            width
+            width,
+            router
         };
     },
 };
@@ -250,19 +246,13 @@ export default {
 
 <style scoped>
 .product-modal-card {
-    max-height: 60vh;
     background-color: #121212;
     color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
 }
 
 .product-image-section {
-    max-height: 60vh;
     overflow-y: auto;
     padding-right: 16px;
-    border-right: 1px solid #444;
 }
 
 .image-scroll-container {
@@ -371,10 +361,6 @@ export default {
 }
 
 @media (max-width: 960px) {
-    .product-modal-card {
-        max-height: 85vh;
-    }
-
     .product-image-section {
         max-height: none;
         overflow-y: hidden;

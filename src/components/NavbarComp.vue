@@ -34,7 +34,7 @@ export default {
     const route = useRoute();
     const cartStore = useCartStore();
 
-    const isStorePage = computed(() => route.path === '/store');
+    const isStorePage = computed(() => route.path.startsWith('/store'));
 
     const cartItemCount = computed(() =>
       cartStore.items.reduce((total, item) => total + item.quantity, 0)
@@ -118,9 +118,9 @@ export default {
 /* When we show it, let’s make the bar e.g. 40px tall, and border thicker. */
 .now-playing-bar.show {
   height: 15px;
-  margin-top: 69px;
+  margin-top: 68.5px;
   position: fixed;
-  z-index: 999999999;
+  z-index: 1008;
   width: 100%;
 }
 
