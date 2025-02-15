@@ -17,7 +17,16 @@ export default {
         window.hcb_user = {};
       }
 
-      window.hcb_user.page = window.location.origin + window.location.pathname;
+      // Manually clean the URL to remove any tracking parameters
+      const cleanUrl = window.location.origin + window.location.pathname;
+
+      // Force HTML Comment Box to use the clean URL
+      window.hcb_user.page = cleanUrl;
+
+      // Dynamically modify the browser's history state so that the current page appears clean
+      if (window.history.replaceState) {
+        window.history.replaceState(null, "", cleanUrl);
+      }
 
       const s = document.createElement("script");
       const h = "https://www.htmlcommentbox.com";
@@ -25,7 +34,7 @@ export default {
       s.setAttribute("type", "text/javascript");
       s.setAttribute(
         "src",
-        h + "/jread?page=" + encodeURIComponent(window.hcb_user.page) +
+        h + "/jread?page=" + encodeURIComponent(cleanUrl) +
         "&mod=%241%24wq1rdBcg%24jJ44Z9Yty1bqAkTYA64Nz1" +
         "&opts=16798&num=10&ts=" + Date.now()
       );
