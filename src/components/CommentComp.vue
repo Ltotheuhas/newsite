@@ -16,10 +16,10 @@ export default {
       if (!window.hcb_user) {
         window.hcb_user = {};
       }
-      const s = document.createElement('script');
-      const l = window.hcb_user.PAGE || ("" + window.location).replace(/'/g, "%27");
-      const h = "https://www.htmlcommentbox.com";
 
+      const l = window.location.origin + window.location.pathname;
+      const h = "https://www.htmlcommentbox.com";
+      const s = document.createElement("script");
       s.setAttribute("type", "text/javascript");
       s.setAttribute(
         "src",
@@ -28,9 +28,7 @@ export default {
         "&opts=16798&num=10&ts=" + Date.now()
       );
 
-      if (typeof s != "undefined") {
-        document.getElementsByTagName("head")[0].appendChild(s);
-      }
+      document.getElementsByTagName("head")[0].appendChild(s);
     },
   },
 };

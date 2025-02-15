@@ -94,6 +94,11 @@ const routes = [
     component: () => import('../views/NetcroNomicon.vue')
   },
   {
+    path: '/angel',
+    name: 'angel',
+    component: () => import('../views/AngelPage.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },
