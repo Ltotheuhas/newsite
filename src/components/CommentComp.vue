@@ -17,13 +17,15 @@ export default {
         window.hcb_user = {};
       }
 
-      const l = window.location.origin + window.location.pathname;
-      const h = "https://www.htmlcommentbox.com";
+      window.hcb_user.page = window.location.origin + window.location.pathname;
+
       const s = document.createElement("script");
+      const h = "https://www.htmlcommentbox.com";
+
       s.setAttribute("type", "text/javascript");
       s.setAttribute(
         "src",
-        h + "/jread?page=" + encodeURIComponent(l).replace("+", "%2B") +
+        h + "/jread?page=" + encodeURIComponent(window.hcb_user.page) +
         "&mod=%241%24wq1rdBcg%24jJ44Z9Yty1bqAkTYA64Nz1" +
         "&opts=16798&num=10&ts=" + Date.now()
       );
