@@ -4,7 +4,7 @@
       <v-list-item class="mb-4" v-for="post in posts" :key="post._id" two-line>
         <v-list-item-content>
           <v-list-item-title v-text="formatDate(post.publishedAt)"></v-list-item-title>
-          <p>{{ post.body }}</p>
+          <p v-html="formatBody(post.body)"></p>
         </v-list-item-content>
       </v-list-item>
     </v-list-item-group>
@@ -38,6 +38,11 @@ export default {
       const time = `${hours}:${minutes}:${seconds}`;
 
       return `${formattedDate} ${time}`;
+    },
+
+    formatBody(body) {
+      if (!body) return '';
+      return body.replace(/\n/g, '<br>');
     }
   },
   async created() {

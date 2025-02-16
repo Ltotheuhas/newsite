@@ -1,10 +1,10 @@
 <template>
-  <v-container>
-    <template v-if="isMobile && selectedProduct">
-      <ProductDetails :product="selectedProduct" @add-to-cart="addToCart" @go-back="closeModal" />
-    </template>
+  <template v-if="isMobile && selectedProduct">
+    <ProductDetails :product="selectedProduct" @add-to-cart="addToCart" @go-back="closeModal" />
+  </template>
 
-    <template v-else>
+  <template v-else>
+    <v-container>
       <v-row>
         <v-col v-for="product in products" :key="product._id" cols="12" sm="6" md="4">
           <v-card class="product-card" @click="openProduct(product)" @mouseenter="applyGlitchEffect"
@@ -17,11 +17,11 @@
           </v-card>
         </v-col>
       </v-row>
-      
-      <ProductModal v-if="!isMobile && selectedProduct" :product="selectedProduct" :isOpen="isModalOpen"
-        @update:isOpen="handleModalUpdate" @add-to-cart="addToCart" />
-    </template>
-  </v-container>
+    </v-container>
+
+    <ProductModal v-if="!isMobile && selectedProduct" :product="selectedProduct" :isOpen="isModalOpen"
+      @update:isOpen="handleModalUpdate" @add-to-cart="addToCart" />
+  </template>
 </template>
 
 <script>

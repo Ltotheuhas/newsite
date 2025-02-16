@@ -40,22 +40,28 @@
 
                 <v-divider class="my-3"></v-divider>
 
-                <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
-                    <v-btn-toggle v-model="selectedSize" class="size-buttons" dense>
-                        <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size" :value="size"
-                            :ripple="false">
-                            {{ size }}
-                        </v-btn>
-                    </v-btn-toggle>
-                </div>
-                <v-row>
-                    <v-col class="d-flex align-center selectorContainer" cols="12" sm="4">
+                <v-row class="d-flex flex-wrap justify-space-between align-center">
+                    <v-col cols="auto" class="d-flex justify-center">
+                        <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
+                            <v-btn-toggle v-model="selectedSize" class="size-buttons d-flex flex-wrap justify-center"
+                                dense>
+                                <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size"
+                                    :value="size" :ripple="false">
+                                    {{ size }}
+                                </v-btn>
+                            </v-btn-toggle>
+                        </div>
+                    </v-col>
+                    <v-col cols="auto" class="d-flex justify-center selectorContainer">
                         <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
                             @update:value="selectedQuantity = $event" />
                     </v-col>
-                    <v-col class="d-flex align-center" cols="12" sm="8">
+                </v-row>
+
+                <v-row>
+                    <v-col class="d-flex align-center justify-center" cols="12">
                         <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart"
-                            :style="{ filter: `hue-rotate(${product.price}deg)` }">
+                            :disabled="isAddToCartDisabled" :style="{ filter: `hue-rotate(${product.price}deg)` }">
                             Add to cart
                         </v-btn>
                     </v-col>
@@ -64,7 +70,44 @@
                 <v-divider class="my-3"></v-divider>
 
                 <div class="product-description">
-                    <p>{{ product.description }}</p>
+                    <p v-html="formattedDescription"></p>
+
+                    <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="size-chart">
+                        <v-container class="px-0">
+                            <v-row class="size-grid">
+                                <v-col cols="4" class="size-header">Size</v-col>
+                                <v-col cols="4" class="size-header">Chest</v-col>
+                                <v-col cols="4" class="size-header">Length</v-col>
+                            </v-row>
+                            <v-row class="size-grid">
+                                <v-col cols="4">Small</v-col>
+                                <v-col cols="4">54</v-col>
+                                <v-col cols="4">66.5</v-col>
+                            </v-row>
+                            <v-row class="size-grid">
+                                <v-col cols="4">Medium</v-col>
+                                <v-col cols="4">57</v-col>
+                                <v-col cols="4">69</v-col>
+                            </v-row>
+                            <v-row class="size-grid">
+                                <v-col cols="4">Large</v-col>
+                                <v-col cols="4">60</v-col>
+                                <v-col cols="4">71.5</v-col>
+                            </v-row>
+                            <v-row class="size-grid">
+                                <v-col cols="4">X-Large</v-col>
+                                <v-col cols="4">63</v-col>
+                                <v-col cols="4">74</v-col>
+                            </v-row>
+                            <v-row class="size-grid">
+                                <v-col cols="4">2XL</v-col>
+                                <v-col cols="4">66</v-col>
+                                <v-col cols="4">76.5</v-col>
+                            </v-row>
+                        </v-container>
+                        <p>All sizes are in CM with a tolerance of +/- 3</p>
+                        <p>Chest measurements are pit-to-pit</p>
+                    </div>
                 </div>
             </v-col>
         </v-row>
@@ -97,6 +140,7 @@ export default {
         const activeSlideIndex = ref(0);
         const { width } = useWindowSize();
         const router = useRouter();
+
 
         const calculateHeight = () => {
             nextTick(() => {
@@ -223,6 +267,14 @@ export default {
             }
         };
 
+        const formattedDescription = computed(() => {
+            return props.product.description.replace(/\n/g, '<br>');
+        });
+
+        const isAddToCartDisabled = computed(() => {
+            return productHasSizes.value && !selectedSize.value;
+        });
+
         return {
             selectedQuantity,
             selectedSize,
@@ -238,7 +290,9 @@ export default {
             activeSlideIndex,
             onSlideChange,
             width,
-            router
+            router,
+            formattedDescription,
+            isAddToCartDisabled
         };
     },
 };
@@ -313,6 +367,7 @@ export default {
 
 .size-buttons {
     display: flex;
+    justify-content: center;
 }
 
 .size-buttons .v-btn {
@@ -386,13 +441,6 @@ export default {
 
     .selectorContainer {
         padding: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .selectorContainer {
-        justify-content: center;
-        padding-top: 16px;
     }
 }
 </style>

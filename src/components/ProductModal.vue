@@ -7,24 +7,7 @@
 
             <v-row class="product-modal-content" no-gutters>
                 <v-col cols="12" md="6" class="product-image-section">
-                    <v-carousel ref="carouselRef" hide-delimiters v-if="width < 960 && product.images.length > 1"
-                        class="product-carousel" v-model="activeSlideIndex" @input="onSlideChange">
-                        <template v-slot:prev="{ props }">
-                            <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
-                                <v-icon>mdi-chevron-left</v-icon>
-                            </v-btn>
-                        </template>
-                        <template v-slot:next="{ props }">
-                            <v-btn icon @click="props.onClick" :ripple="false" class="carouselBtn">
-                                <v-icon>mdi-chevron-right</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-carousel-item v-for="(image, index) in product.images" :key="index">
-                            <v-img :style="{ height: `${dynamicHeight}px` }" :src="urlFor(image).width(600).url()" cover />
-                        </v-carousel-item>
-                    </v-carousel>
-
-                    <v-row v-else class="image-scroll-container ma-0" no-gutters>
+                    <v-row class="image-scroll-container ma-0" no-gutters>
                         <v-col v-for="(image, index) in product.images" :key="index" cols="12" class="scroll-image">
                             <v-img :src="urlFor(image).width(600).url()" />
                         </v-col>
@@ -41,22 +24,28 @@
 
                     <v-divider class="my-3"></v-divider>
 
-                    <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
-                        <v-btn-toggle v-model="selectedSize" class="size-buttons" dense>
-                            <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size" :value="size"
-                                :ripple="false">
-                                {{ size }}
-                            </v-btn>
-                        </v-btn-toggle>
-                    </div>
-                    <v-row>
-                        <v-col class="d-flex align-center selectorContainer" cols="12" sm="4">
+                    <v-row class="d-flex flex-wrap justify-space-between align-center">
+                        <v-col cols="auto" class="d-flex justify-center">
+                            <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
+                                <v-btn-toggle v-model="selectedSize"
+                                    class="size-buttons d-flex flex-wrap justify-center" dense>
+                                    <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size"
+                                        :value="size" :ripple="false">
+                                        {{ size }}
+                                    </v-btn>
+                                </v-btn-toggle>
+                            </div>
+                        </v-col>
+                        <v-col cols="auto" class="d-flex justify-center selectorContainer">
                             <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
                                 @update:value="selectedQuantity = $event" />
                         </v-col>
-                        <v-col class="d-flex align-center" cols="12" sm="8">
+                    </v-row>
+
+                    <v-row>
+                        <v-col class="d-flex align-center justify-center" cols="12">
                             <v-btn color="primary" large block class="add-to-cart-btn" @click="handleAddToCart"
-                                :style="{ filter: `hue-rotate(${product.price}deg)` }">
+                                :disabled="isAddToCartDisabled" :style="{ filter: `hue-rotate(${product.price}deg)` }">
                                 Add to cart
                             </v-btn>
                         </v-col>
@@ -64,8 +53,47 @@
 
                     <v-divider class="my-3"></v-divider>
 
-                    <div class="product-description">
-                        <p>{{ product.description }}</p>
+                    <div class="description-scroll">
+                        <div class="product-description">
+                            <p v-html="formattedDescription"></p>
+
+                            <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="size-chart">
+                                <v-container class="px-0">
+                                    <v-row class="size-grid">
+                                        <v-col cols="4" class="size-header">Size</v-col>
+                                        <v-col cols="4" class="size-header">Chest</v-col>
+                                        <v-col cols="4" class="size-header">Length</v-col>
+                                    </v-row>
+                                    <v-row class="size-grid">
+                                        <v-col cols="4">Small</v-col>
+                                        <v-col cols="4">54</v-col>
+                                        <v-col cols="4">66.5</v-col>
+                                    </v-row>
+                                    <v-row class="size-grid">
+                                        <v-col cols="4">Medium</v-col>
+                                        <v-col cols="4">57</v-col>
+                                        <v-col cols="4">69</v-col>
+                                    </v-row>
+                                    <v-row class="size-grid">
+                                        <v-col cols="4">Large</v-col>
+                                        <v-col cols="4">60</v-col>
+                                        <v-col cols="4">71.5</v-col>
+                                    </v-row>
+                                    <v-row class="size-grid">
+                                        <v-col cols="4">X-Large</v-col>
+                                        <v-col cols="4">63</v-col>
+                                        <v-col cols="4">74</v-col>
+                                    </v-row>
+                                    <v-row class="size-grid">
+                                        <v-col cols="4">2XL</v-col>
+                                        <v-col cols="4">66</v-col>
+                                        <v-col cols="4">76.5</v-col>
+                                    </v-row>
+                                </v-container>
+                                <p>All sizes are in CM with a tolerance of +/- 3</p>
+                                <p>Chest measurements are pit-to-pit</p>
+                            </div>
+                        </div>
                     </div>
                 </v-col>
             </v-row>
@@ -227,6 +255,14 @@ export default {
             }
         };
 
+        const formattedDescription = computed(() => {
+            return props.product.description.replace(/\n/g, '<br>');
+        });
+
+        const isAddToCartDisabled = computed(() => {
+            return productHasSizes.value && !selectedSize.value;
+        });
+
         return {
             selectedQuantity,
             selectedSize,
@@ -242,7 +278,9 @@ export default {
             carouselRef,
             activeSlideIndex,
             onSlideChange,
-            width
+            width,
+            formattedDescription,
+            isAddToCartDisabled
         };
     },
 };
@@ -296,6 +334,18 @@ export default {
 
 .product-details {
     padding: 16px !important;
+    display: flex;
+    flex-direction: column;
+    max-height: 60vh;
+    overflow: hidden;
+}
+
+.description-scroll {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 40vh;
+    padding-right: 8px;
 }
 
 .product-title {
@@ -323,6 +373,7 @@ export default {
 
 .size-buttons {
     display: flex;
+    justify-content: center;
 }
 
 .size-buttons .v-btn {
