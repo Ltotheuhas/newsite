@@ -41,13 +41,13 @@
                 <v-divider class="my-3"></v-divider>
 
                 <v-row class="d-flex flex-wrap justify-space-between align-center">
-                    <v-col cols="auto" class="d-flex justify-center">
-                        <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="my-2">
+                    <v-col v-if="filteredSizes.length > 0" cols="auto" class="d-flex justify-center">
+                        <div class="my-2">
                             <v-btn-toggle v-model="selectedSize" class="size-buttons d-flex flex-wrap justify-center"
                                 dense>
-                                <v-btn v-for="size in product.sizesWithStock.map((s) => s.size)" :key="size"
-                                    :value="size" :ripple="false">
-                                    {{ size }}
+                                <v-btn v-for="sizeObj in filteredSizes" :key="sizeObj.size" :value="sizeObj.size"
+                                    :ripple="false">
+                                    {{ sizeObj.size }}
                                 </v-btn>
                             </v-btn-toggle>
                         </div>
@@ -275,6 +275,10 @@ export default {
             return productHasSizes.value && !selectedSize.value;
         });
 
+        const filteredSizes = computed(() => {
+            return props.product?.sizesWithStock?.filter(sizeObj => sizeObj.stock > 0) || [];
+        });
+
         return {
             selectedQuantity,
             selectedSize,
@@ -292,7 +296,8 @@ export default {
             width,
             router,
             formattedDescription,
-            isAddToCartDisabled
+            isAddToCartDisabled,
+            filteredSizes
         };
     },
 };
