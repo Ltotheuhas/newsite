@@ -92,8 +92,7 @@
                                 <p>Chest measurements are pit-to-pit</p>
                             </div>
                             <div v-else-if="product.name == 'CD'">
-                                <v-btn prepend-icon="mdi-download" :href="'/download.zip'" download="sample.zip"
-                                    class="mt-4">
+                                <v-btn prepend-icon="mdi-download" href="/downloads/download.zip" download class="mt-4">
                                     Digital Download
                                 </v-btn>
                             </div>
