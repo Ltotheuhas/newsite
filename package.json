@@ -1,0 +1,93 @@
+{
+  "name": "new-luhas-site",
+  "version": "42.06.66",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
+    "commit": "node -e \"const execSync = require('child_process').execSync; const readline = require('readline'); const rl = readline.createInterface({ input: process.stdin, output: process.stdout }); rl.question('Enter your commit message: ', (message) => { rl.close(); const commands = ['git add .', `git commit -m \\\"${message}\\\"`, 'git push origin main']; commands.forEach((cmd) => { try { execSync(cmd, { stdio: 'inherit' }); } catch (error) { console.error('Failed to execute command:', cmd, '\\n', error); process.exit(1); } }); });\""
+  },
+  "dependencies": {
+    "@egjs/vue-grid": "^1.15.0",
+    "@mdi/font": "5.9.55",
+    "@portabletext/vue": "^1.0.6",
+    "@sanity/client": "^6.12.3",
+    "@sanity/image-url": "^1.1.0",
+    "@splidejs/vue-splide": "^0.6.12",
+    "@vueuse/core": "^11.3.0",
+    "@yeger/vue-masonry-wall": "^5.0.3",
+    "butterchurn": "^3.0.0-beta.4",
+    "butterchurn-presets": "^2.4.7",
+    "core-js": "^3.8.3",
+    "gifuct-js": "^2.1.2",
+    "p5": "^1.9.4",
+    "pinia": "^2.2.6",
+    "roboto-fontface": "*",
+    "three": "^0.166.1",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
+    "vuedraggable": "^4.1.0",
+    "vuetify": "^3.0.0-beta.0",
+    "vuex": "^4.0.0",
+    "webamp": "^1.5.0",
+    "webfontloader": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@stripe/stripe-js": "^4.9.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^2.0.0-0",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "jest": "^27.0.5",
+    "raw-loader": "^4.0.2",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-cli-plugin-vuetify": "~2.5.8",
+    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest"
+  }
+}
