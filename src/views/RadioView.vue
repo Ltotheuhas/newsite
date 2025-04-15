@@ -220,7 +220,6 @@ export default {
             try {
                 const encodedArtist = encodeURIComponent(artist.trim());
                 const encodedTitle = encodeURIComponent(title.trim());
-                const encodedAlbum = album ? encodeURIComponent(album.trim()) : null;
 
                 // First attempt: Last.fm
                 const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&track=${encodedTitle}&format=json`;
@@ -237,7 +236,7 @@ export default {
                 }
 
                 // If Last.fm fails, attempt MusicBrainz
-                const musicBrainzCover = await getCoverArt(artist, title, encodedAlbum);
+                const musicBrainzCover = await getCoverArt(artist.trim(), title.trim(), album?.trim());
                 if (musicBrainzCover) {
                     albumCoverUrl.value = musicBrainzCover;
                     return;

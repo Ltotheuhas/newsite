@@ -99,6 +99,11 @@ const routes = [
     component: () => import('../views/AngelPage.vue')
   },
   {
+    path: '/cat',
+    name: 'coverarttest',
+    component: () => import('../views/CoverArtTest.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },
