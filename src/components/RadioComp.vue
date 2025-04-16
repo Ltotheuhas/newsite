@@ -9,13 +9,27 @@
             <!-- Song Info -->
             <div class="song-info">
                 <!-- Artist -->
-                <div ref="artistContainer" class="artist marquee-container" :class="{ scrolling: isArtistOverflow }">
-                    <span ref="artistSpan">{{ decodeHtml(nowPlaying?.artist || "Unknown Artist") }}</span>
+                <div ref="artistContainer" class="scroll-container">
+                    <div ref="artistTrack" class="scroll-track" :class="{ animate: isArtistOverflow }">
+                        <span class="scroll-text" :style="{ paddingRight: isArtistOverflow ? '32px' : '0' }">
+                            {{ artistText }}
+                        </span>
+                        <span v-if="isArtistOverflow" class="scroll-text" :style="{ paddingRight: '32px' }">
+                            {{ artistText }}
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Title -->
-                <div ref="titleContainer" class="title marquee-container" :class="{ scrolling: isTitleOverflow }">
-                    <span ref="titleSpan">{{ decodeHtml(nowPlaying?.title || "Unknown Title") }}</span>
+                <div ref="titleContainer" class="scroll-container">
+                    <div ref="titleTrack" class="scroll-track" :class="{ animate: isTitleOverflow }">
+                        <span class="scroll-text" :style="{ paddingRight: isTitleOverflow ? '32px' : '0' }">
+                            {{ titleText }}
+                        </span>
+                        <span v-if="isTitleOverflow" class="scroll-text" :style="{ paddingRight: '32px' }">
+                            {{ titleText }}
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -32,253 +46,73 @@
 </template>
 
 <script>
-import { inject, ref, onMounted, nextTick } from "vue";
-
-async function getCoverArt(artist, song, album = "") {
-    const musicBrainzBaseURL = "https://musicbrainz.org/ws/2";
-    const coverArtBaseURL = "https://coverartarchive.org/release-group/";
-
-    try {
-        let searchQuery = `recording:${encodeURIComponent(song)} AND artist:${encodeURIComponent(artist)}`;
-        if (album) {
-            searchQuery += ` AND release:${encodeURIComponent(album)}`;
-        }
-
-        const searchUrl = `${musicBrainzBaseURL}/recording/?query=${searchQuery}&fmt=json`;
-
-        const response = await fetch(searchUrl, {
-            headers: {
-                "User-Agent": "MyMusicApp/1.0 (your_email@example.com)"
-            }
-        });
-
-        const data = await response.json();
-
-        if (!data.recordings || data.recordings.length === 0) {
-            return null;
-        }
-
-        let selectedReleaseGroupId = null;
-
-        // 🔍 Check for a release group that matches the exact album name
-        for (const recording of data.recordings) {
-            if (!recording.releases) continue;
-
-            for (const release of recording.releases) {
-                if (!release["release-group"]) continue;
-
-                const releaseGroup = release["release-group"];
-                const releaseGroupId = releaseGroup.id;
-                const releaseGroupTitle = releaseGroup.title.toLowerCase();
-
-                // 🎯 Prioritize exact album match
-                if (album && releaseGroupTitle === album.toLowerCase()) {
-                    selectedReleaseGroupId = releaseGroupId;
-                    break;
-                }
-
-                // ✅ Fallback: Store the first available album if no exact match
-                if (!selectedReleaseGroupId) {
-                    selectedReleaseGroupId = releaseGroupId;
-                }
-            }
-
-            if (selectedReleaseGroupId) break;
-        }
-
-        const coverArtUrl = `${coverArtBaseURL}${selectedReleaseGroupId}/front`;
-        const coverResponse = await fetch(coverArtUrl, { method: "HEAD" });
-
-        if (coverResponse.ok) {
-            return coverArtUrl;
-        }
-
-        return null;
-
-    } catch (error) {
-        return null;
-    }
-}
+import { ref, onMounted, nextTick, computed, watch } from "vue";
+import { useRadioPlayer } from "@/composables/useRadioPlayer";
 
 export default {
     name: "RadioComp",
-
     setup() {
-        const globalAudio = inject("globalAudio");
-        const isMuted = inject("isMuted");
-        const volume = inject("volume");
-        const nowPlaying = inject("nowPlaying");
+        const radio = useRadioPlayer();
 
-        const albumCoverUrl = ref(null);
-
-        // Overflow detection
+        // Artist scroll
+        const artistContainer = ref(null);
+        const artistTrack = ref(null);
         const isArtistOverflow = ref(false);
+        const artistText = computed(() =>
+            radio.decodeHtml(radio.nowPlaying.value?.artist || "Unknown Artist")
+        );
+
+        // Title scroll
+        const titleContainer = ref(null);
+        const titleTrack = ref(null);
         const isTitleOverflow = ref(false);
+        const titleText = computed(() =>
+            radio.decodeHtml(radio.nowPlaying.value?.title || "Unknown Title")
+        );
 
-        // Endpoints
-        const historyApiUrl = "https://api.luhas.gratis/api/history";
-        const lastFmApiKey = "5b76a7a11283ba1fbe8d1871b9756514";
+        function checkScrollOverflow(containerRef, trackRef, isOverflowRef) {
+            nextTick(() => {
+                const container = containerRef.value;
+                const track = trackRef.value;
+                const span = track?.querySelector(".scroll-text");
 
-        // On mount, fetch now-playing info
-        onMounted(() => {
-            fetchNowPlaying();
-            setInterval(fetchNowPlaying, 10000);
-        });
+                if (container && span) {
+                    const scrollWidth = span.offsetWidth;
+                    const containerWidth = container.clientWidth;
 
-        /**
-         * Fetch the now-playing track from your backend (the first item).
-         */
-        async function fetchNowPlaying() {
-            try {
-                const response = await fetch(historyApiUrl);
-                const data = await response.json();
-                if (data.length > 0) {
-                    nowPlaying.value = {
-                        artist: data[0].artist,
-                        title: data[0].title,
-                        album: data[0].album || null,
-                    };
-                    await fetchAlbumCover(nowPlaying.value.artist, nowPlaying.value.title, nowPlaying.value.album);
-                } else {
-                    nowPlaying.value = { artist: "", title: "", album: null };
-                    albumCoverUrl.value = null;
-                }
-                // Check overflow after DOM update
-                nextTick(() => {
-                    checkOverflow();
-                });
-            } catch (err) {
-                console.error("Error fetching now-playing:", err);
-            }
-        }
-
-        async function fetchAlbumCover(artist, title, album) {
-            if (!artist || !title) {
-                albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
-                return;
-            }
-
-            try {
-                const encodedArtist = encodeURIComponent(artist.trim());
-                const encodedTitle = encodeURIComponent(title.trim());
-
-                // First attempt: Last.fm
-                const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${lastFmApiKey}&artist=${encodedArtist}&track=${encodedTitle}&format=json`;
-                const trackResp = await fetch(trackUrl);
-                const trackData = await trackResp.json();
-
-                if (trackData?.track?.album?.image?.length) {
-                    const albumImages = trackData.track.album.image;
-                    const largestImage = albumImages[albumImages.length - 1]["#text"];
-                    if (largestImage) {
-                        albumCoverUrl.value = largestImage;
-                        return;
+                    if (scrollWidth > containerWidth) {
+                        container.style.setProperty("--scroll-width", `${scrollWidth + 32}px`); // +gap
+                        isOverflowRef.value = true;
+                    } else {
+                        isOverflowRef.value = false;
                     }
                 }
-
-                // If Last.fm fails, attempt MusicBrainz
-                const musicBrainzCover = await getCoverArt(artist.trim(), title.trim(), album?.trim());
-                if (musicBrainzCover) {
-                    albumCoverUrl.value = musicBrainzCover;
-                    return;
-                }
-
-                // Fallback if both fail
-                albumCoverUrl.value = "https://placehold.co/200x200?text=No+Cover";
-            } catch (err) {
-                albumCoverUrl.value = "https://placehold.co/200x200?text=Error";
-            }
+            });
         }
 
-        /**
-         * Check if artist/title overflows => apply scrolling.
-         */
-        function checkOverflow() {
-            const artistContainer = document.querySelector(".artist.marquee-container");
-            const artistSpan = document.querySelector(".artist.marquee-container span");
-            const titleContainer = document.querySelector(".title.marquee-container");
-            const titleSpan = document.querySelector(".title.marquee-container span");
-
-            if (artistContainer && artistSpan) {
-                isArtistOverflow.value =
-                    artistSpan.scrollWidth > artistContainer.clientWidth;
-            }
-            if (titleContainer && titleSpan) {
-                isTitleOverflow.value =
-                    titleSpan.scrollWidth > titleContainer.clientWidth;
-            }
+        function checkBothScrolls() {
+            checkScrollOverflow(artistContainer, artistTrack, isArtistOverflow);
+            checkScrollOverflow(titleContainer, titleTrack, isTitleOverflow);
         }
 
-        /**
-         * Decode HTML entities.
-         */
-        function decodeHtml(str) {
-            const textarea = document.createElement("textarea");
-            textarea.innerHTML = str;
-            return textarea.value;
-        }
+        onMounted(() => {
+            radio.fetchNowPlaying();
+            setInterval(radio.fetchNowPlaying, 10000);
+        });
 
-        /**
-         * Toggle global audio's muted state.
-         */
-        function toggleMute() {
-            if (!globalAudio.value) return;
-            if (isMuted.value) {
-                // Unmute
-                isMuted.value = false;
-                globalAudio.value.muted = false;
-                volume.value = 0.5;
-                globalAudio.value.volume = 0.5;
-                globalAudio.value.play().catch(err => {
-                    console.error("Play error after unmute:", err);
-                });
-            } else {
-                // Mute
-                isMuted.value = true;
-                globalAudio.value.muted = true;
-                volume.value = 0;
-                globalAudio.value.volume = 0;
-            }
-        }
-
-        /**
-         * If volume > 0 => unmute. If volume = 0 => mute.
-         */
-        function onVolumeChange() {
-            if (!globalAudio.value) return;
-            globalAudio.value.volume = volume.value;
-
-            if (volume.value > 0 && isMuted.value) {
-                isMuted.value = false;
-                globalAudio.value.muted = false;
-                globalAudio.value.play().catch(err => {
-                    console.error("Play error after volume change:", err);
-                });
-            } else if (volume.value === 0) {
-                isMuted.value = true;
-                globalAudio.value.muted = true;
-            }
-        }
+        watch(() => radio.nowPlaying?.artist, checkBothScrolls, { immediate: true });
+        watch(() => radio.nowPlaying?.title, checkBothScrolls, { immediate: true });
 
         return {
-            // Injections
-            globalAudio,
-            isMuted,
-            volume,
-
-            // Local data
-            nowPlaying,
-            albumCoverUrl,
+            ...radio,
+            artistContainer,
+            artistTrack,
             isArtistOverflow,
+            artistText,
+            titleContainer,
+            titleTrack,
             isTitleOverflow,
-
-            // Methods
-            fetchNowPlaying,
-            fetchAlbumCover,
-            checkOverflow,
-            decodeHtml,
-            toggleMute,
-            onVolumeChange,
+            titleText,
         };
     },
 };
@@ -374,5 +208,39 @@ button:hover {
 input[type="range"] {
     width: 100px;
     cursor: pointer;
+}
+
+.scroll-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 1.5em;
+    margin: 4px 0;
+    text-align: center;
+}
+
+.scroll-track {
+    display: inline-flex;
+    width: fit-content;
+    will-change: transform;
+    justify-content: center;
+}
+
+.scroll-track.animate {
+    animation: seamless-scroll 10s linear infinite;
+}
+
+.scroll-text {
+    white-space: nowrap;
+}
+
+@keyframes seamless-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-1 * var(--scroll-width, 100%)));
+    }
 }
 </style>
