@@ -1,7 +1,7 @@
 import { inject, ref, nextTick } from "vue";
 import { trySmartCoverArt } from "@/utils/radioUtils";
 
-const historyApiUrl = "https://api.luhas.gratis/api/history";
+const historyApiUrl = "https://api.luhas.gratis/history";
 const lastFmApiKey = "5b76a7a11283ba1fbe8d1871b9756514";
 
 export function useRadioPlayer() {

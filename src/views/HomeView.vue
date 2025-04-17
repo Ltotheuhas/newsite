@@ -20,8 +20,11 @@
                                     r="45" fill="var(--dynamic-color)" />
                             </g>
                         </svg>
-                        ONLINE!
+                        {{ presenceStatus }}!
                     </router-link>
+                    <span v-if="presenceStatus === 'OFFLINE' && lastOnline">
+                        <br>last seen: {{ timeAgo(lastOnline) }}
+                    </span>
                 </v-card-text>
                 <v-card-text class="py-0">
                     {{ currentMessage }}<br>I make shit
@@ -175,7 +178,9 @@ export default {
             dejikoTop: 580,
             dejikoLeft: 150,
             movingInterval: null,
-            currentUrl: window.location.hostname
+            currentUrl: window.location.hostname,
+            presenceStatus: 'checking…',
+            lastOnline: null,
         };
     },
 
@@ -211,6 +216,8 @@ export default {
         this.applyRandomHue();
         this.fetchTopSong();
         this.selectRandomPortfolioItem();
+        this.fetchPresenceStatus();
+        setInterval(this.fetchPresenceStatus, 30000);
     },
 
     beforeUnmount() {
@@ -388,6 +395,42 @@ export default {
                 this.dejikoTop = Math.max(0, Math.min(window.innerHeight - 100, this.dejikoTop + moveY));
                 this.dejikoLeft = Math.max(0, Math.min(window.innerWidth - 100, this.dejikoLeft + moveX));
             }, 1);
+        },
+
+        async fetchPresenceStatus() {
+            try {
+                const res = await fetch('https://api.luhas.gratis/presence', {
+                    cache: 'no-store' // prevent browser from caching old responses
+                });
+                const data = await res.json();
+                this.presenceStatus = data.status;
+                this.lastOnline = data.last_online || null;
+            } catch (error) {
+                console.error('Failed to fetch presence status:', error);
+                this.presenceStatus = 'unknown';
+            }
+        },
+
+        timeAgo(isoString) {
+            if (!isoString) return 'unknown';
+
+            const seconds = Math.floor((Date.now() - new Date(isoString)) / 1000);
+
+            const intervals = [
+                { label: 'year', seconds: 31536000 },
+                { label: 'month', seconds: 2592000 },
+                { label: 'day', seconds: 86400 },
+                { label: 'hour', seconds: 3600 },
+                { label: 'minute', seconds: 60 },
+                { label: 'second', seconds: 1 }
+            ];
+
+            for (const i of intervals) {
+                const count = Math.floor(seconds / i.seconds);
+                if (count > 0) return `${count} ${i.label}${count !== 1 ? 's' : ''} ago`;
+            }
+
+            return 'just now';
         },
     },
 };
