@@ -11,8 +11,9 @@
                     </p>
                 </v-col>
                 <v-col cols="12" sm="6" class="d-flex justify-end">
-                    <div class="counter">
-                        <img src='https://www.free-website-hit-counter.com/c.php?d=9&id=161100&s=1'>
+                    <div class="counter" v-if="loaded">
+                        <img v-for="(digit, index) in hitDigits" :key="index" :src="getDigitImage(digit)" :alt="digit"
+                            class="digit-img" :data-index="index" />
                     </div>
                 </v-col>
             </v-row>
@@ -25,7 +26,32 @@ export default {
     data() {
         return {
             currentYear: new Date().getFullYear(),
+            hitCount: null,
+            loaded: false,
         };
+    },
+    computed: {
+        hitDigits() {
+            return this.hitCount.toString().padStart(9, '0').split('');
+        },
+    },
+    methods: {
+        getDigitImage(digit) {
+            return require(`@/assets/numbers/${digit}.png`);
+        },
+        async fetchHitCount() {
+            try {
+                const res = await fetch('https://api.luhas.gratis/api/hit');
+                const data = await res.json();
+                this.hitCount = data.hits.toString();
+                this.loaded = true;
+            } catch (error) {
+                console.error('Failed to fetch hit count:', error);
+            }
+        },
+    },
+    mounted() {
+        this.fetchHitCount();
     },
 };
 </script>
@@ -50,20 +76,25 @@ export default {
     padding-right: 15px !important;
 }
 
+.counter {
+    display: flex;
+    align-items: center;
+}
+
 @media only screen and (max-width: 599px) {
     .unlicensed {
         margin-bottom: -22px;
         z-index: 0;
     }
 
-    .counter img {
-        width: 78px;
-        height: 20px;
-        object-fit: cover;
-        object-position: 100% 0;
+    .emoji {
+        display: none;
     }
 
-    .emoji {
+    .digit-img[data-index^="0"],
+    .digit-img[data-index^="1"],
+    .digit-img[data-index^="2"],
+    .digit-img[data-index^="3"] {
         display: none;
     }
 }

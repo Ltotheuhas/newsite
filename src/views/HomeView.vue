@@ -8,9 +8,9 @@
                 <v-img @click="selectRandomMeImage" cover :src="picOfMe" class="pfp"></v-img>
                 <v-card-text class="online">
                     <router-link to="reveal">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            style="isolation:isolate" viewBox="550.27 1317.664 124 266.636" width="124pt"
-                            height="266.636pt">
+                        <svg v-if="presenceStatus === 'ONLINE' && lastOnline" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate"
+                            viewBox="550.27 1317.664 124 266.636" width="124pt" height="266.636pt">
                             <g>
                                 <rect x="550.27" y="1477.664" width="124" height="106.636"
                                     transform="matrix(1,0,0,1,0,0)" fill="var(--dynamic-color)" />

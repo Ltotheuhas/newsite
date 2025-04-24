@@ -45,7 +45,7 @@ export default {
         { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE" },
         { type: '3D', title: "ESCAPE", url: 'https://3d.megaworld.xyz'},
         { src: require('@/assets/ads/psyops.jpg'), title: "YOUR DESIRES ARE COMPROMISED"},
-        { src: require('@/assets/ads/cd.jpg'), title: "CD OUT NOW", route: '/store/8d60a87f-8037-41be-b424-9ac23955940d', news: true},
+        { src: require('@/assets/ads/cd.jpg'), title: "CD OUT NOW", route: '/store/8d60a87f-8037-41be-b424-9ac23955940d'},
       ],
       positionStyle: {
         top: '0px',
