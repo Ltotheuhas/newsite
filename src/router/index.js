@@ -104,6 +104,11 @@ const routes = [
     component: () => import('../views/CoverArtTest.vue')
   },
   {
+    path: '/surveillance',
+    name: 'surveillance',
+    component: () => import('../views/SurveillanceView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },

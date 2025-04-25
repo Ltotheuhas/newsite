@@ -12,8 +12,10 @@
                 </v-col>
                 <v-col cols="12" sm="6" class="d-flex justify-end">
                     <div class="counter" v-if="loaded">
-                        <img v-for="(digit, index) in hitDigits" :key="index" :src="getDigitImage(digit)" :alt="digit"
-                            class="digit-img" :data-index="index" />
+                        <router-link to="surveillance">
+                            <img v-for="(digit, index) in hitDigits" :key="index" :src="getDigitImage(digit)"
+                                :alt="digit" class="digit-img" :data-index="index" />
+                        </router-link>
                     </div>
                 </v-col>
             </v-row>
