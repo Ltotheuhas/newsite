@@ -24,7 +24,7 @@
 
                     <v-divider class="my-3"></v-divider>
 
-                    <v-row class="d-flex flex-wrap justify-space-between align-center">
+                    <v-row v-if="filteredSizes.length > 0 || maxQuantity > 1" class="d-flex flex-wrap justify-space-between align-center">
                         <v-col v-if="filteredSizes.length > 0" cols="auto" class="d-flex justify-center">
                             <v-btn-toggle v-model="selectedSize" class="size-buttons d-flex flex-wrap justify-center"
                                 dense>
@@ -34,7 +34,7 @@
                                 </v-btn>
                             </v-btn-toggle>
                         </v-col>
-                        <v-col cols="auto" class="d-flex justify-center selectorContainer">
+                        <v-col v-if="maxQuantity > 1" cols="auto" class="d-flex justify-center selectorContainer">
                             <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
                                 @update:value="selectedQuantity = $event" />
                         </v-col>
