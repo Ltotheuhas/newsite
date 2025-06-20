@@ -459,12 +459,18 @@ export const portfolioItems = [
     category: "etc",
     primary: require("@/assets/grid/netcro.png")
   },
-    {
+  {
     name: "watch a stone age",
     year: "2025",
     category: "art",
     primary: require("@/assets/grid/stone1.jpg"),
     secondary: [require("@/assets/grid/stone2.jpg"), require("@/assets/grid/stone3.jpg"), require("@/assets/grid/stone4.jpg"), require("@/assets/grid/stone5.jpg")],
     description: "<h1>Watch a Stone Age</h1><br>A granite stone, interconnected with sensors and technology, is algorithmically analyzed to calculate its metaphorical 'lifespan.' Visitors can experience the subtle reactions of the installation through light, visuals, and data, influenced by touch and environmental factors. The project invites contemplation on the discrepancy between geological time and human perception."
+  },
+  {
+    name: "3dworld",
+    title: "3dworld",
+    year: "2025",
+    category: "etc"
   },
 ];

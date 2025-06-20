@@ -1,226 +1,212 @@
 <template>
-    <div ref="threeContainer" class="three-container"></div>
+  <div ref="threeContainer" class="three-container"></div>
 </template>
 
 <script>
+/* eslint-disable no-console */
 import * as THREE from 'three';
 import { parseGIF, decompressFrames } from 'gifuct-js';
 
 export default {
-    name: 'ThreeJSScene',
-    data() {
-        return {
-            objects: [],
-            canvas: document.createElement('canvas'),
-            ctx: null,
-            frames: [],
-            frameIndex: 0,
-            playing: true,
-        };
-    },
-    mounted() {
-        this.initThreeJS().then(() => {
-            this.loadObjectsFromBackend();
-            this.camera.rotation.order = 'YXZ';
-        });
-    },
-    methods: {
-        async initThreeJS() {
-            // Setup
-            const container = this.$refs.threeContainer;
-            const scene = new THREE.Scene();
-            const randomFOV = Math.random() * 30 + 80;
-            const camera = new THREE.PerspectiveCamera(randomFOV, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer();
+  name: 'ThreeJSAdScene',
 
-            const radius = 5;
-            let angle = Math.random() * Math.PI * 2;
-            const rotationSpeed = 0.005;
+  data() {
+    return {
+      objects: []               // we push every mesh we add (optional)
+    };
+  },
 
-            const randomFrequency = Math.random() * 2 + 0.5;
-            const amplitude = 2;
-            let time = 0;
-            const randomYPosition = Math.random() * 4 + 1;
+  async mounted() {
+    await this.initThreeJS();    // sets this.scene / camera / renderer
+    await this.loadObjectsFromBackend();
+    this.camera.rotation.order = 'YXZ';
+  },
 
-            camera.position.set(Math.cos(angle) * radius, randomYPosition, Math.sin(angle) * radius);
-            camera.lookAt(0, 0, 0);
+  methods: {
+    /* -------------------------------------------------------------- */
+    /*  THREE-JS SET-UP                                              */
+    /* -------------------------------------------------------------- */
+    async initThreeJS() {
+      const el = this.$refs.threeContainer;
 
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setClearColor(0xffffff, 1); // White background
-            container.appendChild(renderer.domElement);
+      /* --- create core objects and expose them immediately ------- */
+      const scene = new THREE.Scene();
+      const fov = 80 + Math.random() * 30;
+      const camera = new THREE.PerspectiveCamera(
+        fov,
+        el.clientWidth / el.clientHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(el.clientWidth, el.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setClearColor(0xffffff, 1);
+      el.appendChild(renderer.domElement);
 
-            // Lighting
-            const light = new THREE.AmbientLight(0xffffff); // white light
-            scene.add(light);
+      /*  make them available to the rest of the component NOW  */
+      Object.assign(this, { scene, camera, renderer });
 
-            // Grid Helper
-            const gridHelper = new THREE.GridHelper(20, 20);
-            scene.add(gridHelper);
+      /* --- simple lighting / helpers ------------------------ */
+      scene.add(new THREE.AmbientLight(0xffffff, 1));
+      scene.add(new THREE.GridHelper(20, 20));
+      scene.add(new THREE.AxesHelper(5));
 
-            // Axes Helper
-            const axesHelper = new THREE.AxesHelper(5);
-            scene.add(axesHelper);
+      /* --- spinning Megaworld splash ------------------------ */
+      new THREE.TextureLoader().load(
+        require('@/assets/megaworld.png'),
+        tex => {
+          const asp = tex.image.width / tex.image.height;
+          const plane = new THREE.Mesh(
+            new THREE.PlaneGeometry(4, 4 / asp),
+            new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide })
+          );
+          plane.position.set(0, 2, 0);
+          scene.add(plane);
 
-            // Load Megaworld Image
-            const textureLoader = new THREE.TextureLoader();
-            textureLoader.load(require('@/assets/megaworld.png'), (texture) => {
-                const aspect = texture.image.width / texture.image.height;
-                const planeGeometry = new THREE.PlaneGeometry(4, 4 / aspect);
-                const planeMaterial = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
-                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-                plane.position.set(0, 2, 0);
-                scene.add(plane);
-
-                // Animation loop for rotating the image plane
-                const animatePlane = () => {
-                    requestAnimationFrame(animatePlane);
-                    plane.rotation.y += 0.01;
-                };
-                animatePlane();
-            });
-
-            // Animation loop for rotating the camera
-            const animate = () => {
-                requestAnimationFrame(animate);
-
-                time += rotationSpeed;
-                angle += rotationSpeed;
-                camera.position.x = Math.cos(angle) * radius;
-                camera.position.z = Math.sin(angle) * radius;
-                camera.position.y = randomYPosition + Math.sin(time * randomFrequency) * amplitude; // Apply sine wave to Y position
-
-                camera.lookAt(0, 0, 0);
-                renderer.render(scene, camera);
-            };
-            animate();
-
-            this.scene = scene;
-            this.camera = camera;
-            this.renderer = renderer;
-        },
-        async loadObjectsFromBackend() {
-            const apiUrl = process.env.VUE_APP_API_URL;
-            try {
-                const response = await fetch(`${apiUrl}/objects`);
-                const objects = await response.json();
-
-                objects.sort((a, b) => this.getDistanceFromOrigin(a) - this.getDistanceFromOrigin(b));
-
-                const batchSize = 5;
-                const delayBetweenBatches = 500;
-
-                for (let i = 0; i < objects.length; i += batchSize) {
-                    const batch = objects.slice(i, i + batchSize);
-                    const objectPromises = batch.map(obj => {
-                        if (obj.type === 'image') {
-                            return this.loadImageFromData(obj);
-                        } else if (obj.type === 'gif') {
-                            return this.loadGIFFromData(obj);
-                        }
-                    });
-
-                    await Promise.all(objectPromises);
-                    await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
-                }
-            } catch (error) {
-                console.error('Error loading objects from backend:', error);
-            }
-        },
-        getDistanceFromOrigin(obj) {
-            if (obj.position) {
-                const { x, y, z } = obj.position;
-                return Math.sqrt(x * x + y * y + z * z);
-            }
-            return Infinity;
-        },
-        loadImageFromData(obj) {
-            const textureLoader = new THREE.TextureLoader();
-            // Use the '-small.webp' version of the image
-            const imageUrl = `${process.env.VUE_APP_API_URL}${obj.filePath.replace(/\.[^/.]+$/, '-small.webp')}`;
-
-            textureLoader.load(
-                imageUrl,
-                (texture) => {
-                    const aspect = texture.image.width / texture.image.height;
-                    const scale = obj.scale || 2;
-
-                    const planeGeometry = new THREE.PlaneGeometry(scale, scale / aspect);
-                    const planeMaterial = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        side: THREE.DoubleSide,
-                        transparent: true
-                    });
-
-                    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-                    plane.position.copy(obj.position || new THREE.Vector3(0, 0, 0));
-                    plane.rotation.copy(obj.rotation || new THREE.Euler(0, 0, 0));
-
-                    this.scene.add(plane);
-                    this.objects.push(plane);
-                },
-                undefined,
-                (err) => {
-                    console.error('Error loading image texture:', err);
-                }
-            );
-        },
-        async loadGIFFromData(obj) {
-            const response = await fetch(`${process.env.VUE_APP_API_URL}${obj.filePath}`);
-            const arrayBuffer = await response.arrayBuffer();
-            const gif = parseGIF(arrayBuffer);
-            const frames = decompressFrames(gif, true);
-
-            // Create a canvas for rendering the GIF
-            const canvas = document.createElement('canvas');
-            canvas.width = frames[0].dims.width;
-            canvas.height = frames[0].dims.height;
-            const ctx = canvas.getContext('2d');
-
-            const texture = new THREE.CanvasTexture(canvas);
-            const aspect = canvas.width / canvas.height;
-            const planeGeometry = new THREE.PlaneGeometry(2, 2 / aspect);
-            const planeMaterial = new THREE.MeshBasicMaterial({
-                map: texture,
-                side: THREE.DoubleSide,
-                transparent: true // Enable transparency
-            });
-            const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-            // Set position and rotation based on the object data
-            plane.position.copy(obj.position || new THREE.Vector3(0, 0, 0));
-            plane.rotation.copy(obj.rotation || new THREE.Euler(0, 0, 0));
-
-            this.scene.add(plane);
-            this.objects.push(plane);
-
-            // Animate the GIF frames
-            let frameIndex = 0;
-
-            const animateGIF = () => {
-                // Check for the delay of the current frame
-                const frame = frames[frameIndex];
-                const delayIsInMilliseconds = frame.delay < 10 ? false : true;
-                const frameDelay = delayIsInMilliseconds ? frame.delay : frame.delay * 10;
-
-                ctx.putImageData(
-                    new ImageData(
-                        new Uint8ClampedArray(frame.patch),
-                        frame.dims.width,
-                        frame.dims.height
-                    ),
-                    frame.dims.left,
-                    frame.dims.top
-                );
-                texture.needsUpdate = true;
-
-                frameIndex = (frameIndex + 1) % frames.length;
-                setTimeout(() => {
-                    requestAnimationFrame(animateGIF);
-                }, frameDelay);
-            };
-
-            animateGIF();
+          const spin = () => {
+            plane.rotation.y += 0.01;
+            requestAnimationFrame(spin);
+          };
+          spin();
         }
+      );
+
+      /* --- randomised camera orbit -------------------------- */
+      const RADIUS = 5;
+      const SPEED = 0.005;
+      const FREQ = 0.5 + Math.random() * 2;
+      const AMP = 2;
+      const Y_BASE = 1 + Math.random() * 4;
+      let angle = Math.random() * Math.PI * 2;
+      let t = 0;
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        t += SPEED;
+        angle += SPEED;
+
+        camera.position.set(
+          Math.cos(angle) * RADIUS,
+          Y_BASE + Math.sin(t * FREQ) * AMP,
+          Math.sin(angle) * RADIUS
+        );
+        camera.lookAt(0, 0, 0);
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      /* --- handle resizes ----------------------------------- */
+      window.addEventListener('resize', () => {
+        const { clientWidth: w, clientHeight: h } = el;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+    },
+
+    /* -------------------------------------------------------------- */
+    /*  FETCH OBJECTS FROM BACKEND & DISPATCH LOADERS                */
+    /* -------------------------------------------------------------- */
+    async loadObjectsFromBackend() {
+      const api = process.env.VUE_APP_API_URL;
+      try {
+        const res = await fetch(`${api}/objects`);
+        const list = await res.json();
+
+        /* nearest-first so foreground appears quickly */
+        list.sort((a, b) => this.dist(a.position) - this.dist(b.position));
+
+        const BATCH = 5, DELAY = 500;
+        for (let i = 0; i < list.length; i += BATCH) {
+          await Promise.all(
+            list.slice(i, i + BATCH).map(o =>
+              o.type === 'image' ? this.loadImageFromData(o)
+                : this.loadGIFFromData(o)
+            )
+          );
+          await new Promise(r => setTimeout(r, DELAY));
+        }
+      } catch (err) {
+        console.error('Error loading objects:', err);
+      }
+    },
+    dist(p = {}) { return Math.hypot(p.x || 0, p.y || 0, p.z || 0); },
+
+    /* -------------------------------------------------------------- */
+    /*  IMAGE PLANE                                                  */
+    /* -------------------------------------------------------------- */
+    loadImageFromData(obj) {
+      const loader = new THREE.TextureLoader();
+      const api = process.env.VUE_APP_API_URL;
+      const url = `${api}${obj.filePaths.small || obj.filePaths.original}`;
+
+      loader.load(
+        url,
+        tex => {
+          const asp = tex.image.width / tex.image.height;
+          const size = obj.scale || 2;
+          const geo = new THREE.PlaneGeometry(size, size / asp);
+          const mat = new THREE.MeshBasicMaterial({
+            map: tex, transparent: true, side: THREE.DoubleSide
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.position.copy(obj.position);
+          mesh.rotation.copy(obj.rotation);
+          this.scene.add(mesh);
+          this.objects.push(mesh);
+        },
+        undefined,
+        err => console.error('Image load error:', err)
+      );
+    },
+
+    /* -------------------------------------------------------------- */
+    /*  GIF PLANE                                                    */
+    /* -------------------------------------------------------------- */
+    async loadGIFFromData(obj) {
+      const api = process.env.VUE_APP_API_URL;
+      const resp = await fetch(`${api}${obj.filePaths.original}`);
+      const buf = await resp.arrayBuffer();
+      const gif = parseGIF(buf);
+      const fr = decompressFrames(gif, true);
+
+      const cvs = document.createElement('canvas');
+      cvs.width = fr[0].dims.width;
+      cvs.height = fr[0].dims.height;
+      const ctx = cvs.getContext('2d');
+      const tex = new THREE.CanvasTexture(cvs);
+      const asp = cvs.width / cvs.height;
+
+      const geo = new THREE.PlaneGeometry(2, 2 / asp);
+      const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(obj.position);
+      mesh.rotation.copy(obj.rotation);
+      this.scene.add(mesh);
+      this.objects.push(mesh);
+
+      /* simple frame player */
+      let i = 0;
+      const play = () => {
+        const f = fr[i];
+        ctx.putImageData(
+          new ImageData(new Uint8ClampedArray(f.patch), f.dims.width, f.dims.height),
+          f.dims.left, f.dims.top
+        );
+        tex.needsUpdate = true;
+        i = (i + 1) % fr.length;
+        setTimeout(() => requestAnimationFrame(play), (f.delay || 10) * 10);
+      };
+      play();
     }
+  }
 };
 </script>
+
+<style scoped>
+.three-container {
+  position: absolute;
+  overflow: hidden;
+}
+</style>

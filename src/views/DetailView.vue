@@ -10,6 +10,9 @@
     <div v-else-if="currentItem.name === 'netcronomicon'">
       <NetcroNomicon></NetcroNomicon>
     </div>
+    <div v-else-if="currentItem.name === '3dworld'">
+      <MegaWorld></MegaWorld>
+    </div>
     <div v-else>
       <div v-if="currentItem.category && currentItem.category.includes('clothes')" class="clothes-container">
         <img :src="currentItem.primary" :alt="`${currentItem.name}`" class="primary-image" />
@@ -69,6 +72,7 @@ import { portfolioItems } from '@/data/portfolioItems';
 import EvaView from './EvaView.vue';
 import NotebookView from './NotebookView.vue';
 import NetcroNomicon from './NetcroNomicon.vue';
+import MegaWorld from './MegaWorld.vue';
 import FourOhFour from './FourOhFour.vue';
 
 export default {
@@ -76,6 +80,7 @@ export default {
     EvaView,
     NotebookView,
     NetcroNomicon,
+    MegaWorld,
     FourOhFour
   },
 
