@@ -95,7 +95,7 @@
                 </div>
             </v-card>
         </v-col>
-test
+
         <v-col cols="12" lg="5" class="column">
             <v-row class="store-radio-row">
                 <v-col cols="12" lg="12" md="6">

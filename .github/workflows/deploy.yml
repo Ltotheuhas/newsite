@@ -7,32 +7,23 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest        # <-- back to a supported image
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: '${{ secrets.DEPLOY_KEY }}'
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build the project
-        run: npm run build
+      - run: npm ci && npm run build    # combined install + build
 
       - name: Deploy to Server
         env:
-          REMOTE_DIR: /var/www/luhas.gratis/
+          HOST: 80.108.204.51
+          USER: servore
+          REMOTE_DIR: /var/www/luhas.gratis
         run: |
-          # Remove all existing files in the remote directory
-          ssh -o StrictHostKeyChecking=no servore@80.108.204.51 "rm -rf $REMOTE_DIR/*"
-          
-          # Copy the built files to the server
-          scp -o StrictHostKeyChecking=no -r dist/* servore@80.108.204.51:$REMOTE_DIR
-      
-          # Restart Nginx to apply changes
-          ssh -o StrictHostKeyChecking=no servore@80.108.204.51 "sudo -n systemctl reload nginx"
-      
+          rsync -az --delete dist/ "$USER@$HOST:$REMOTE_DIR"
+          ssh -o StrictHostKeyChecking=no "$USER@$HOST" \
+              'sudo -n systemctl reload nginx'
