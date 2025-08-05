@@ -7,23 +7,29 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest        # <-- back to a supported image
-    steps:
-      - uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    env:
+      HOST: 80.108.204.51
+      USER: servore
+      REMOTE_DIR: /var/www/luhas.gratis
 
-      - name: Set up SSH
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - run: npm ci && npm run build    # combined install + build
+      # ⬇️ NEW: record the host key
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
-      - name: Deploy to Server
-        env:
-          HOST: 80.108.204.51
-          USER: servore
-          REMOTE_DIR: /var/www/luhas.gratis
+      - run: npm ci && npm run build
+
+      - name: Deploy to server
         run: |
           rsync -az --delete dist/ "$USER@$HOST:$REMOTE_DIR"
-          ssh -o StrictHostKeyChecking=no "$USER@$HOST" \
-              'sudo -n systemctl reload nginx'
+          ssh "$USER@$HOST" 'sudo -n systemctl reload nginx'
