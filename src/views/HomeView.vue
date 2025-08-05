@@ -541,6 +541,7 @@ a:hover {
 
 .p5row {
     margin: -100px -20px 0;
+    pointer-events: none;
 }
 
 .fade-enter-active,
