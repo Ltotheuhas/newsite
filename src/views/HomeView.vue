@@ -33,12 +33,12 @@
                 <v-card-text>
                     Fav song rn:<br>{{ favSong }}
                 </v-card-text>
-                <v-card-text class="pt-0">
+                <v-card-text class="py-0 eurotext">
                     <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
-                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro" aria-hidden="true"
+                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro pr-1" aria-hidden="true"
                             loading="lazy">
                         Give me your money
-                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro pl-1" aria-hidden="true"
+                        <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro pl-2" aria-hidden="true"
                             loading="lazy">
                     </a>
                 </v-card-text>
@@ -136,6 +136,18 @@
         </v-col>
     </v-row>
 
+    <v-row class="p5row">
+        <v-col cols="12" class="pa-0">
+            <CoolP5Comp />
+        </v-col>
+    </v-row>
+
+    <v-row class="content">
+        <v-col cols="12">
+            <BannerComp></BannerComp>
+        </v-col>
+    </v-row>
+
     <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
 </template>
 
@@ -146,6 +158,8 @@ import { portfolioItems } from '@/data/portfolioItems';
 import { getDailyMessages } from '../sanity';
 import RadioComp from '@/components/RadioComp.vue';
 import StoreComp from '@/components/StoreComp.vue';
+import BannerComp from '@/components/BannerComp.vue';
+import CoolP5Comp from '@/components/CoolP5Comp.vue';
 
 export default {
     name: 'MySpace',
@@ -154,7 +168,9 @@ export default {
         CommentComp,
         BlogComp,
         RadioComp,
-        StoreComp
+        StoreComp,
+        BannerComp,
+        CoolP5Comp
     },
 
     data() {
@@ -485,8 +501,12 @@ a:hover {
     text-decoration: underline;
 }
 
+.eurotext {
+    font-size: 20px;
+}
+
 .euro {
-    height: 1.8em;
+    height: 1.6em;
 }
 
 .give-me-your-money {
@@ -517,6 +537,10 @@ a:hover {
     align-items: center;
     overflow: hidden;
     margin-top: 20px;
+}
+
+.p5row {
+    margin: -100px -20px 0;
 }
 
 .fade-enter-active,
