@@ -15,11 +15,10 @@
 import { ref, onMounted } from 'vue'
 
 const banners = ref([
-    /*{ src: new URL('@/assets/banners/cool1.gif', import.meta.url).href },
     {
-        src: new URL('@/assets/banners/cool2.gif', import.meta.url).href,
-        url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA',
-    },*/
+        src: new URL('@/assets/banners/megaworld.png', import.meta.url).href,
+        url: 'https://www.megaworld.xyz',
+    },
     {
         src: 'https://media.discordapp.net/attachments/1186131996695609375/1402134466125631488/murrumurbutton1.gif?ex=6892cefb&is=68917d7b&hm=67a15f0d897c4c8b1836fa9a32ffccb5617ba3d3a4250a1cd57fdca4ec22a98d&=&width=178&height=64',
         url: 'https://murrumur.neocities.org',
@@ -74,6 +73,7 @@ const banners = ref([
     },
     {
         src: 'https://hellosailor.neocities.org/website%20assets/jolyne%20icon.gif',
+        url: 'https://www.stuxnet.lgbt/',
     },
     {
         src: 'https://88by31.neocities.org/games/yumenikki3.gif',
@@ -130,7 +130,7 @@ const banners = ref([
         src: 'https://loa2k.neocities.org/btns/+w.gif',
     },
     {
-        src: 'https://forum.agoraroad.com/data/addonflare/awardsystem/icons/180.gif?1632460929',
+        src: 'https://forum.agoraroad.com/images/agoratravelbutton/11.png',
         url: 'https://forum.agoraroad.com/index.php',
     },
     {
@@ -225,6 +225,75 @@ const banners = ref([
     {
         src: 'https://radio.cock.institute/assets/174-lTL8WsZo.webp',
     },
+    {
+        src: 'https://radio.cock.institute/assets/277-CV0xIZH_.webp',
+    },
+    {
+        src: 'https://radio.cock.institute/assets/1651-CW1vCjH_.webp',
+    },
+    {
+        src: 'data:image/webp;base64,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'
+    },
+    {
+        src: 'https://radio.cock.institute/assets/677-DYEPBVSK.webp'
+    },
+    {
+        src: 'data:image/webp;base64,UklGRu4DAABXRUJQVlA4IOIDAAAQEwCdASpYAB8APo04l0elI6IhMBgNUKARiWwAyi/tLb+3cEQYaEBtmPMB0FvQA/tf9u6yD0APLM9kP9uq7n0OXnk+b+6cIOwJvMPcvMvggPCgLj5xfpj2CekUmhAc0oQZakxfN+6Hu55DjWrlkidJPJeK7RGd4nXY91ood7vYWCwXIYazWV3xsL3iaICkSpPm6/k7qbVnAFumxXK87nqYoAD+/H9Rf1xW6EAekiFDAD1lreyRpub+3f33TRhj05jRiXqE3T3J27xVMfOjD/e3vJaZAnPbyztfKKb91iYBxxNedymBZLUL+Wr57KDRlyltuhfJmU23xJcTv1qAoaHTPt/zaGDnl1Jg6IFBCHUM1ztqyHHAE0r0IBtIHT3zc0407GE8IQNNJfeTN843o3q93RU//Gch+tiAA5VpEaOFWI/mlmJ/PapR9WN0xxqhvBv9Dvqrhk5q8olwwZHb1snZsc2K34+IhD7gf1v9GG/UK5ZA+VZYjMsrBRuycf5hrfOUNnSFGv5EZRHiZ4ggcQ94gT0+x7FQ0iOMLgDGM8CdwTrM/RHrCqmVlUAa3rGE3XOfI/L2LerKzM44WbTISDOI1c8by/W0pPW8c8BZyjeuSPZuy/VTnOKhlZpfeFTrA9T+lAxZmDn0mFugnkTy7AzNUL8e65rUC9rON8GL4hTGP1wv91x2VA1twJeNxFLO9X4Oet8RH48Vkcv+0X/PdU3o+fgrfwpaFbdgJUnsXqdyP0RrWr//S5CGi3ojo1OxWsnM4mofJ6+Hmjwln2QT7Ym93G/H/BMg/L7PutPhu68VIUwd0Dx+906gzOUU8Yk+iP12/xIyLHKb//pcbI7Ul5XL3KSDNKfn4+XDE2I8h6wgttCBBt5Z/16OAnfHbW1Ef4poyM2FWmuGLMhTD8L/vh1yN4n/NJ4itSV4ZkKgK1mjumtvrCdMVzW1Iwu/XjgvZzOFcGPlWHQ/dRqjAt3wuXNi3REiF0Dpd/5/5y3x35L012jfF95uwLKa+C/focM1QRywb2dIO1uOcsBeBpZEotwzLE4bZv1nhtceJK2SqV9EhP1UmgKqW838wFQKSbYT83TBr5itv8IaX7zWynjJxIelQ5Wc8Qi1gTwL88miBbEevvY39/wQhMhqeNpdL6rzkr+S42UGurCXX/1X6NSZ8c1aLOopFuZ1soJQ1Up45OuWnCSwl+cnuXnumS2Qu9sjcLT9vkpcZakjQ+Un821EpI6ywH9bkviAqOvbLL7sFptYjjAqa5v47xi4mGXY8DwqjO8TWOoOQxS3Fu9EVZyrj/zFZxLQtF0806T498yXfiYxGAAA'
+    },
+    {
+        src: 'https://radio.cock.institute/assets/1738-DW1KwJzH.webp'
+    },
+    {
+        src: 'https://radio.cock.institute/assets/293-D_spnhfv.webp',
+    },
+    {
+        src: 'https://maia.crimew.gay/badges/maia.crimew.gay.png',
+        url: 'https://maia.crimew.gay/',
+    },
+    {
+        src: 'https://versary.town/badges/sucks.gif',
+    },
+    {
+        src: 'https://utsuho.rocks/img/tor.gif',
+    },
+    {
+        src: 'https://utsuho.rocks/img/tfc.gif',
+        url: 'https://www.thefreecountry.com/'
+    },
+    {
+        src: 'https://blackwings.neocities.org/navi01.gif',
+        url: 'https://fauux.neocities.org/',
+    },
+    {
+        src: 'https://wilton.neocities.org/dmyslogo.png',
+        url: 'https://dismissyourself.bandcamp.com',
+    },
+    {
+        src: 'https://wilton.neocities.org/bye2_logo.png',
+        url: 'https://bye2.co.uk/',
+    },
+    {
+        src: 'https://dj-subaruu.neocities.org/buttons/5ubaruu-36.gif',
+        url: 'https://dj-subaruu.neocities.org/',
+    },
+    {
+        src: 'https://wilton.neocities.org/max-payne-logo-font-download1-1200x675.jpg',
+        url: 'http://gldio.com/wrkz/max_payne/',
+    },
+    {
+        src: 'https://c678924.neocities.org/images/bliss3three.gif',
+        url: 'https://bliss3three.neocities.org/',
+    },
+    {
+        src: 'https://aspyn.gay/assets/badges/other/ralseidoobie.gif',
+    },
+    {
+        src: 'https://ash.ms/wp-content/posts/human-made.gif',
+    },
+    {
+        src: 'https://cdn.myportfolio.com/bef57c3d-da80-473f-bd67-df1c8922d722/c81d3430-2e57-4f2d-9fce-d0f114a5af72_rwc_0x0x2048x2048x4096.png?h=bcf98aa9cd14e6aca36ed8d0a8442dd8',
+        url: 'https://alenaprinz.com/',
+    }
 ])
 
 const shuffledBanners = ref([])
@@ -252,5 +321,6 @@ onMounted(() => {
 .banner-img {
     image-rendering: pixelated;
     border: 1px solid black;
+    background-color: black;
 }
 </style>
