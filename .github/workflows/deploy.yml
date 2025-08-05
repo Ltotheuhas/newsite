@@ -21,7 +21,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      # ⬇️ NEW: record the host key
       - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
