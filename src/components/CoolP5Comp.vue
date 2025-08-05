@@ -120,7 +120,7 @@ export default {
 <style scoped>
 .p5-container {
     width: 100%;
-    height: 400px;
+    height: 800px;
     position: relative;
     overflow: hidden;
 }
