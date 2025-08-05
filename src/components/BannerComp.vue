@@ -1,6 +1,12 @@
 <template>
     <v-container fluid class="pa-0">
         <v-row dense class="banners">
+            <v-col cols="auto" class="pa-1">
+                <v-img :src="require('@/assets/banners/luhas.gif')" tile="add me to ur website!" width="88" height="31"
+                    class="banner-img" cover />
+            </v-col>
+        </v-row>
+        <v-row dense class="banners">
             <v-col v-for="(banner, index) in shuffledBanners" :key="index" cols="auto" class="pa-1">
                 <a v-if="banner.url" :href="banner.url" target="_blank" rel="noopener noreferrer">
                     <v-img :src="banner.src" width="88" height="31" class="banner-img" cover />
@@ -130,10 +136,6 @@ const banners = ref([
         src: 'https://loa2k.neocities.org/btns/+w.gif',
     },
     {
-        src: 'https://forum.agoraroad.com/images/agoratravelbutton/11.png',
-        url: 'https://forum.agoraroad.com/index.php',
-    },
-    {
         src: 'https://forum.agoraroad.com/index.php?media/kaarbs-gif.28180/full',
         url: 'https://kaarbs.xyz/',
     },
@@ -161,9 +163,6 @@ const banners = ref([
     },
     {
         src: 'https://feign.neocities.org/image/stamp/rhino-beetle.gif',
-    },
-    {
-        src: 'https://feign.neocities.org/image/stamp/proud%20furry.gif',
     },
     {
         src: 'https://88by31.neocities.org/music/eatsleep.gif',
@@ -293,7 +292,39 @@ const banners = ref([
     {
         src: 'https://cdn.myportfolio.com/bef57c3d-da80-473f-bd67-df1c8922d722/c81d3430-2e57-4f2d-9fce-d0f114a5af72_rwc_0x0x2048x2048x4096.png?h=bcf98aa9cd14e6aca36ed8d0a8442dd8',
         url: 'https://alenaprinz.com/',
-    }
+    },
+    {
+        src: 'https://hl2.sh/badges/twopaws.gif',
+    },
+    {
+        src: 'https://hl2.sh/badges/kagi.png',
+        url: 'https://kagi.com/',
+    },
+    {
+        src: 'https://hl2.sh/badges/foobar2000.png',
+    },
+    {
+        src: 'https://notnite.com/buttons/jellyfin.gif',
+        url: 'https://jellyfin.org/',
+    },
+    {
+        src: 'https://notnite.com/buttons/lowtiergod.png',
+    },
+    {
+        src: 'https://88by31.neocities.org/anime/thirdimpact.png',
+    },
+    {
+        src: 'https://unlife.nyx.land/static/img/ccru-banner.png',
+        url: 'http://www.ccru.net/index.htm',
+    },
+    {
+        src: 'https://unlife.nyx.land/static/img/web-banner-88x32.png',
+        url: 'https://unlife.nyx.land/',
+    },
+    {
+        src: 'https://magentahardcore.com/imgsAssets/banners/htmldream.gif',
+    },
+
 ])
 
 const shuffledBanners = ref([])
@@ -320,7 +351,6 @@ onMounted(() => {
 
 .banner-img {
     image-rendering: pixelated;
-    border: 1px solid black;
     background-color: black;
 }
 </style>

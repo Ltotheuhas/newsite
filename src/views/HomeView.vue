@@ -33,7 +33,7 @@
                 <v-card-text>
                     Fav song rn:<br>{{ favSong }}
                 </v-card-text>
-                <v-card-text class="py-0 eurotext">
+                <v-card-text class="py-4 eurotext">
                     <a href="https://www.paypal.com/paypalme/ltotheuhas" target="_blank" class="give-me-your-money">
                         <img :src="require('@/assets/myspace/gifs-de-euro-2.gif')" class="euro pr-1" aria-hidden="true"
                             loading="lazy">
@@ -42,10 +42,16 @@
                             loading="lazy">
                     </a>
                 </v-card-text>
-                <!--<v-card-text class="py-0">
+                <v-card-text class="py-0">
                     Or send me XMR:<br>
-                    87Xeaf2iddZX59zxBLoQ9iZ2tZXbnJu1sBZ5sSUS9tN8goEjEyFLmx4Xp6HNy4aUmx2kdYuWXbvBw4j9pjPgX56L6q59b89
-                </v-card-text>-->
+                    <span class="xmr-address" @click="copyXMR" title="Click to copy">
+                        87Xeaf2iddZX59zxBLo<br>
+                        Q9iZ2tZXbnJu1sBZ5sS<br>
+                        US9tN8goEjEyFLmx4Xp<br>
+                        6HNy4aUmx2kdYuWXbvB<br>
+                        w4j9pjPgX56L6q59b89
+                    </span>
+                </v-card-text>
                 <v-card-text>
                     <pre>
 ╔╗  ╔╗
@@ -142,13 +148,13 @@
         </v-col>
     </v-row>
 
+    <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
+
     <v-row class="content">
         <v-col cols="12">
             <BannerComp></BannerComp>
         </v-col>
     </v-row>
-
-    <v-img src="@/assets/myspace/yeet.gif" class="reimu" v-if="shouldShowImage" loading="lazy"></v-img>
 </template>
 
 <script>
@@ -191,7 +197,7 @@ export default {
             displayTimeout: null,
             favSong: '',
             hue: 0,
-            dejikoTop: 480,
+            dejikoTop: 620,
             dejikoLeft: 150,
             movingInterval: null,
             currentUrl: window.location.hostname,
@@ -448,6 +454,12 @@ export default {
 
             return 'just now';
         },
+
+        copyXMR() {
+            const xmr =
+                '87Xeaf2iddZX59zxBLoQ9iZ2tZXbnJu1sBZ5sSUS9tN8goEjEyFLmx4Xp6HNy4aUmx2kdYuWXbvBw4j9pjPgX56L6q59b89';
+            navigator.clipboard.writeText(xmr);
+        },
     },
 };
 </script>
@@ -520,10 +532,12 @@ a:hover {
 
 .reimu {
     width: 400px;
-    margin-top: -400px;
+    margin-top: -312px;
     position: absolute;
     right: 0;
     transform: scaleX(-1);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .cccp {
@@ -542,6 +556,21 @@ a:hover {
 .p5row {
     margin: -300px -20px -200px;
     pointer-events: none;
+}
+
+.xmr-address {
+    display: inline-block;
+    cursor: pointer;
+    color: inherit;
+    transition: color 0.2s ease;
+    font-family: monospace;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+}
+
+.xmr-address:hover {
+    text-decoration: underline;
+    color: #85a5e6;
 }
 
 .fade-enter-active,
