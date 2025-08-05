@@ -43,7 +43,7 @@ export default {
         //{ src: require('@/assets/ads/changelog.webp'), route: '/shapes', title: "Changelog" },
         { src: require('@/assets/ads/hard.png'), url: 'https://youtu.be/xBrxROap_n8?si=GCzypjySN44nNqPA', title: "listen to this song its dope af" },
         { src: require('@/assets/ads/harakiri.jpg'), title: "SD LAIKA APPRECIATION WEBSITE" },
-        { type: '3D', title: "ESCAPE", url: 'https://3d.megaworld.xyz', news: true },
+        { type: '3D', title: "ESCAPE", url: 'https://3d.megaworld.xyz' },
         { src: require('@/assets/ads/psyops.jpg'), title: "YOUR DESIRES ARE COMPROMISED" },
         { src: require('@/assets/ads/cd.jpg'), title: "CD OUT NOW", route: '/store/8d60a87f-8037-41be-b424-9ac23955940d' },
       ],

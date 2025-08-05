@@ -42,10 +42,10 @@
                             loading="lazy">
                     </a>
                 </v-card-text>
-                <v-card-text class="py-0">
+                <!--<v-card-text class="py-0">
                     Or send me XMR:<br>
-                    46SWMim8UZhNkxWE64PNcf47knS6dKG9pjPqb8bpF554EgXAGFdiUZ95ZmGjg6eCTuPH4shU786ms27F2oiBK28NHqjxGXT
-                </v-card-text>
+                    87Xeaf2iddZX59zxBLoQ9iZ2tZXbnJu1sBZ5sSUS9tN8goEjEyFLmx4Xp6HNy4aUmx2kdYuWXbvBw4j9pjPgX56L6q59b89
+                </v-card-text>-->
                 <v-card-text>
                     <pre>
 ╔╗  ╔╗
@@ -175,7 +175,7 @@ export default {
             displayTimeout: null,
             favSong: '',
             hue: 0,
-            dejikoTop: 580,
+            dejikoTop: 480,
             dejikoLeft: 150,
             movingInterval: null,
             currentUrl: window.location.hostname,
