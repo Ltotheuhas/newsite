@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row v-if="cartItems.length > 0">
-            <v-col v-for="item in cartItems" :key="item.id" cols="12" md="8" offset-md="2">
+            <v-col v-for="item in cartItems" :key="item.id + (item.variantLabel ?? '')" cols="12" md="8" offset-md="2">
                 <v-card class="prodCard mb-4 pl-4 py-2">
                     <v-row no-gutters>
                         <v-col cols="4">
@@ -11,15 +11,18 @@
                             <v-card-title>{{ item.name }}</v-card-title>
                             <v-card-subtitle>
                                 {{ formatCurrency(item.price) }}
-                                <span v-if="item.size"> <span v-if="width > 600">-</span><br v-if="width < 600"> Size:
-                                    {{ item.size }}</span>
+                                <span v-if="item.variantLabel">
+                                    <span v-if="width > 600">-</span><br v-if="width < 600">
+                                    {{ item.variantName || 'Variant' }}: {{ item.variantLabel }}
+                                </span>
                             </v-card-subtitle>
                             <v-spacer v-if="width > 600"></v-spacer>
                             <v-card-actions v-if="width > 600" class="pl-4">
                                 <QuantitySelector :value="item.quantity" :maxQuantity="getMaxQuantity(item)" cols="4"
                                     @update:value="updateItemQuantity(item, $event)" />
                                 <v-spacer></v-spacer>
-                                <v-btn icon class="close-modal-btn align-end" @click="removeItem(item.id, item.size)">
+                                <v-btn icon class="close-modal-btn align-end"
+                                    @click="removeItem(item.id, item.variantLabel)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                             </v-card-actions>
@@ -33,7 +36,7 @@
                                     @update:value="updateItemQuantity(item, $event)" />
                                 <v-spacer></v-spacer>
                                 <v-btn icon class="close-modal-btn align-end pr-0"
-                                    @click="removeItem(item.id, item.size)">
+                                    @click="removeItem(item.id, item.variantLabel)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                             </v-card-actions>
@@ -77,6 +80,7 @@ export default {
         QuantitySelector,
     },
     setup() {
+        const k = (id, label) => `${id}|${label ?? ''}`
         const router = useRouter();
         const cartStore = useCartStore();
         const cartItems = computed(() => cartStore.items);
@@ -90,17 +94,18 @@ export default {
             const maxQuantitiesObj = {};
             for (const item of cartItems.value) {
                 const product = await getProductById(item.id);
-                if (item.size) {
-                    const sizeStock = product.sizesWithStock.find(size => size.size === item.size);
-                    maxQuantitiesObj[item.id] = sizeStock ? sizeStock.stock : 1;
+                if (item.variantLabel) {
+                    const opt = product.variantGroups?.[0]?.options
+                        ?.find(o => o.label === item.variantLabel);
+                    maxQuantitiesObj[k(item.id, item.variantLabel)] = opt ? opt.stock : 1;
                 } else {
-                    maxQuantitiesObj[item.id] = product.quantity || 1;
+                    maxQuantitiesObj[k(item.id)] = product.quantity || 1;
                 }
             }
             maxQuantities.value = maxQuantitiesObj;
         });
 
-        const getMaxQuantity = (item) => maxQuantities.value[item.id] || 1;
+        const getMaxQuantity = (item) => maxQuantities.value[k(item.id, item.variantLabel)] || 1;
 
         const formatCurrency = (value) => {
             return new Intl.NumberFormat('en-US', {
@@ -116,11 +121,11 @@ export default {
         const updateItemQuantity = (item, newQuantity) => {
             const maxQuantity = getMaxQuantity(item);
             const quantityChange = Math.min(newQuantity, maxQuantity) - item.quantity;
-            cartStore.updateQuantity(item.id, item.size, quantityChange);
+            cartStore.updateQuantity(item.id, item.variantLabel, quantityChange);
         };
 
-        const removeItem = (productId, size) => {
-            cartStore.removeFromCart(productId, size);
+        const removeItem = (productId, variantLabel) => {
+            cartStore.removeFromCart(productId, variantLabel);
         };
 
         const proceedToCheckout = () => {

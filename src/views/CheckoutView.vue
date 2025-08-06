@@ -8,7 +8,7 @@
                         <v-list-item v-for="item in cartItems" :key="item.id">
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    {{ item.name }} <span v-if="item.size"> - {{ item.size }}</span>
+                                    {{ item.name }} <span v-if="item.variantLabel"> - {{ item.variantLabel }}</span>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
                                     {{ formatCurrency(item.price) }}
@@ -81,7 +81,7 @@ export default {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                ...(item.size && { size: item.size, sizeKey: item.sizeKey })
+                ...(item.variantLabel && { variantLabel: item.variantLabel })
             }));
         };
 

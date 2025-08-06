@@ -24,19 +24,27 @@
 
                     <v-divider class="my-3"></v-divider>
 
-                    <v-row v-if="filteredSizes.length > 0 || maxQuantity > 1" class="d-flex flex-wrap justify-space-between align-center">
-                        <v-col v-if="filteredSizes.length > 0" cols="auto" class="d-flex justify-center">
-                            <v-btn-toggle v-model="selectedSize" class="size-buttons d-flex flex-wrap justify-center"
-                                dense>
-                                <v-btn v-for="sizeObj in filteredSizes" :key="sizeObj.size" :value="sizeObj.size"
-                                    :ripple="false">
-                                    {{ sizeObj.size }}
-                                </v-btn>
-                            </v-btn-toggle>
+                    <!-- Variant buttons + quantity selector (new schema) -->
+                    <v-row v-if="hasVariants || maxQuantity > 1"
+                        class="d-flex flex-wrap justify-space-between align-center">
+
+                        <!-- variant toggle -->
+                        <v-col v-if="hasVariants" cols="auto" class="d-flex justify-center">
+                            <div class="my-2">
+                                <v-btn-toggle v-model="selectedLabel" mandatory
+                                    class="size-buttons d-flex flex-wrap justify-center" dense>
+                                    <v-btn v-for="opt in options" :key="opt.label" :value="opt.label"
+                                        :disabled="opt.stock === 0" :ripple="false">
+                                        {{ opt.label }}
+                                    </v-btn>
+                                </v-btn-toggle>
+                            </div>
                         </v-col>
+
+                        <!-- quantity picker -->
                         <v-col v-if="maxQuantity > 1" cols="auto" class="d-flex justify-center selectorContainer">
-                            <QuantitySelector :value="selectedQuantity" :maxQuantity="maxQuantity" :cols="12"
-                                @update:value="selectedQuantity = $event" />
+                            <QuantitySelector :value="quantity" :maxQuantity="maxQuantity" :cols="12"
+                                @update:value="quantity = $event" />
                         </v-col>
                     </v-row>
 
@@ -55,7 +63,7 @@
                         <div class="product-description">
                             <p v-html="formattedDescription"></p>
 
-                            <div v-if="product.sizesWithStock && product.sizesWithStock.length > 0" class="size-chart">
+                            <div v-if="hasVariants && variantGroup?.name === 'Size'" class="size-chart">
                                 <v-container class="px-0">
                                     <v-row class="size-grid">
                                         <v-col cols="4" class="size-header">Size</v-col>
@@ -121,13 +129,16 @@ export default {
     emits: ['update:isOpen', 'add-to-cart'],
     setup(props, { emit }) {
         const cartStore = useCartStore();
-        const selectedQuantity = ref(1);
-        const selectedSize = ref(null);
+        const quantity = ref(1);
+        const selectedLabel = ref('');
         const isVisible = ref(props.isOpen);
         const dynamicHeight = ref(0);
         const carouselRef = ref(null);
         const activeSlideIndex = ref(0);
         const { width } = useWindowSize();
+        const variantGroup = computed(() => props.product?.variantGroups?.[0]);
+        const hasVariants = computed(() => Boolean(variantGroup.value));
+        const options = computed(() => variantGroup.value?.options ?? []);
 
         const calculateHeight = () => {
             nextTick(() => {
@@ -159,10 +170,10 @@ export default {
             if (newProduct) {
                 await nextTick();
                 calculateHeight();
-                if (newProduct.sizesWithStock && newProduct.sizesWithStock.length > 0) {
-                    selectedSize.value = newProduct.sizesWithStock[0].size;
+                if (hasVariants.value && options.value.length > 0) {
+                    selectedLabel.value = options.value.find(o => o.stock > 0)?.label || '';
                 } else {
-                    selectedSize.value = null;
+                    selectedLabel.value = '';
                 }
             }
         });
@@ -175,17 +186,9 @@ export default {
             }
         });
 
-        watch(selectedSize, (newSize) => {
-            if (props.product.sizesWithStock) {
-                const sizeStock =
-                    props.product.sizesWithStock.find(
-                        (size) => size.size === newSize
-                    )?.stock || 1;
-
-                if (selectedQuantity.value > sizeStock) {
-                    selectedQuantity.value = sizeStock;
-                }
-            }
+        watch([selectedLabel, options], () => {
+            const opt = options.value.find(o => o.label === selectedLabel.value);
+            if (opt && quantity.value > opt.stock) quantity.value = opt.stock;
         });
 
         const formatCurrency = (value) => {
@@ -202,20 +205,15 @@ export default {
 
         const maxQuantity = computed(() => {
             if (!props.product) return 1;
-            if (props.product.sizesWithStock?.length > 0 && selectedSize.value) {
-                const sizeStock = props.product.sizesWithStock.find(
-                    (size) => size.size === selectedSize.value
-                );
-                if (sizeStock) {
+            if (hasVariants.value && selectedLabel.value) {
+                const opt = options.value.find(o => o.label === selectedLabel.value);
+                if (opt) {
                     const cartItem = cartStore.items.find(
-                        (item) =>
-                            item.id === props.product._id &&
-                            item.size === selectedSize.value
+                        i => i.id === props.product._id &&
+                            i.variantLabel === selectedLabel.value
                     );
-                    const availableStock = cartItem
-                        ? sizeStock.stock - cartItem.quantity
-                        : sizeStock.stock;
-                    return availableStock > 0 ? availableStock : 1;
+                    const remaining = opt.stock - (cartItem?.quantity ?? 0);
+                    return remaining > 0 ? remaining : 1;
                 }
             } else if (props.product.quantity) {
                 const cartItem = cartStore.items.find(
@@ -230,54 +228,33 @@ export default {
         });
 
         const handleAddToCart = () => {
-            const sizeKey = productHasSizes.value
-                ? props.product.sizesWithStock.find(
-                    (size) => size.size === selectedSize.value
-                )?._key
-                : null;
-
-            emit(
-                'add-to-cart',
+            emit('add-to-cart',
                 props.product,
-                selectedQuantity.value,
-                selectedSize.value,
-                sizeKey
-            );
+                selectedLabel.value || undefined,
+                quantity.value);
             close();
         };
 
-        const productHasSizes = computed(
-            () =>
-                props.product?.sizesWithStock &&
-                props.product.sizesWithStock.length > 0
-        );
-
         const updateMaxQuantity = () => {
-            if (selectedQuantity.value > maxQuantity.value) {
-                selectedQuantity.value = maxQuantity.value;
+            if (quantity.value > maxQuantity.value) {
+                quantity.value = maxQuantity.value;
             }
         };
 
         const formattedDescription = computed(() => {
-            return props.product.description.replace(/\n/g, '<br>');
+            const desc = props.product?.description || '';
+            return typeof desc === 'string' ? desc.replace(/\n/g, '<br>') : '';
         });
 
-        const isAddToCartDisabled = computed(() => {
-            return productHasSizes.value && !selectedSize.value;
-        });
-
-        const filteredSizes = computed(() => {
-            return props.product?.sizesWithStock?.filter(sizeObj => sizeObj.stock > 0) || [];
-        });
+        const isAddToCartDisabled = computed(
+            () => hasVariants.value && !selectedLabel.value
+        );
 
         return {
-            selectedQuantity,
-            selectedSize,
             formatCurrency,
             close,
             handleAddToCart,
             maxQuantity,
-            productHasSizes,
             urlFor,
             updateMaxQuantity,
             isVisible,
@@ -288,7 +265,11 @@ export default {
             width,
             formattedDescription,
             isAddToCartDisabled,
-            filteredSizes
+            quantity,
+            selectedLabel,
+            hasVariants,
+            options,
+            variantGroup,
         };
     },
 };

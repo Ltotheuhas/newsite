@@ -254,6 +254,7 @@ const banners = ref([
     },
     {
         src: 'https://utsuho.rocks/img/tor.gif',
+        url: 'https://zj4rnhlqqftmby75ts3x2w7xqpkotb6opdbstpb7d5yfzcxirrev6fyd.onion/',
     },
     {
         src: 'https://utsuho.rocks/img/tfc.gif',
@@ -324,7 +325,96 @@ const banners = ref([
     {
         src: 'https://magentahardcore.com/imgsAssets/banners/htmldream.gif',
     },
-
+    {
+        src: 'data:image/webp;base64,UklGRioFAABXRUJQVlA4IB4FAACQGgCdASpYAB8APo08mEelI6KhLVZtsKARiUAaFhiRANtX4kvrD7rB6nO8hf6evv/pP45+c/hB8+ezmcX+5H378qOQH2+/w3oI/zX+zbwTV7xU/ln+37m70A+XL1Jfxz/U+pH+Z/wHd3/QD4AP45/Ov73/Zv3H/vXw1f6H+T84/zv/0/8N8BX8w/qn/W/X/3kfX76I37YEabGETHN7Jczm00m5m9/4LLDmSvbmctWtxzagCjkwssGM4l3t0yw6Dk39uPb32hPUciN2eGWHs++Ta7TVycS45D5XB1I8UAD+/bzKjF8bn9iy/+wES4An2G1AkofPBJXpUD+g22+1tPgQYwaTR2jx27BIcIDuiBfVhWPGDD2WLGqTxghwMDPqqLsQ6AW48o0YYoRtj8MksU064LFic74KXM+uPMP44RrJXMk7D3M7VMts48KHwgmTs2c0+RzqKaNxVVyp82qo92aSdJJjZ31mo6LVuvE1hO/FIPwek5nYxfTtxLc3aMFqn0o1EXGmGS/fGaUOX/mPJWyjAGWwj/TNGnQoOtPOOlrWyQch8XLyM8FhrX7WfLfXY2D++m4P0yifqmZXhUQZeB6fhNC/Im+mXyq4Ot+pv8MsjQ7WvxBjvC/LVo8NyrtzzD/xDYERnh/4PYm1a+/tHAaFE5mwwIXaUKqaA1kiH5cMYSC/xKuPAjoT/hzafYDN/G9biMd1s034/iNIZNGfofN1MZrfjudr//U9peHCO7o/ldcIndrgqVPpINlQTjI+z//dp+lGQwJ+TnB8hE+fP1Pt5/6gG9HjhP9ziMlaz2VRG/OhPCsVjaZNqZhV7SdsyH71CAcOKEVC0+9gZ5jSQVJ0I+ma4GzRxrS+RMr4eF21C+RD9oiCLn3y0Kn/ypffRKxGHXAmCf4nPoMy6XOPJUmH4GTYBpV8jPBg+F1uNl/MwSSHjWLWiH+Z7K/rjCvpcbrBtan2Q0fQesKlOqBKAw7bfEeEwZojJaWmXQVsRxygK2n1jjBoqmyc9H/9/BNff+/xAGz0HkutLW8K8r/SJG5fN5rnDMOEAZeE/2rZiYvhjVkHPtNCCEQ+tAFb1dQJURyiTv+7UeGb9BKOArVdK5Yl+qZ6D9jQ1Dpr71FFWmIANe3aV8KB2voD85SjyFlrxnkgbAwiBTWY7weLU9DQ2S1Wv6cIJ6CddHSLO2udJ+9fVQr/FfCQz+soSYVn/8uif+OujrBnD/11qDkx4ZpGdEr4kLdP3tgivipn9BckXoV+8JiNZy7VpRJr8/SCFXyQC2BKC9BQ/OqeGhPXn33gY3Mx8nYXfOjQhdV8MjufqKG/E+v0xBqpa2Oyn/4uNPMvaZr8KTPqXlyPAF6YNyb1AYRyZmhmaUYKBhyf4RINIwXbTQvtoYa2WCdfLYNVrnx3FF5PvZ88UDYQJ4Qnlm0V5jbjf5jFvjkecAKjZt8s5BCb2ySegv1RSdg9ulZ3zhOCcuGofwwSP/BQwSp5H6e0Pti7FKx/Hn43+NTsB0MR4sbNSU+G5C5SrTFnDNX+sJ+PQoJwp/2fLnhYD5y7DceNyzWY/6sCb1flbmqCY5M7axhE2BazXDCzr5ELA4ktty1WDVlMT9T/mriU4h2EnvIF8VlyIRmsBFQEt8Tt12FR4HJ/hUAaEy95ZcruOMl7vJcqXVhChiUhLfrw5+e36BbNOlhK8+pExcVbh7TNFtw8IPKWF3n78WZ5ohZDBeVxuSiAJf3T3MimxDnkr/SyngAAAA==',
+    },
+    {
+        src: 'data:image/webp;base64,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',
+        url: 'https://you-are-idiot.github.io/',
+    },
+    {
+        src: 'https://radio.cock.institute/assets/logo/logo.webp',
+        url: 'https://radio.cock.institute/',
+    },
+    {
+        src: 'https://driftt.neocities.org/049.gif',
+    },
+    {
+        src: 'https://driftt.neocities.org/lainmdma.png',
+    },
+    {
+        src: 'https://konetska.neocities.org/fyeah.png',
+    },
+    {
+        src: 'https://konetska.neocities.org/hitman.gif',
+    },
+    {
+        src: 'https://dannarchy.com/now/77granddad.png',
+    },
+    {
+        src: 'https://dannarchy.com/now/epic1.gif',
+    },
+    {
+        src: 'https://file.garden/ZRWmljccGFWyKu1T/buttons/d_now.gif',
+        url: 'https://dannarchy.com/',
+    },
+    {
+        src: 'https://file.garden/ZRWmljccGFWyKu1T/buttons/button(1).png',
+        url: 'https://sourgummywormz.neocities.org/',
+    },
+    {
+        src: 'https://endlessvoid.lol/decorations/gifcities-button.gif',
+        url: 'https://gifcities.org/',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/fuckmm.gif',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/klown.gif',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/aniquake.gif',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/korncom.gif',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/gayvampires.gif',
+    },
+    {
+        src: 'https://predictable1993.neocities.org/blinkies/mcr.gif',
+    },
+    {
+        src: 'https://boypussy.neocities.org/layout/deco/buttons/bp%20button.gif',
+        url: 'https://boypussy.neocities.org/',
+    },
+    {
+        src: 'https://eldritch-exorcist.neocities.org/website/223.jpg',
+    },
+    {
+        src: 'https://eldritch-exorcist.neocities.org/website/feednottheai.gif',
+    },
+    {
+        src: 'https://eldritch-exorcist.neocities.org/website/digitalblasphemy.gif',
+    },
+    {
+        src: 'https://eldritch-exorcist.neocities.org/website/silenthill.png',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/aponow.gif',
+    },
+    {
+        src: 'https://shroom.ink/images/bottom/oldmanyaoi.jpg',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/thevoid.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/theorb.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/bu12.gif',
+    },
 ])
 
 const shuffledBanners = ref([])
