@@ -80,7 +80,7 @@ export default {
                 id: item.id,
                 name: item.name,
                 price: item.price,
-                quantity: item.quantity,
+                qty: item.quantity,
                 ...(item.variantLabel && { variantLabel: item.variantLabel })
             }));
         };
@@ -266,13 +266,13 @@ export default {
     font-size: 0.6em;
 }
 
+.buttonz {
+    margin-top: 20px;
+}
+
 @media (max-width: 600px) {
     .prodCard {
         padding-top: 0 !important;
-    }
-
-    .buttonz {
-        margin-top: 20px;
     }
 
     .buttn {
