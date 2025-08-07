@@ -7,8 +7,12 @@
     <v-container>
       <v-row>
         <v-col v-for="product in products" :key="product._id" cols="12" sm="6" md="4">
-          <v-card class="product-card" @click="openProduct(product)" @mouseenter="applyGlitchEffect"
-            @mouseleave="resetFilter">
+          <v-card class="product-card" :class="{ 'sold-out': isSoldOut(product) }"
+            :style="isSoldOut(product) ? 'pointer-events:none' : ''" @click="openProduct(product)"
+            @mouseenter="applyGlitchEffect" @mouseleave="resetFilter">
+            <div v-if="isSoldOut(product)" class="soldout-banner">
+              SOLD&nbsp;OUT!!
+            </div>
             <v-img :src="mainImage(product)" height="250px" class="product-image" />
             <v-card-title class="product-title">{{ product.name }}</v-card-title>
             <v-card-subtitle class="product-price pb-2">
@@ -149,6 +153,13 @@ export default {
       if (!newVal) closeModal();
     };
 
+    const isSoldOut = (product) => {
+      if (product.variantGroups?.length) {
+        return product.variantGroups[0].options.every(o => o.stock === 0);
+      }
+      return (product.quantity ?? 0) === 0;
+    };
+
     return {
       products,
       formatCurrency,
@@ -161,7 +172,8 @@ export default {
       applyGlitchEffect,
       resetFilter,
       isMobile,
-      handleModalUpdate
+      handleModalUpdate,
+      isSoldOut
     };
   },
 };
@@ -179,5 +191,42 @@ export default {
 
 .product-image {
   mix-blend-mode: exclusion;
+}
+
+.sold-out .product-image,
+.sold-out .product-title,
+.sold-out .product-price {
+  filter: grayscale(1) brightness(0.6);
+  opacity: 0.6;
+}
+
+.soldout-banner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-10deg);
+  color: #ff0033;
+  font-size: 2.2rem;
+  font-weight: bolder;
+  pointer-events: none;
+  z-index: 2;
+  color: #FFFFFF;
+  text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+/* size-pulse while keeping the 10° tilt and center-offset */
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+    filter: hue-rotate(170deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(-10deg) scale(1.15);
+    filter: hue-rotate(220deg);
+  }
 }
 </style>
