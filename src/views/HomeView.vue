@@ -145,7 +145,7 @@
         </v-col>
     </v-row>
 
-    <v-row class="p5row">
+    <v-row v-if="!shouldShowImage" class="p5row">
         <v-col cols="12" class="pa-0">
             <CoolP5Comp />
         </v-col>
