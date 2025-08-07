@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <audio ref="globalAudio" :src="radioStreamUrl" preload="auto" crossorigin="anonymous"
+    <audio ref="globalAudio" :src="radioStreamUrl" preload="none" crossorigin="anonymous"
       style="display: none;"></audio>
     <NavbarComp />
     <PopupAd v-if="showPopupAd" />

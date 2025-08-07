@@ -4,6 +4,9 @@ import { trySmartCoverArt } from "@/utils/radioUtils";
 const historyApiUrl = "https://api.luhas.gratis/history";
 const lastFmApiKey = "5b76a7a11283ba1fbe8d1871b9756514";
 
+let firstPlay = true;
+const baseUrl = "https://radio.luhas.gratis/stream.mp3";
+
 export function useRadioPlayer() {
     const globalAudio = inject("globalAudio");
     const isMuted = inject("isMuted");
@@ -22,14 +25,24 @@ export function useRadioPlayer() {
         return textarea.value;
     }
 
+    function reloadStream() {
+        globalAudio.value.src = `${baseUrl}?t=${Date.now()}`;
+        globalAudio.value.load();
+    }
+
     function toggleMute() {
         if (!globalAudio.value) return;
+
         if (isMuted.value) {
+            if (firstPlay) {
+                reloadStream();
+                firstPlay = false;
+            }
             isMuted.value = false;
             globalAudio.value.muted = false;
             volume.value = 0.5;
             globalAudio.value.volume = 0.5;
-            globalAudio.value.play().catch(err => console.error("Play error after unmute:", err));
+            globalAudio.value.play().catch(console.error);
         } else {
             isMuted.value = true;
             globalAudio.value.muted = true;
@@ -100,7 +113,6 @@ export function useRadioPlayer() {
                 }
             }
 
-            // Use fallback smart fetcher
             const musicBrainzCover = await trySmartCoverArt(artist.trim(), title.trim(), album?.trim());
             if (musicBrainzCover) {
                 albumCoverUrl.value = musicBrainzCover;

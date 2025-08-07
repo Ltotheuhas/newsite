@@ -1,14 +1,11 @@
 <template>
     <div class="compact-radio-player">
         <div class="player-container">
-            <!-- Album Cover -->
             <div class="album-cover">
                 <img v-if="albumCoverUrl" :src="albumCoverUrl" alt="Album Cover" />
             </div>
 
-            <!-- Song Info -->
             <div class="song-info">
-                <!-- Artist -->
                 <div ref="artistContainer" class="scroll-container">
                     <div ref="artistTrack" class="scroll-track" :class="{ animate: isArtistOverflow }">
                         <span class="scroll-text" :style="{ paddingRight: isArtistOverflow ? '32px' : '0' }">
@@ -20,7 +17,6 @@
                     </div>
                 </div>
 
-                <!-- Title -->
                 <div ref="titleContainer" class="scroll-container">
                     <div ref="titleTrack" class="scroll-track" :class="{ animate: isTitleOverflow }">
                         <span class="scroll-text" :style="{ paddingRight: isTitleOverflow ? '32px' : '0' }">
@@ -33,7 +29,6 @@
                 </div>
             </div>
 
-            <!-- Controls -->
             <div class="controls">
                 <button @click="toggleMute">
                     {{ isMuted ? "Unmute" : "Mute" }}
@@ -54,7 +49,6 @@ export default {
     setup() {
         const radio = useRadioPlayer();
 
-        // Artist scroll
         const artistContainer = ref(null);
         const artistTrack = ref(null);
         const isArtistOverflow = ref(false);
@@ -62,7 +56,6 @@ export default {
             radio.decodeHtml(radio.nowPlaying.value?.artist || "Unknown Artist")
         );
 
-        // Title scroll
         const titleContainer = ref(null);
         const titleTrack = ref(null);
         const isTitleOverflow = ref(false);
@@ -71,23 +64,26 @@ export default {
         );
 
         function checkScrollOverflow(containerRef, trackRef, isOverflowRef) {
-            nextTick(() => {
-                const container = containerRef.value;
-                const track = trackRef.value;
-                const span = track?.querySelector(".scroll-text");
+            const container = containerRef.value;
+            const track = trackRef.value;
+            const span = track?.querySelector('.scroll-text');
+            if (!container || !span) return;
 
-                if (container && span) {
-                    const scrollWidth = span.offsetWidth;
-                    const containerWidth = container.clientWidth;
+            const scrollWidth = span.offsetWidth;
+            const containerWidth = container.clientWidth;
 
-                    if (scrollWidth > containerWidth) {
-                        container.style.setProperty("--scroll-width", `${scrollWidth + 32}px`); // +gap
-                        isOverflowRef.value = true;
-                    } else {
-                        isOverflowRef.value = false;
-                    }
-                }
-            });
+            container.style.setProperty('--scroll-width', `${scrollWidth + 32}px`);
+
+            if (scrollWidth > containerWidth) {
+                isOverflowRef.value = true;
+                track.classList.remove('animate');
+                track.offsetWidth;
+                track.classList.add('animate');
+            } else {
+                isOverflowRef.value = false;
+                track.classList.remove('animate');
+                track.style.transform = 'translateX(0)';
+            }
         }
 
         function checkBothScrolls() {
@@ -100,8 +96,26 @@ export default {
             setInterval(radio.fetchNowPlaying, 10000);
         });
 
-        watch(() => radio.nowPlaying?.artist, checkBothScrolls, { immediate: true });
-        watch(() => radio.nowPlaying?.title, checkBothScrolls, { immediate: true });
+        watch(() => [radio.nowPlaying.value.artist, radio.nowPlaying.value.title],
+            () => {
+                resetState();
+                nextTick(checkBothScrolls);
+            },
+            { immediate: true }
+        );
+
+        function resetState() {
+            [artistTrack.value, titleTrack.value].forEach(track => {
+                if (!track) return;
+                track.classList.remove('animate');
+                track.style.transform = 'translateX(0)';          // wipe residue
+            });
+            [artistContainer.value, titleContainer.value].forEach(c => {
+                c?.style.setProperty('--scroll-width', '0px');    // reset var
+            });
+            isArtistOverflow.value = false;
+            isTitleOverflow.value = false;
+        }
 
         return {
             ...radio,
@@ -124,7 +138,6 @@ export default {
     text-align: center;
     margin: 20px auto;
     width: 300px;
-    /* adjust as needed */
 }
 
 .player-container {
@@ -151,14 +164,9 @@ export default {
     margin-bottom: 10px;
     color: #fff;
     width: 200px;
-    /* helps define marquee area */
     text-align: center;
 }
 
-/* 
-    We only animate (scroll) if .scrolling is present 
-    => text is too wide for its container
-  */
 .marquee-container {
     position: relative;
     white-space: nowrap;

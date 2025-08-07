@@ -415,6 +415,32 @@ const banners = ref([
     {
         src: 'https://cyber.dabamos.de/88x31/bu12.gif',
     },
+    {
+        src: 'https://88x31.datakra.sh/img/random/durstloescherultras.gif',
+    },
+    {
+        src: 'https://88x31.datakra.sh/img/random/VA-11-Hall-A.gif',
+    },
+    {
+        src: 'https://88x31.datakra.sh/img/random/ilovegothgirls.gif',
+    },
+    {
+        src: 'https://88x31.datakra.sh/img/random/fckafd.gif',
+    },
+    {
+        src: 'https://alyx.sh/images/hrt-geocities-buttons/powered-by-debian.gif',
+    },
+    {
+        src: 'https://adryd.com/static/buttons/gh.gif',
+    },
+    {
+        src: 'https://i.postimg.cc/pVfRB1SL/hope-left-me-button.gif',
+        url: 'https://store.steampowered.com/app/2268470/HOPE_LEFT_ME/',
+    },
+    {
+        src: 'https://i.postimg.cc/506jycq3/NA-web-button.gif',
+        url: 'https://noagreements.bandcamp.com/',
+    },
 ])
 
 const shuffledBanners = ref([])
