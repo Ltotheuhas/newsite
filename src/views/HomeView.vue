@@ -134,11 +134,14 @@
     </v-row>
 
     <v-row class="content">
-        <v-col cols="12" class="smallComments column">
+        <v-col cols="12" lg="7" class="smallComments column">
             <v-card class="w-100">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
-                <CommentComp></CommentComp>
+                <CommentComp />
             </v-card>
+        </v-col>
+        <v-col v-if="shouldShowImage" cols="12" lg="5" class="smallComments column">
+            <CoolerP5Comp />
         </v-col>
     </v-row>
 
@@ -152,7 +155,7 @@
 
     <v-row class="content">
         <v-col cols="12">
-            <BannerComp></BannerComp>
+            <BannerComp />
         </v-col>
     </v-row>
 </template>
@@ -166,6 +169,7 @@ import RadioComp from '@/components/RadioComp.vue';
 import StoreComp from '@/components/StoreComp.vue';
 import BannerComp from '@/components/BannerComp.vue';
 import CoolP5Comp from '@/components/CoolP5Comp.vue';
+import CoolerP5Comp from '@/components/CoolerP5Comp.vue';
 
 export default {
     name: 'MySpace',
@@ -176,7 +180,8 @@ export default {
         RadioComp,
         StoreComp,
         BannerComp,
-        CoolP5Comp
+        CoolP5Comp,
+        CoolerP5Comp
     },
 
     data() {
