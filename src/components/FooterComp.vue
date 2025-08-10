@@ -43,7 +43,7 @@ export default {
         },
         async fetchHitCount() {
             try {
-                const res = await fetch('https://api.luhas.gratis/api/hit');
+                const res = await fetch('https://api.luhas.gratis/hit');
                 const data = await res.json();
                 this.hitCount = data.hits.toString();
                 this.loaded = true;

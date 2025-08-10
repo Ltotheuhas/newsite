@@ -12,6 +12,13 @@ module.exports = defineConfig({
   devServer: {
     host: '0.0.0.0',
     allowedHosts: "all",
+    proxy: {
+      '/fastfetch': {
+        target: 'https://api.luhas.gratis',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
 
   configureWebpack: {

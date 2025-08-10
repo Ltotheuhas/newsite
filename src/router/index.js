@@ -109,6 +109,11 @@ const routes = [
     component: () => import('../views/SurveillanceView.vue')
   },
   {
+    path: '/server',
+    name: 'server',
+    component: () => import('../views/FastfetchView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },

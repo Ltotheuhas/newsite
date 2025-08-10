@@ -26,7 +26,7 @@ const banners = ref([
         url: 'https://www.megaworld.xyz',
     },
     {
-        src: 'https://media.discordapp.net/attachments/1186131996695609375/1402134466125631488/murrumurbutton1.gif?ex=6892cefb&is=68917d7b&hm=67a15f0d897c4c8b1836fa9a32ffccb5617ba3d3a4250a1cd57fdca4ec22a98d&=&width=178&height=64',
+        src: 'https://murrumur.neocities.org/buttons/knife.gif',
         url: 'https://murrumur.neocities.org',
     },
     {
@@ -159,7 +159,7 @@ const banners = ref([
         src: 'https://feign.neocities.org/image/stamp/bulletproof%20love.gif',
     },
     {
-        src: 'https://feign.neocities.org/image/stamp/crunk.gif',
+        src: 'https://i.postimg.cc/X7s4yBZj/burial.gif',
     },
     {
         src: 'https://feign.neocities.org/image/stamp/rhino-beetle.gif',
@@ -340,7 +340,7 @@ const banners = ref([
         src: 'https://driftt.neocities.org/049.gif',
     },
     {
-        src: 'https://driftt.neocities.org/lainmdma.png',
+        src: 'https://murrumur.neocities.org/buttons/live%20laugh%20love.png',
     },
     {
         src: 'https://konetska.neocities.org/fyeah.png',
@@ -352,7 +352,7 @@ const banners = ref([
         src: 'https://dannarchy.com/now/77granddad.png',
     },
     {
-        src: 'https://dannarchy.com/now/epic1.gif',
+        src: 'https://magentahardcore.com/imgsAssets/banners/evilnetnow.gif',
     },
     {
         src: 'https://file.garden/ZRWmljccGFWyKu1T/buttons/d_now.gif',
@@ -429,6 +429,7 @@ const banners = ref([
     },
     {
         src: 'https://alyx.sh/images/hrt-geocities-buttons/powered-by-debian.gif',
+        url: '/server',
     },
     {
         src: 'https://adryd.com/static/buttons/gh.gif',
