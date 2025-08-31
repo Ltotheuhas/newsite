@@ -9,9 +9,14 @@
         <v-row dense class="banners">
             <v-col v-for="(banner, index) in shuffledBanners" :key="index" cols="auto" class="pa-1">
                 <a v-if="banner.url" :href="banner.url" target="_blank" rel="noopener noreferrer">
-                    <v-img :src="banner.src" width="88" height="31" class="banner-img" cover />
+                    <img v-if="/^https?:\/\/111logged\.in\//.test(banner.src)" :src="banner.src"
+                        referrerpolicy="no-referrer" width="88" height="31" class="banner-img" />
+                    <v-img v-else :src="banner.src" width="88" height="31" class="banner-img" cover />
                 </a>
+                <img v-else-if="/^https?:\/\/111logged\.in\//.test(banner.src)" :src="banner.src"
+                    referrerpolicy="no-referrer" width="88" height="31" class="banner-img" />
                 <v-img v-else :src="banner.src" width="88" height="31" class="banner-img" cover />
+
             </v-col>
         </v-row>
     </v-container>
@@ -143,9 +148,6 @@ const banners = ref([
         src: 'https://doffy.neocities.org/button_1.gif',
     },
     {
-        src: 'https://thoughtcrimes.neocities.org/thoughtcrimes.png',
-    },
-    {
         src: 'https://anlucas.neocities.org/piracy.gif',
     },
     {
@@ -204,7 +206,7 @@ const banners = ref([
         src: 'data:image/webp;base64,UklGRrgDAABXRUJQVlA4IKwDAADwEQCdASpYAB8APpFAmkmlo6IhKrQLALASCWYAs7M5AJBCvgbfzngNMl3l+0ITEeHWyR7gDYU/o3ew/ztxT89z/P8vX5b/k/+/7gP8q/qn/P67/ocfpWMptNecno+9tUOxiA1zG0E7sprykW4VmSEnfr298E8ABwF4ixpQTDHDKyplmnMU/EnQa+3RgPOb+7c7QMc27ar4wAD+9m/FdoikJlNJcW/eetJ1fHQ8Bk9A7Z9TQFfq7exVPW8uZtUBoqj/+cq2Qv/H3x4DkAwyFzWI0+WKSRhottr/zdurF7VYmedp8WbADi3ff8R6ppohr4LcvjnW/8n8UbnF86mUG1FHPNqa/y9/9eutts5jTvy1ku8MJIvPujv/8q//rFPNDCwoxdeQh2KWT7NvmnUUdCaWVIajdHa9m0TRSiQp6GtbtyBE0o+OH/m3Ax8mfyW34vaKT5Bd4iKSgJX9W/fR+QMZFHFGyR61GEPKKGRm1BsdoG6P8degQ7TVPAfxJ2RrJsYiiXIp56oZfmLmnbJWG+8wC1XY1+D8coF8lm50KiJ3XxWs/ywBW4lPQ+noQxfiP+uXQrFW4YUrOzC8tXZ25XnAW4Aj9WxKv2X/hiGvII1+6Q8Pd6OjYDjtiqWUV9Al3vDbT7QYrO7MVv72z1ueQyPXVDymQPSt+1OrEARii59U8gYKe8UgZDVAYpGIS3bg5rVAd8wWXf687VKkXJWDbaj/j4jbikS/nGBQkt5g7vdge6hNh+XDBvmU2Hb+9ez5heyHbXS8SPV8dRMXoH/QPMg4cL1bQLLS2RmegPuo3yJ6CVu8tbOPA3yR9HoPQ/ddHfrl/sU7Qphq0y7PWIBQFmzMg1pwkY+xOvV8PgQjcr6IFPWlqYanX/+rROF9zDH/hCv/Y2ac61Kjxu68AeNNkrFzDaYVGVppIj2mPuWzoLeIv7H39+JKOMzRyvajDQtTL6+Ed5gE9vkPxP78QP5TjU30a1qvuK/bfAnfmmn9HbLeKNCuHwK5k4az4iZCKD/GkmmQUmfbLCQMYfYhzifekK0+IQSqP2HxhpG0KpXRsFdHsyS83Uo1i0bE5EruWmuyos14LaQJ82uu28Z+wvk8Z5C7SLhzKwbi6kKy9i3gRNmF/5K0WpNqP9XdPDliFuS1JbCH0Rlz9Cy3HvhDtIfz9D/2AHAbNatArVwXSYjlwTQabU3D0uiwlF9ccn600RCu7DL+7cd+q2oY38/vqi3gy3eOZc62GprRkPtfYAAA',
     },
     {
-        src: 'https://radio.cock.institute/assets/793-BdAF9xt4.webp',
+        src: new URL('@/assets/banners/yugoslavia.gif', import.meta.url).href
     },
     {
         src: 'data:image/webp;base64,UklGRsACAABXRUJQVlA4ILQCAABQDACdASpYAB8APok2lkelIyIhMBgOqKARCUAXwHEPW1cPjiCXGBW7oAQzTzNYEAppVBIDMzmMT/CmiAcvizDLTcsId4aq/PRik9+BHKdDT1dO3qV3lpCAx/P7Hb0OJMfFjdml1cQDtWffgAD+/uIjkT5G0Yk/5R1k4zCtMslXGP6NGhMMlrEXZWDSaXdeahXcYVeMx0TXdc+xcCJqeafe9wMpyX+yW5rFSvoT/IIvKrWObHy5tDC+EapzxjWxrCZL6/LK+o9agHYoXSegAo/u2A/AkC4KmQlKFOHl4UJ1wLS1IrOHB2e1847Fxcch+FXbvs88DJffxPBimbwPstxU367eqWzhrQtCBrkJUz0uw/gMxkNIdHtojLv2TcjAfA+YLFTNVomlg3TFoAONxJ+B+lLxs8BnbE1Unm7P+RHZIv2F0ZX8T6BcOhcbHrv3BqU75Zqy/h2PU0Ho2luRbchVzL7eTPe6Rtsbh/ApJrpeKBs5a9Q8DbwzIqfbCYKdFkn0AIx9WMn4G7JB7Tt1NDx5zJV6oxyfDBMH0LSv9MWbsXSZcT0DYkw0XOCGJTTuIZDjP2ClEGSLhUXQ7C/FIS79IEIP9bUFnhC/YAIX7V0rcS5n3ZBK0Vvp/ukdSVtKV1+SQuIj2rKPaWHz+kRFDE7JSQE8/1niKr5i6meMHA9xMvPhvDAMQqQ4cCtNMZXiGUZnunJKwtEHyJ14s4i+qBGrVqPbBFVAWwVEGdnvUyIKAT+rljG6BqtO7LGDhX9lpEkz376cqz3BNzMp5PXH5v0+4vzuXX34yHJ6IOEnIwhZjAHY0K6ksX5hVofhxbSp6HOpacaG3kVc7orK7W7qqPdfCHvTy0Yu9/NxaucLx1ikOCVhTv8vAXRBdnljyI5qkon9qIUMAdkePrDevVzrhBlxwAAAAA==',
@@ -213,16 +215,10 @@ const banners = ref([
         src: 'data:image/webp;base64,UklGRoADAABXRUJQVlA4IHQDAAAQFQCdASpYAB8APpE4mkkloyKhKrv6ALASCWkAFeO/yDtM/unKVvz/8d2qnrvkN/IN1B/dO8A6ASA7/Cdyrxh3+c9Jv6r/meQA/o/+W+5X3of2j8yP8B7Wfxv+ofrz8Av8q/lP+h/tH70/5H5OfUt6Bv6kGcVoabh5Y2wtSy0EVx7DY1QQjkQ2TBr8RQrC+4Xhg/51wQzbE05XPjHf9opvrO3GwAh4QEeT+KdUuEwybbgA0P/IrXO2h0Qqghask0GLT4B9xcpKSF637pdNI3pbdqAXjip3OkKBPsqytVX89hD8DHyv/H9Od26kbJknHlTEjvsfdZHup+W5LfLfTXybdo8J2BNM/QjveA3/iNjlvuoRIwj87iFYBc9brDwxF1sW6CnkxthsfI+JCthT2fWS7b2ep20YIPSl+xfwrKjF5b5v4SIic78ZierYK1Zhcg4S9F4Rvc81U9krwL16FvXfzKrntmzGkgnSlT6i/xPXRJKDMyHqTPPY+RpTXOeyY0WiTek5pFC3226HbYb+iwJElA6qv7+bh8aXMCUPPQjnURpnrcE8iIDH7gw/fsrU9U8FG311jeppjaxW6HQvFip5rVTUuSFyeexSXk48qbP714yNUfvrr+efj5/lWOBFf03xuuuGQ817Iz/v94wSaY50XanuXORXs1t6EAkjwpEvgz2SXr4p8gkB+9/R23nDMho29e3e011+waHhyvs9aCs3G7fCAPOFLvRVtqL8tqvgy8reWwroMFVT2AN/tCF/p1bND6hlaBiuEkrhACu/4uuhF6vJdXdgvWJJmhDtw2dvhuZOcZwd6VO/TfuXPdDQfqA5lp1Bzi/vRLSUVDWsvV2P/2kmwyPY/ePJ82xsr9onyqndF531lW2+sB2Cm8Heizt0EtSKRWXu3ykESCqk3KZ+9df5VLKMvLWe6EVCY3G+LfxpbiA0quSUmOvDhpc5SPF3X2ousnlRfUY3ziTD2xoo7REUJaCmaaC1djlzrGFZyV+Nih0qu3wdrz1ijJPeOSC5IJAfaAtk36Zrji9I/u10KGiMyLeB7O6rHC/b2+3hVFKFZfN0cniWnAN5f6Y74e7rtLfHvJo3fXkyaiUS7dY7MBrr40TVS90+0I2WLzbXPHefi2b78Y36+hYWQzl3UCAOhH3nHXC434wozppm9gHvcAAAAA==',
     },
     {
-        src: 'https://radio.cock.institute/assets/945-tXJM16-q.webp',
-    },
-    {
         src: 'https://111logged.in/img/button/animegirls.gif',
     },
     {
         src: 'data:image/webp;base64,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',
-    },
-    {
-        src: 'https://radio.cock.institute/assets/174-lTL8WsZo.webp',
     },
     {
         src: 'https://111logged.in/img/button/cinnam.gif',
@@ -234,13 +230,7 @@ const banners = ref([
         src: 'data:image/webp;base64,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'
     },
     {
-        src: 'https://radio.cock.institute/assets/677-DYEPBVSK.webp'
-    },
-    {
         src: 'data:image/webp;base64,UklGRu4DAABXRUJQVlA4IOIDAAAQEwCdASpYAB8APo04l0elI6IhMBgNUKARiWwAyi/tLb+3cEQYaEBtmPMB0FvQA/tf9u6yD0APLM9kP9uq7n0OXnk+b+6cIOwJvMPcvMvggPCgLj5xfpj2CekUmhAc0oQZakxfN+6Hu55DjWrlkidJPJeK7RGd4nXY91ood7vYWCwXIYazWV3xsL3iaICkSpPm6/k7qbVnAFumxXK87nqYoAD+/H9Rf1xW6EAekiFDAD1lreyRpub+3f33TRhj05jRiXqE3T3J27xVMfOjD/e3vJaZAnPbyztfKKb91iYBxxNedymBZLUL+Wr57KDRlyltuhfJmU23xJcTv1qAoaHTPt/zaGDnl1Jg6IFBCHUM1ztqyHHAE0r0IBtIHT3zc0407GE8IQNNJfeTN843o3q93RU//Gch+tiAA5VpEaOFWI/mlmJ/PapR9WN0xxqhvBv9Dvqrhk5q8olwwZHb1snZsc2K34+IhD7gf1v9GG/UK5ZA+VZYjMsrBRuycf5hrfOUNnSFGv5EZRHiZ4ggcQ94gT0+x7FQ0iOMLgDGM8CdwTrM/RHrCqmVlUAa3rGE3XOfI/L2LerKzM44WbTISDOI1c8by/W0pPW8c8BZyjeuSPZuy/VTnOKhlZpfeFTrA9T+lAxZmDn0mFugnkTy7AzNUL8e65rUC9rON8GL4hTGP1wv91x2VA1twJeNxFLO9X4Oet8RH48Vkcv+0X/PdU3o+fgrfwpaFbdgJUnsXqdyP0RrWr//S5CGi3ojo1OxWsnM4mofJ6+Hmjwln2QT7Ym93G/H/BMg/L7PutPhu68VIUwd0Dx+906gzOUU8Yk+iP12/xIyLHKb//pcbI7Ul5XL3KSDNKfn4+XDE2I8h6wgttCBBt5Z/16OAnfHbW1Ef4poyM2FWmuGLMhTD8L/vh1yN4n/NJ4itSV4ZkKgK1mjumtvrCdMVzW1Iwu/XjgvZzOFcGPlWHQ/dRqjAt3wuXNi3REiF0Dpd/5/5y3x35L012jfF95uwLKa+C/focM1QRywb2dIO1uOcsBeBpZEotwzLE4bZv1nhtceJK2SqV9EhP1UmgKqW838wFQKSbYT83TBr5itv8IaX7zWynjJxIelQ5Wc8Qi1gTwL88miBbEevvY39/wQhMhqeNpdL6rzkr+S42UGurCXX/1X6NSZ8c1aLOopFuZ1soJQ1Up45OuWnCSwl+cnuXnumS2Qu9sjcLT9vkpcZakjQ+Un821EpI6ywH9bkviAqOvbLL7sFptYjjAqa5v47xi4mGXY8DwqjO8TWOoOQxS3Fu9EVZyrj/zFZxLQtF0806T498yXfiYxGAAA'
-    },
-    {
-        src: 'https://radio.cock.institute/assets/293-D_spnhfv.webp',
     },
     {
         src: 'https://maia.crimew.gay/badges/maia.crimew.gay.png',
