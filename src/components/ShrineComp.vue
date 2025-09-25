@@ -104,10 +104,10 @@ const titleSize = ref('20px');
 const titleCols = Math.max(...TITLE_ART.split('\n').map(l => l.length));
 function fitTitle() {
     if (!wrap.value) return;
-    const pad = 16; // px side padding allowance
+    const pad = 16;
     const w = wrap.value.clientWidth - pad * 2;
-    const size = w / titleCols;                 // px per column
-    const clamped = Math.max(10, Math.min(32, size)); // min 10px, max 32px
+    const size = w / titleCols;
+    const clamped = Math.max(5, Math.min(32, size));
     titleSize.value = clamped + 'px';
 }
 
@@ -129,14 +129,12 @@ onBeforeUnmount(() => {
     position: relative;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    height: 86dvh;
+    min-height: 86dvh;
     display: grid;
     grid-template-rows: auto 1fr;
     align-content: start;
     justify-items: center;
-    gap: .75rem;
     overflow: hidden;
-    padding-top: .5rem;
 }
 
 .title,
@@ -217,7 +215,7 @@ onBeforeUnmount(() => {
 }
 
 .art {
-    font-size: clamp(8px, 1.2vw, 18px);
+    font-size: clamp(6px, 1.2vw, 14px);
     align-self: center;
 }
 </style>
