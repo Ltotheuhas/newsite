@@ -107,7 +107,7 @@ function fitTitle() {
     const pad = 16;
     const w = wrap.value.clientWidth - pad * 2;
     const size = w / titleCols;
-    const clamped = Math.max(5, Math.min(32, size));
+    const clamped = Math.max(4, Math.min(32, size));
     titleSize.value = clamped + 'px';
 }
 
