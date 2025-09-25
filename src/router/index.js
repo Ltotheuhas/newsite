@@ -114,6 +114,11 @@ const routes = [
     component: () => import('../views/FastfetchView.vue')
   },
   {
+    path: '/shrine',
+    name: 'shrine',
+    component: () => import('../views/ShrineView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },
