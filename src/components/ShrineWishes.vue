@@ -27,12 +27,9 @@ const elMap = new Map();          // id -> HTMLElement
 
 function registerEl(id, el) { if (el) elMap.set(id, el); }
 
-// measure each word once it exists
 function measureWord(w) {
-    const el = elMap.get(w.id);
-    if (!el) return;
-    // force style size so measurement matches
-    el.style.fontSize = (w.size ?? 20) + 'px';
+    const el = elMap.get(w.id); if (!el) return;
+    el.style.fontSize = w.size + 'px';
     const r = el.getBoundingClientRect();
     w.w = r.width; w.h = r.height;
 }
@@ -53,26 +50,15 @@ function spawn(word, x0, y0) {
     const wiggle = map(rnd(), 0, 1, 0.2, 1.2);
     const margin = Math.round(map(rnd(), 0, 1, 28, 64));
     const ang = map(rnd(), 0, 1, 0, Math.PI * 2);
+    const size = Math.round(map(Math.random(), 0, 1, 20, 40));
 
-    // size params
-    const sizeMin = 0;
-    const sizeMax = 45;
-    const sizeAmp = (sizeMax - sizeMin) / 2;
-    const sizeBase = (sizeMax + sizeMin) / 2;
-    const sizeFreq = map(rnd(), 0, 1, 0.08, 0.25);
-    const sizePhase = rnd() * Math.PI * 2;
 
     const id = crypto.randomUUID?.() ?? String(Date.now() + Math.random());
     const w = {
-        id, text: word,
-        x: x0, y: y0, ang,
+        id, text: word, x: x0, y: y0, ang,
         speed: baseSpeed, omega, amp, freq, wiggle, margin,
         t0: performance.now() * 0.001,
-        // live font size + params
-        size: sizeBase,
-        sizeMin, sizeMax, sizeAmp, sizeBase, sizeFreq, sizePhase,
-        // DOM metrics
-        w: 0, h: 0,
+        size, w: 0, h: 0
     };
     wishes.value.push(w);
     nextTick(() => measureWord(w));
@@ -84,12 +70,8 @@ function tick(ts) {
     const dt = Math.min(0.05, (ts - last) / 1000); last = ts;
 
     for (const w of wishes.value) {
-        // size oscillation
-        const size = w.sizeBase + w.sizeAmp * Math.sin(2 * Math.PI * w.sizeFreq * (t - w.t0) + w.sizePhase);
-        w.size = Math.min(w.sizeMax, Math.max(w.sizeMin, size));
-        measureWord(w);
+        if (!w.w || !w.h) measureWord(w);
 
-        // bounds using current measured w,h (center-based)
         const minX = w.margin + w.w / 2, maxX = Math.max(minX, bounds.w - w.margin - w.w / 2);
         const minY = w.margin + w.h / 2, maxY = Math.max(minY, bounds.h - w.margin - w.h / 2);
 
@@ -97,7 +79,6 @@ function tick(ts) {
         const speed = Math.max(12, w.speed + w.amp * Math.sin(phase));
         let ang = w.ang + (w.omega + w.wiggle * Math.sin(phase * 0.7)) * dt;
 
-        // soft edge steer (unchanged)
         const steerBase = 2.2;
         if (w.x < minX) ang += steerBase * dt;
         if (w.x > maxX) ang -= steerBase * dt;
@@ -106,7 +87,6 @@ function tick(ts) {
 
         w.x += Math.cos(ang) * speed * dt;
         w.y += Math.sin(ang) * speed * dt;
-
         w.x = Math.min(Math.max(w.x, minX), maxX);
         w.y = Math.min(Math.max(w.y, minY), maxY);
         w.ang = ang;
