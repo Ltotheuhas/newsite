@@ -135,6 +135,7 @@ onBeforeUnmount(() => {
     align-content: start;
     justify-items: center;
     overflow: hidden;
+    margin-top: -80px;
 }
 
 .title,
@@ -151,7 +152,7 @@ onBeforeUnmount(() => {
 
 .title {
     opacity: 1;
-    margin-top: 8px;
+    margin-top: 88px;
     background: linear-gradient(90deg,
             #b8ecf9, #7fd0e6, #54b3d3, #2596be, #1c6f8c, #0f5c74,
             #2596be, #54b3d3, #7fd0e6, #b8ecf9);

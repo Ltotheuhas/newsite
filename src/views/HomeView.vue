@@ -133,7 +133,7 @@
         </v-col>
     </v-row>
 
-    <ShrineComp />
+    <ShrineComp class="pt-4" />
 
     <v-row class="content">
         <v-col cols="12" lg="7" class="smallComments column">
@@ -563,7 +563,7 @@ a:hover {
 }
 
 .p5row {
-    margin: -300px -20px -200px;
+    margin: -250px -20px -200px;
     pointer-events: none;
 }
 

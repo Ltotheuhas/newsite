@@ -433,6 +433,10 @@ const banners = ref([
         src: 'https://111logged.in/img/button/99gif.png',
         url: 'https://99gifshop.neocities.org/',
     },
+    {
+        src: new URL('@/assets/banners/peo.png', import.meta.url).href,
+        url: 'https://post-everything.online/',
+    },
 ])
 
 const shuffledBanners = ref([])
