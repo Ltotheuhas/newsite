@@ -95,7 +95,7 @@ function tick(ts) {
 }
 
 /* form, layout, API load (unchanged except spawn start uses center) */
-const API = 'https://api.luhas.gratis/shrine';
+const API = 'https://api.luh.as/shrine';
 
 async function loadExisting() {
     try {

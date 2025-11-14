@@ -133,7 +133,7 @@
         </v-col>
     </v-row>
 
-    <ShrineComp class="pt-4" />
+    <!--<ShrineComp class="pt-4" style="z-index: -1;" />-->
 
     <v-row class="content">
         <v-col cols="12" lg="7" class="smallComments column">
@@ -172,7 +172,6 @@ import StoreComp from '@/components/StoreComp.vue';
 import BannerComp from '@/components/BannerComp.vue';
 import CoolP5Comp from '@/components/CoolP5Comp.vue';
 import CoolerP5Comp from '@/components/CoolerP5Comp.vue';
-import ShrineComp from '@/components/ShrineComp.vue';
 
 export default {
     name: 'MySpace',
@@ -184,8 +183,7 @@ export default {
         StoreComp,
         BannerComp,
         CoolP5Comp,
-        CoolerP5Comp,
-        ShrineComp
+        CoolerP5Comp
     },
 
     data() {
@@ -430,7 +428,7 @@ export default {
 
         async fetchPresenceStatus() {
             try {
-                const res = await fetch('https://api.luhas.gratis/presence', {
+                const res = await fetch('https://api.luh.as/presence', {
                     cache: 'no-store' // prevent browser from caching old responses
                 });
                 const data = await res.json();

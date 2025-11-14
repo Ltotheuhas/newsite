@@ -31,8 +31,8 @@ const banners = ref([
         url: 'https://www.megaworld.xyz',
     },
     {
-        src: 'https://murrumur.neocities.org/buttons/knife.gif',
-        url: 'https://murrumur.neocities.org',
+        src: 'https://twinningl00m.neocities.org/buttons/murrumurgreen.png',
+        url: 'https://twinningl00m.neocities.org',
     },
     {
         src: 'https://88by31.neocities.org/music/ae.gif',
@@ -275,9 +275,6 @@ const banners = ref([
         src: 'https://aspyn.gay/assets/badges/other/ralseidoobie.gif',
     },
     {
-        src: 'https://ash.ms/wp-content/posts/human-made.gif',
-    },
-    {
         src: 'https://cdn.myportfolio.com/bef57c3d-da80-473f-bd67-df1c8922d722/c81d3430-2e57-4f2d-9fce-d0f114a5af72_rwc_0x0x2048x2048x4096.png?h=bcf98aa9cd14e6aca36ed8d0a8442dd8',
         url: 'https://alenaprinz.com/',
     },
@@ -327,7 +324,7 @@ const banners = ref([
         src: 'https://driftt.neocities.org/049.gif',
     },
     {
-        src: 'https://murrumur.neocities.org/buttons/live%20laugh%20love.png',
+        src: 'https://i.postimg.cc/X7s4yBZj/burial.gif',
     },
     {
         src: 'https://konetska.neocities.org/fyeah.png',
@@ -436,6 +433,14 @@ const banners = ref([
     {
         src: new URL('@/assets/banners/peo.png', import.meta.url).href,
         url: 'https://post-everything.online/',
+    },
+    {
+        src: 'https://yayazizi.neocities.org/button.gif',
+        url: 'https://yayazizi.neocities.org/',
+    },
+    {
+        src: 'https://read-nekojiru.neocities.org/media/BACKG-moshed-07-01-23-06-29-14-moshed-07-01-23-09-26-306.gif',
+        url: 'https://read-nekojiru.neocities.org/',
     },
 ])
 

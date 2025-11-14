@@ -15,7 +15,7 @@ import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 
-const ENDPOINT = 'https://api.luhas.gratis/fastfetch';
+const ENDPOINT = 'https://api.luh.as/fastfetch';
 
 const termEl = ref(null)
 let term, fit

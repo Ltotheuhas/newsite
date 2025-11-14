@@ -116,7 +116,7 @@ const fetchData = async () => {
 
 const fetchHitCount = async () => {
     try {
-        const res = await fetch('https://api.luhas.gratis/hits')
+        const res = await fetch('https://api.luh.as/hits')
         const data = await res.json()
         hitCount.value = data.hits
     } catch (err) {

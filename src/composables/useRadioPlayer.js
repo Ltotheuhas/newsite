@@ -1,11 +1,11 @@
 import { inject, ref, nextTick } from "vue";
 import { trySmartCoverArt } from "@/utils/radioUtils";
 
-const historyApiUrl = "https://api.luhas.gratis/history";
+const historyApiUrl = "https://api.luh.as/history";
 const lastFmApiKey = "5b76a7a11283ba1fbe8d1871b9756514";
 
 let firstPlay = true;
-const baseUrl = "https://radio.luhas.gratis/stream.mp3";
+const baseUrl = "https://radio.luh.as/stream.mp3";
 
 export function useRadioPlayer() {
     const globalAudio = inject("globalAudio");
