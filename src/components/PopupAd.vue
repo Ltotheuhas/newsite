@@ -13,6 +13,12 @@
       </div>
     </template>
 
+    <template v-else-if="currentAdImage.type === 'erdstall'">
+      <div class="pointer" @click="redirect">
+        <ErdStall class="ad-image" />
+      </div>
+    </template>
+
     <img v-else :src="currentAdImage.src" alt="ad"
       :class="{ 'ad-image': true, 'pointer': currentAdImage.route || currentAdImage.url }" @click="redirect"
       @contextmenu.prevent @dragstart.prevent />
@@ -21,10 +27,12 @@
 
 <script>
 import ThreeJSAdScene from './ThreeJSAdScene.vue';
+import ErdStall from './ErdStall.vue';
 
 export default {
   components: {
-    ThreeJSAdScene
+    ThreeJSAdScene,
+    ErdStall
   },
   data() {
     return {
@@ -46,6 +54,7 @@ export default {
         { type: '3D', title: "ESCAPE", url: 'https://3d.megaworld.xyz' },
         { src: require('@/assets/ads/psyops.jpg'), title: "YOUR DESIRES ARE COMPROMISED" },
         { src: require('@/assets/ads/cd.jpg'), title: "CD OUT NOW", route: '/store/8d60a87f-8037-41be-b424-9ac23955940d' },
+        { type: 'erdstall', title: 'KEIN GOTT KEIN STAAT', url: 'https://erdstall.luh.as', news: true },
       ],
       positionStyle: {
         top: '0px',
