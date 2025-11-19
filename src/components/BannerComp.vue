@@ -442,6 +442,12 @@ const banners = ref([
         src: 'https://read-nekojiru.neocities.org/media/BACKG-moshed-07-01-23-06-29-14-moshed-07-01-23-09-26-306.gif',
         url: 'https://read-nekojiru.neocities.org/',
     },
+    {
+        src: 'https://capstasher.neocities.org/88x31Buttons/dawa.gif',
+    },
+    {
+        src: 'https://capstasher.neocities.org/88x31Buttons/caramelldansen.gif',
+    }
 ])
 
 const shuffledBanners = ref([])
