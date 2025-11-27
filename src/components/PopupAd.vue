@@ -54,7 +54,8 @@ export default {
         { type: '3D', title: "ESCAPE", url: 'https://3d.megaworld.xyz' },
         { src: require('@/assets/ads/psyops.jpg'), title: "YOUR DESIRES ARE COMPROMISED" },
         { src: require('@/assets/ads/cd.jpg'), title: "CD OUT NOW", route: '/store/8d60a87f-8037-41be-b424-9ac23955940d' },
-        { type: 'erdstall', title: 'KEIN GOTT KEIN STAAT', url: 'https://erdstall.luh.as', news: true },
+        { type: 'erdstall', title: 'KEIN GOTT KEIN STAAT', url: 'https://erdstall.luh.as' },
+        { src: require('@/assets/ads/ritalin.png'), title: "CONGRATULATIONS^!!!", route: '/void' },
       ],
       positionStyle: {
         top: '0px',

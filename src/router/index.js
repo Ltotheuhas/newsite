@@ -119,6 +119,11 @@ const routes = [
     component: () => import('../views/ShrineView.vue')
   },
   {
+    path: '/void',
+    name: 'void',
+    component: () => import('../views/VoidView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
   },

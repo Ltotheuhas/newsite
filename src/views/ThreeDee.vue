@@ -1,89 +1,95 @@
+<!-- WebampPlayer.vue -->
 <template>
-    <div>
-        <div ref="sceneContainer" class="scene-container"></div>
-        <WebampPlayer />
-    </div>
+    <!-- Teleport into <body> to escape router / v-app layout -->
+    <Teleport to="body">
+        <div ref="webampContainer"></div>
+    </Teleport>
 </template>
 
-<script>
-import * as THREE from 'three';
-import WebampPlayer from '../components/WebampPlayer.vue';
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import Webamp from "webamp"; // npm install webamp
 
-export default {
-    name: 'ThreeDee',
-    components: {
-        WebampPlayer,
-    },
-    mounted() {
-        this.initThreeJs();
-    },
-    methods: {
-        initThreeJs() {
-            const container = this.$refs.sceneContainer;
+const webampContainer = ref(null);
+const isMounted = ref(false);
+let webampInstance = null;
 
-            // Create a scene
-            const scene = new THREE.Scene();
+/**
+ * webpack: load all audio files from src/assets/music
+ * Adjust extensions if needed.
+ */
+const musicContext = require.context(
+    "../assets/music",
+    false,
+    /\.(mp3|ogg|wav|flac)$/
+);
 
-            // Create a camera
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.z = 5;
+const localTracks = musicContext.keys().map((key, index) => {
+    const url = musicContext(key);
 
-            // Create a renderer
-            const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable transparency
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
+    const fileName = key.split("/").pop() || `Track ${index + 1}`;
+    const withoutExt = fileName.replace(/\.[^/.]+$/, "");
 
-            // Create a geometry
-            const geometry = new THREE.BoxGeometry();
+    let artist = "Unknown Artist";
+    let title = withoutExt;
 
-            // Create a material
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    // If filename looks like "Artist - Title"
+    const parts = withoutExt.split(" - ");
+    if (parts.length >= 2) {
+        artist = parts[0].trim() || artist;
+        title = parts.slice(1).join(" - ").trim() || title;
+    }
 
-            // Create a mesh
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
+    return {
+        metaData: { artist, title },
+        url,
+        id: `${index}-${fileName}`,
+    };
+});
 
-            // Animation loop
-            const animate = () => {
-                requestAnimationFrame(animate);
+onMounted(() => {
+    isMounted.value = true;
 
-                // Rotate the cube
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
+    requestAnimationFrame(() => {
+        if (!webampContainer.value) return;
 
-                renderer.render(scene, camera);
-            };
+        webampInstance = new Webamp({
+            initialTracks: localTracks,
+        });
 
-            animate();
+        webampInstance
+            .renderWhenReady(webampContainer.value)
+            .then(() => {
+                // After Webamp has rendered, brutally force its window to the very top
+                const webampRoot =
+                    webampContainer.value.querySelector("#webamp") ||
+                    document.getElementById("webamp");
 
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
+                if (webampRoot) {
+                    webampRoot.style.position = "fixed";
+                    webampRoot.style.top = "80px"; // adjust if you want it lower than navbar
+                    webampRoot.style.left = "80px";
+                    webampRoot.style.zIndex = "2147483647"; // max-ish z-index
+                    webampRoot.style.pointerEvents = "auto";
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to initialize Webamp:", err);
             });
-        },
-    },
-};
+    });
+});
+
+onBeforeUnmount(() => {
+    if (webampInstance) {
+        webampInstance.dispose();
+        webampInstance = null;
+    }
+});
 </script>
 
-<style scoped>
-.scene-container {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background: transparent;
-    /* Ensure background is transparent */
-    position: relative;
-    z-index: 1;
-    /* Ensure it is below the WebAmp component */
-}
-
+<style>
 #webamp {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    /* Ensure it is above the scene container */
+    inset: 0 !important;
+    z-index: 1 !important;
 }
 </style>
