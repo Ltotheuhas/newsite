@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
 
 .thumb {
     width: 100%;
-    height: 160px;
+    height: 16px;
     object-fit: cover;
     display: block;
     border-radius: 0;
