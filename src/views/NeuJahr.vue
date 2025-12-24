@@ -69,9 +69,9 @@ onBeforeUnmount(() => {
 <style scoped>
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(16px, 1fr));
-    gap: 6px;
-    padding: 6px;
+    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+    gap: 0px;
+    padding: 0px;
 }
 
 .cell {
@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
 
 .thumb {
     width: 100%;
-    height: 16px;
+    height: 32px;
     object-fit: cover;
     display: block;
     border-radius: 0;
