@@ -53,8 +53,8 @@ const routes = [
     component: () => import('../views/SymmetricalShapes.vue')
   },
   {
-    path: '/ilyguys',
-    name: 'ilyguys',
+    path: '/2025',
+    name: '2025',
     component: () => import('../views/NeuJahr.vue')
   },
   {
@@ -122,6 +122,11 @@ const routes = [
     path: '/void',
     name: 'void',
     component: () => import('../views/VoidView.vue')
+  },
+  {
+    path: '/fuck/spotify',
+    name: 'fuck spotify',
+    component: () => import('../views/FuckSpotify.vue')
   },
   {
     path: '/:pathMatch(.*)*',

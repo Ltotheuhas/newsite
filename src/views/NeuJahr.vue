@@ -1,95 +1,115 @@
+<!-- NeuJahr.vue -->
 <template>
-    <v-container>
-        <v-row justify="center">
-            <v-col cols="12" md="8" class="text-center">
+    <div class="grid">
+        <div v-for="(src, idx) in urls" :key="src" class="cell" role="button" tabindex="0" @click="open(idx)"
+            @keydown.enter.prevent="open(idx)" @keydown.space.prevent="open(idx)">
+            <img class="thumb" :src="src" alt="" loading="lazy" />
+        </div>
+    </div>
 
-                <v-btn class="mb-5 mr-2" @click="toggleLanguage">
-                    {{ currentLanguage === 'en' ? 'German' : 'Englisch' }}
-                </v-btn>
-
-                <v-btn class="mb-5 ml-2" @click="toggleYear"> {{ currentYear === 2024 ? '2023' : '2024' }} </v-btn>
-
-                <div class="text-box">
-                    <h1 class="hi">hiiiii :3</h1>
-                    <p v-if="currentLanguage === 'de'" style="color: red; padding-bottom: 10px;">DER SHIT IST MIT
-                        KÜNSTLICHRR
-                        INTELLIGENZ MIR ARTIFICIELLER INTELLIGENCE VON ENGLISCH ÜBERSETZT WEIL ICH WILL DAS NICHT ZWEI
-                        MAL SCHREIBEN
-                        WER ENGLISCH KANN EINFACH AUF ENGLISCH LESEN</p>
-                    <p>{{ introText }}</p>
-                </div>
-
-                <div v-for="(item, index) in filteredShoutouts" :key="index" class="shoutout-box">
-                    <h3 class="name">{{ item.name }}</h3>
-                    <template v-if="item.image">
-                        <img class="shoutoutpic" :src="item.image">
-                    </template>
-                    <template v-else>
-                        <p>{{ item.text[currentLanguage] }}</p>
-                    </template>
-                </div>
-            </v-col>
-        </v-row>
-    </v-container>
+    <teleport to="body">
+        <div v-if="openIdx !== null" class="overlay" @click="close">
+            <img class="overlay-img" :src="urls[openIdx]" alt="" />
+        </div>
+    </teleport>
 </template>
 
-<script>
-import { shoutouts2023, shoutouts2024 } from '@/data/shoutoutsData';
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-export default {
-    data() {
-        return {
-            currentLanguage: 'en',
-            currentYear: 2024,
-        };
-    },
-    computed: {
-        introText() {
-            const data = this.currentYear === 2023 ? shoutouts2023 : shoutouts2024;
-            return data.introText[this.currentLanguage];
-        },
-        filteredShoutouts() {
-            const data = this.currentYear === 2023 ? shoutouts2023 : shoutouts2024;
-            return data.shoutouts.filter(item => {
-                return item.text ? item.text[this.currentLanguage] : item.image;
-            });
-        }
-    },
-    methods: {
-        toggleLanguage() {
-            this.currentLanguage = this.currentLanguage === 'en' ? 'de' : 'en';
-        },
-        toggleYear() {
-            this.currentYear = this.currentYear === 2023 ? 2024 : 2023;
-        }
-    }
-};
+const base = "/2025/";
+const files = ref([]);
+
+onMounted(async () => {
+    // cache-bust so updates show immediately after regenerating manifest
+    const res = await fetch(`${base}manifest.json?v=${Date.now()}`);
+    if (!res.ok) throw new Error(`Failed to load manifest: ${res.status}`);
+    files.value = await res.json();
+});
+
+function tsFromName(name) {
+    // IMG_YYYYMMDD_HHMMSS
+    const m = name.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
+    if (!m) return Number.POSITIVE_INFINITY;
+    return Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
+}
+
+const urls = computed(() => {
+    const arr = [...files.value];
+    arr.sort((a, b) => (tsFromName(a) - tsFromName(b)) || a.localeCompare(b));
+    return arr.map((f) => base + String(f).replace(/^\.\//, ""));
+});
+
+const openIdx = ref(null);
+
+function open(idx) {
+    openIdx.value = idx;
+}
+function close() {
+    openIdx.value = null;
+}
+
+function onKeydown(e) {
+    if (e.key === "Escape") close();
+}
+
+watch(openIdx, (v) => {
+    const isOpen = v !== null;
+    document.documentElement.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) window.addEventListener("keydown", onKeydown);
+    else window.removeEventListener("keydown", onKeydown);
+});
+
+onBeforeUnmount(() => {
+    document.documentElement.style.overflow = "";
+    window.removeEventListener("keydown", onKeydown);
+});
 </script>
 
-<style>
-.v-btn {
-    color: black;
+<style scoped>
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 6px;
+    padding: 6px;
 }
 
-.text-box,
-.shoutout-box {
-    margin-bottom: 20px;
-    padding: 20px;
+.cell {
+    cursor: pointer;
+    outline: none;
 }
 
-h1.hi {
-    padding-bottom: 30px;
-    font-size: 80px;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+.thumb {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
 }
 
-h3.name {
-    font-family: Papyrus, fantasy;
-    font-size: 30px;
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
 }
 
-.shoutoutpic {
-    width: 80%;
-    margin: 10px 0;
+.overlay-img {
+    width: auto;
+    height: auto;
+    max-width: calc(100vw - 48px);
+    max-height: calc(100vh - 48px);
+    object-fit: contain;
+    border-radius: 0;
+    cursor: default;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 </style>
