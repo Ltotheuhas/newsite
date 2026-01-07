@@ -4,7 +4,7 @@
             <v-row no-gutters>
                 <v-col class="unlicensed" cols="12" sm="6">
                     <p style="width: fit-content">
-                        <a class="email-link" href="mailto:ltotheuhas@gmail.com" target="_blank">
+                        <a class="email-link" href="mailto:luhas@luh.as" target="_blank">
                             Luhas © Unlicensed Product ☻<span class="emoji">☺☻</span>
                             {{ currentYear }}
                         </a>
