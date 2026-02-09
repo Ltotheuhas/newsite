@@ -447,7 +447,11 @@ const banners = ref([
     },
     {
         src: 'https://capstasher.neocities.org/88x31Buttons/caramelldansen.gif',
-    }
+    },
+    {
+        src: 'https://lucida.to/buttons/freemusicnow.png',
+        url: 'https://lucida.to/',
+    },
 ])
 
 const shuffledBanners = ref([])
