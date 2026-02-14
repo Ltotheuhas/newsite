@@ -261,7 +261,7 @@ const banners = ref([
     },
     {
         src: 'https://dj-subaruu.neocities.org/buttons/5ubaruu-36.gif',
-        url: 'https://dj-subaruu.neocities.org/',
+        url: 'https://5ubaruu.neocities.org/',
     },
     {
         src: 'https://wilton.neocities.org/max-payne-logo-font-download1-1200x675.jpg',
