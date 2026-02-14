@@ -449,7 +449,7 @@ const banners = ref([
         src: 'https://capstasher.neocities.org/88x31Buttons/caramelldansen.gif',
     },
     {
-        src: 'https://lucida.to/buttons/freemusicnow.png',
+        src: new URL('@/assets/banners/freemusicnow.png', import.meta.url).href,
         url: 'https://lucida.to/',
     },
 ])
