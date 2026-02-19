@@ -261,7 +261,7 @@ const banners = ref([
     },
     {
         src: 'https://dj-subaruu.neocities.org/buttons/5ubaruu-36.gif',
-        url: 'https://5ubaruu.neocities.org/',
+        url: 'https://5ubaruu.neocities.org/x   ',
     },
     {
         src: 'https://wilton.neocities.org/max-payne-logo-font-download1-1200x675.jpg',
@@ -451,6 +451,10 @@ const banners = ref([
     {
         src: new URL('@/assets/banners/freemusicnow.png', import.meta.url).href,
         url: 'https://lucida.to/',
+    },
+    {
+        src: 'https://vmfunc.re/button.png',
+        url: 'https://vmfunc.re/',
     },
 ])
 
