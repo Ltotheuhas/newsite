@@ -161,9 +161,6 @@ const banners = ref([
         src: 'https://feign.neocities.org/image/stamp/bulletproof%20love.gif',
     },
     {
-        src: 'https://i.postimg.cc/X7s4yBZj/burial.gif',
-    },
-    {
         src: 'https://feign.neocities.org/image/stamp/rhino-beetle.gif',
     },
     {
@@ -256,8 +253,8 @@ const banners = ref([
         url: 'https://dismissyourself.bandcamp.com',
     },
     {
-        src: 'https://wilton.neocities.org/bye2_logo.png',
-        url: 'https://bye2.co.uk/',
+        src: 'https://kendalls.garden/bye2Site/Images/smoshnet.gif',
+        url: 'https://kendalls.garden/',
     },
     {
         src: 'https://dj-subaruu.neocities.org/buttons/5ubaruu-36.gif',
@@ -455,6 +452,37 @@ const banners = ref([
     {
         src: 'https://vmfunc.re/button.png',
         url: 'https://vmfunc.re/',
+    },
+    {
+        src: new URL('@/assets/banners/cryptopsy.png', import.meta.url).href,
+    },
+    {
+        src: 'https://vmfunc.re/button.png',
+        url: 'https://vmfunc.re/',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/newgrounds.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/pspu.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/ah.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/banner2.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/benis.gif',
+    },
+    {
+        src: 'https://cyber.dabamos.de/88x31/asexuals_now.gif',
+    },
+    {
+        src: 'https://i.postimg.cc/3JxjLLNj/lopster-yuki-button-2.gif',
+    },
+    {
+        src: 'https://moya.cafe/images1/buttons/bbs-face.gif',
     },
 ])
 
