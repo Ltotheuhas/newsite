@@ -488,6 +488,10 @@ const banners = ref([
         src: new URL('@/assets/banners/vxug.png', import.meta.url).href,
         url: 'https://vx-underground.org/',
     },
+    {
+        src: new URL('@/assets/banners/pharma.gif', import.meta.url).href,
+        url: 'https://pharmakon.market/',
+    },
 ])
 
 const shuffledBanners = ref([])
