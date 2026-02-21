@@ -484,6 +484,10 @@ const banners = ref([
     {
         src: 'https://moya.cafe/images1/buttons/bbs-face.gif',
     },
+    {
+        src: new URL('@/assets/banners/vxug.png', import.meta.url).href,
+        url: 'https://vx-underground.org/',
+    },
 ])
 
 const shuffledBanners = ref([])
