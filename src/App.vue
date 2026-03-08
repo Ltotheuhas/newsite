@@ -60,12 +60,10 @@ export default {
     const isHome = computed(() => route.name === 'home');
     const isRadio = computed(() => route.name === 'radio');
 
-    const radioStreamUrl = "https://radio.luh.as/stream.mp3";
+    const radioStreamUrl = "https://radio.luh.as/stream.opus";
 
-    // The global <audio> element reference
     const globalAudio = ref(null);
 
-    // Basic audio states
     const isMuted = ref(true);
     const volume = ref(0);
 
