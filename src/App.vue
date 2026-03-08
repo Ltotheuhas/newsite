@@ -60,7 +60,7 @@ export default {
     const isHome = computed(() => route.name === 'home');
     const isRadio = computed(() => route.name === 'radio');
 
-    const radioStreamUrl = "https://radio.luh.as/stream.opus";
+    const radioStreamUrl = "https://radio.luh.as/stream.mp3";
 
     const globalAudio = ref(null);
 
