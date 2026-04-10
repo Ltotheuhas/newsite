@@ -457,10 +457,6 @@ const banners = ref([
         src: new URL('@/assets/banners/cryptopsy.png', import.meta.url).href,
     },
     {
-        src: 'https://vmfunc.re/button.png',
-        url: 'https://vmfunc.re/',
-    },
-    {
         src: 'https://cyber.dabamos.de/88x31/newgrounds.gif',
     },
     {
