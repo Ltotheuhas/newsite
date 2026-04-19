@@ -492,6 +492,10 @@ const banners = ref([
         src: new URL('@/assets/banners/monochrome.png', import.meta.url).href,
         url: 'https://monochrome.tf/',
     },
+    {
+        src: 'https://osakasimulator.pages.dev/img/osakabutton.png',
+        url: 'https://osakasimulator.pages.dev/',
+    },
 ])
 
 const shuffledBanners = ref([])
