@@ -496,6 +496,10 @@ const banners = ref([
         src: 'https://osakasimulator.pages.dev/img/osakabutton.png',
         url: 'https://osakasimulator.pages.dev/',
     },
+    {
+        src: 'https://unlife.nyx.land/static/img/wizard.png',
+        url: 'https://wizardnet.net/',
+    },
 ])
 
 const shuffledBanners = ref([])
