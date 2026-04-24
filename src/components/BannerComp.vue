@@ -500,6 +500,10 @@ const banners = ref([
         src: 'https://unlife.nyx.land/static/img/wizard.png',
         url: 'https://wizardnet.net/',
     },
+    {
+        src: 'https://www.kaossedgeofficial.com/img/Motherlode/Misc/IMG_3060.JPG',
+        url: 'https://www.kaossedgeofficial.com/',
+    },
 ])
 
 const shuffledBanners = ref([])
