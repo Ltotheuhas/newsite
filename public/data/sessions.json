@@ -1,0 +1,1203 @@
+[
+  {
+    "id": "371147e9-94ab-4b12-9ee0-4533b9a16613",
+    "participantCode": "P-NM-8278",
+    "baselineTimestamp": "2026-05-21T08:44:13.142Z",
+    "baseline": {
+      "timestamp": "2026-05-21T08:44:13.142Z",
+      "answers": {
+        "currentMentalClarity": 4,
+        "currentWakefulness": 3,
+        "currentSoundIntensity": 3,
+        "currentVisualIntensity": 3,
+        "currentHappiness": 4,
+        "currentBodyState": [
+          "physically_light"
+        ],
+        "currentCalmness": 4,
+        "currentSociability": 3,
+        "currentConnection": 3,
+        "currentMood": "good",
+        "currentTouchComfort": "neutral"
+      }
+    },
+    "followups": [
+      {
+        "id": "e8cdc330-3988-4bda-a0a7-5b7493426bf5",
+        "timestamp": "2026-05-21T11:52:47.369Z",
+        "minutesSinceBaseline": 189,
+        "answers": {
+          "timePerceptionNow": "slower",
+          "wakefulnessNow": 2,
+          "noticedEffects": [
+            "tiredness",
+            "tension",
+            "changed_time_perception"
+          ],
+          "feltAltered": "sober",
+          "effectIntensity": 3,
+          "mentalClarityNow": 2,
+          "talkingNeedNow": 3,
+          "moodNow": "neutral",
+          "pleasantness": "neutral",
+          "touchComfortNow": "unpleasant",
+          "movementNeedNow": 4,
+          "connectionNow": 3,
+          "visualIntensityNow": 5,
+          "happinessNow": 4,
+          "bodyAwarenessNow": 4,
+          "hallucinationIntensity": 2,
+          "musicSoundIntensityNow": 3,
+          "wakeUp": "no",
+          "moodChangeCompared": "slightly_worse"
+        }
+      }
+    ]
+  },
+  {
+    "id": "341c9551-29d1-4a7c-bc99-e97e8ce8e46a",
+    "participantCode": "P-WZ-5382",
+    "baselineTimestamp": "2026-05-21T08:52:55.167Z",
+    "baseline": {
+      "timestamp": "2026-05-21T08:52:55.167Z",
+      "answers": {
+        "currentConnection": 3,
+        "currentSoundIntensity": 3,
+        "currentBodyState": [
+          "normal"
+        ],
+        "currentHappiness": 3,
+        "currentTouchComfort": "neutral",
+        "currentWakefulness": 4,
+        "currentMood": "neutral",
+        "currentCalmness": 5,
+        "currentMentalClarity": 4,
+        "currentVisualIntensity": 4,
+        "currentSociability": 2
+      }
+    },
+    "followups": [
+      {
+        "id": "c67fad1a-bd02-4225-a2e8-102aefd49c13",
+        "timestamp": "2026-05-21T11:56:16.434Z",
+        "minutesSinceBaseline": 183,
+        "answers": {
+          "touchComfortNow": "neutral",
+          "hallucinationIntensity": 0,
+          "feltAltered": "clearly_altered",
+          "moodChangeCompared": "slightly_better",
+          "noticedEffects": [
+            "physical_lightness",
+            "relaxation",
+            "other"
+          ],
+          "movementNeedNow": 2,
+          "wakeUp": "no",
+          "mentalClarityNow": 3,
+          "talkingNeedNow": 3,
+          "timePerceptionNow": "unchanged",
+          "connectionNow": 3,
+          "pleasantness": "pleasant",
+          "happinessNow": 3,
+          "wakefulnessNow": 3,
+          "visualIntensityNow": 4,
+          "effectIntensity": 4,
+          "musicSoundIntensityNow": 2,
+          "moodNow": "good",
+          "bodyAwarenessNow": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cba2f26f-91bd-4a00-bc0b-aacc3ac8cee8",
+    "participantCode": "P-SA-3832",
+    "baselineTimestamp": "2026-05-21T12:00:53.070Z",
+    "baseline": {
+      "timestamp": "2026-05-21T12:00:53.070Z",
+      "answers": {
+        "currentMentalClarity": 4,
+        "currentSoundIntensity": 3,
+        "currentSociability": 3,
+        "currentCalmness": 4,
+        "currentHappiness": 3,
+        "currentTouchComfort": "neutral",
+        "currentConnection": 3,
+        "currentVisualIntensity": 3,
+        "currentMood": "neutral",
+        "currentWakefulness": 1,
+        "currentBodyState": [
+          "tired"
+        ]
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "16be9235-0b83-488e-b615-5b5c4b370da2",
+    "participantCode": "P-FT-6875",
+    "baselineTimestamp": "2026-05-22T12:54:23.413Z",
+    "baseline": {
+      "timestamp": "2026-05-22T12:54:23.413Z",
+      "answers": {
+        "currentBodyState": [
+          "tense"
+        ],
+        "currentCalmness": 2,
+        "currentConnection": 2,
+        "currentTouchComfort": "pleasant",
+        "currentMood": "neutral",
+        "currentMentalClarity": 4,
+        "currentVisualIntensity": 3,
+        "currentWakefulness": 2,
+        "currentSoundIntensity": 4,
+        "currentSociability": 3,
+        "currentHappiness": 2
+      }
+    },
+    "followups": [
+      {
+        "id": "11eadd3c-4e1e-46e9-9b19-0db02d9f04e0",
+        "timestamp": "2026-05-22T15:40:58.485Z",
+        "minutesSinceBaseline": 167,
+        "answers": {
+          "bodyAwarenessNow": 4,
+          "movementNeedNow": 2,
+          "touchComfortNow": "unpleasant",
+          "pleasantness": "neutral",
+          "musicSoundIntensityNow": 3,
+          "happinessNow": 3,
+          "moodNow": "good",
+          "wakefulnessNow": 3,
+          "feltAltered": "sober",
+          "effectIntensity": 2,
+          "hallucinationIntensity": 0,
+          "moodChangeCompared": "slightly_better",
+          "wakeUp": "yes",
+          "timePerceptionNow": "unchanged",
+          "mentalClarityNow": 4,
+          "noticedEffects": [
+            "warmth",
+            "physical_lightness"
+          ],
+          "visualIntensityNow": 4,
+          "talkingNeedNow": 4,
+          "connectionNow": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "e1a412d5-519e-41a8-a599-76aa07c781c3",
+    "participantCode": "P-VA-6542",
+    "baselineTimestamp": "2026-05-22T13:25:59.623Z",
+    "baseline": {
+      "timestamp": "2026-05-22T13:25:59.623Z",
+      "answers": {
+        "currentVisualIntensity": 3,
+        "currentSoundIntensity": 2,
+        "currentBodyState": [
+          "tense",
+          "tired",
+          "relaxed",
+          "physically_heavy"
+        ],
+        "currentTouchComfort": "neutral",
+        "currentMentalClarity": 5,
+        "currentWakefulness": 3,
+        "currentConnection": 3,
+        "currentSociability": 2,
+        "currentCalmness": 3,
+        "currentHappiness": 5,
+        "currentMood": "very_good"
+      }
+    },
+    "followups": [
+      {
+        "id": "50ee8e25-589b-4f7e-9a47-2df2474b4a32",
+        "timestamp": "2026-05-22T16:17:28.929Z",
+        "minutesSinceBaseline": 171,
+        "answers": {
+          "wakeUp": "yes",
+          "touchComfortNow": "pleasant",
+          "movementNeedNow": 3,
+          "pleasantness": "pleasant",
+          "musicSoundIntensityNow": 2,
+          "wakefulnessNow": 2,
+          "hallucinationIntensity": 3,
+          "connectionNow": 4,
+          "talkingNeedNow": 2,
+          "mentalClarityNow": 3,
+          "moodNow": "very_good",
+          "noticedEffects": [
+            "dry_mouth",
+            "relaxation",
+            "warmth",
+            "tiredness"
+          ],
+          "bodyAwarenessNow": 5,
+          "feltAltered": "sober",
+          "visualIntensityNow": 3,
+          "timePerceptionNow": "slower",
+          "effectIntensity": 2,
+          "happinessNow": 4,
+          "moodChangeCompared": "slightly_better"
+        }
+      }
+    ]
+  },
+  {
+    "id": "b91818b3-322c-4220-a4bf-cc933296d960",
+    "participantCode": "P-HU-8488",
+    "baselineTimestamp": "2026-05-22T13:55:31.365Z",
+    "baseline": {
+      "timestamp": "2026-05-22T13:55:31.365Z",
+      "answers": {
+        "currentCalmness": 4,
+        "currentHappiness": 4,
+        "currentWakefulness": 2,
+        "currentConnection": 2,
+        "currentTouchComfort": "unpleasant",
+        "currentSociability": 2,
+        "currentVisualIntensity": 3,
+        "currentSoundIntensity": 4,
+        "currentBodyState": [
+          "relaxed",
+          "tired"
+        ],
+        "currentMentalClarity": 4,
+        "currentMood": "good"
+      }
+    },
+    "followups": [
+      {
+        "id": "248e76f5-0cb7-4233-bca9-f79742ced434",
+        "timestamp": "2026-05-22T14:33:36.665Z",
+        "minutesSinceBaseline": 38,
+        "answers": {
+          "hallucinationIntensity": 0,
+          "happinessNow": 4,
+          "musicSoundIntensityNow": 4,
+          "moodNow": "very_good",
+          "noticedEffects": [
+            "warmth",
+            "tiredness"
+          ],
+          "pleasantness": "pleasant",
+          "effectIntensity": 3,
+          "touchComfortNow": "pleasant",
+          "connectionNow": 3,
+          "feltAltered": "slightly_altered",
+          "wakefulnessNow": 2,
+          "wakeUp": "no",
+          "timePerceptionNow": "unchanged",
+          "moodChangeCompared": "slightly_better",
+          "movementNeedNow": 4,
+          "mentalClarityNow": 4,
+          "talkingNeedNow": 3,
+          "bodyAwarenessNow": 4,
+          "visualIntensityNow": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "08045229-ff57-47e1-8464-3f990e99ba6b",
+    "participantCode": "P-ZC-6857",
+    "baselineTimestamp": "2026-05-22T14:06:54.233Z",
+    "baseline": {
+      "timestamp": "2026-05-22T14:06:54.233Z",
+      "answers": {
+        "currentSociability": 5,
+        "currentMood": "very_good",
+        "currentSoundIntensity": 3,
+        "currentCalmness": 1,
+        "currentConnection": 4,
+        "currentBodyState": [
+          "relaxed",
+          "normal"
+        ],
+        "currentHappiness": 4,
+        "currentTouchComfort": "very_pleasant",
+        "currentWakefulness": 4,
+        "currentMentalClarity": 5,
+        "currentVisualIntensity": 3
+      }
+    },
+    "followups": [
+      {
+        "id": "178824b8-c681-45bd-90d7-9f5e4cb66cbc",
+        "timestamp": "2026-05-22T14:47:59.762Z",
+        "minutesSinceBaseline": 41,
+        "answers": {
+          "feltAltered": "slightly_altered",
+          "bodyAwarenessNow": 4,
+          "moodNow": "very_good",
+          "hallucinationIntensity": 3,
+          "pleasantness": "pleasant",
+          "touchComfortNow": "very_pleasant",
+          "talkingNeedNow": 5,
+          "effectIntensity": 1,
+          "movementNeedNow": 3,
+          "musicSoundIntensityNow": 4,
+          "wakeUp": "yes",
+          "connectionNow": 5,
+          "timePerceptionNow": "unclear",
+          "mentalClarityNow": 5,
+          "happinessNow": 4,
+          "visualIntensityNow": 4,
+          "noticedEffects": [
+            "mood_change"
+          ],
+          "moodChangeCompared": "slightly_better",
+          "wakefulnessNow": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "750005e9-21f4-4b03-a7b3-9bc6592336ff",
+    "participantCode": "P-DK-4366",
+    "baselineTimestamp": "2026-05-22T14:10:42.016Z",
+    "baseline": {
+      "timestamp": "2026-05-22T14:10:42.016Z",
+      "answers": {
+        "currentWakefulness": 2,
+        "currentSociability": 3,
+        "currentCalmness": 2,
+        "currentSoundIntensity": 4,
+        "currentVisualIntensity": 4,
+        "currentMentalClarity": 1,
+        "currentBodyState": [
+          "tired",
+          "relaxed",
+          "normal"
+        ],
+        "currentMood": "good",
+        "currentConnection": 4,
+        "currentHappiness": 3,
+        "currentTouchComfort": "neutral"
+      }
+    },
+    "followups": [
+      {
+        "id": "219300a5-37d5-418c-8e2a-1a2176b72a7c",
+        "timestamp": "2026-05-22T14:46:15.892Z",
+        "minutesSinceBaseline": 36,
+        "answers": {
+          "bodyAwarenessNow": 5,
+          "musicSoundIntensityNow": 5,
+          "effectIntensity": 3,
+          "timePerceptionNow": "faster",
+          "talkingNeedNow": 3,
+          "feltAltered": "slightly_altered",
+          "wakeUp": "yes",
+          "hallucinationIntensity": 0,
+          "mentalClarityNow": 1,
+          "wakefulnessNow": 0,
+          "happinessNow": 4,
+          "movementNeedNow": 5,
+          "connectionNow": 4,
+          "moodChangeCompared": "no_change",
+          "visualIntensityNow": 3,
+          "touchComfortNow": "unpleasant",
+          "noticedEffects": [
+            "warmth",
+            "tiredness",
+            "mood_change",
+            "changed_time_perception",
+            "other",
+            "increased_energy",
+            "relaxation"
+          ],
+          "moodNow": "good",
+          "pleasantness": "pleasant"
+        }
+      }
+    ]
+  },
+  {
+    "id": "2271e1ef-7020-4359-81f2-664dbab3b4c2",
+    "participantCode": "P-PU-4457",
+    "baselineTimestamp": "2026-05-22T15:22:37.053Z",
+    "baseline": {
+      "timestamp": "2026-05-22T15:22:37.053Z",
+      "answers": {
+        "currentVisualIntensity": 3,
+        "currentSociability": 3,
+        "currentWakefulness": 4,
+        "currentSoundIntensity": 3,
+        "currentConnection": 4,
+        "currentCalmness": 3,
+        "currentMentalClarity": 4,
+        "currentHappiness": 4,
+        "currentTouchComfort": "very_pleasant",
+        "currentMood": "good",
+        "currentBodyState": [
+          "relaxed",
+          "physically_light"
+        ]
+      }
+    },
+    "followups": [
+      {
+        "id": "b7e2f33f-e62f-40b8-b334-896ea6a16897",
+        "timestamp": "2026-05-22T15:44:24.001Z",
+        "minutesSinceBaseline": 22,
+        "answers": {
+          "moodNow": "good",
+          "moodChangeCompared": "no_change",
+          "hallucinationIntensity": 0,
+          "happinessNow": 3,
+          "feltAltered": "sober",
+          "connectionNow": 4,
+          "pleasantness": "neutral",
+          "wakefulnessNow": 2,
+          "talkingNeedNow": 3,
+          "movementNeedNow": 2,
+          "timePerceptionNow": "unchanged",
+          "effectIntensity": 0,
+          "wakeUp": "yes",
+          "noticedEffects": [
+            "none",
+            "tiredness"
+          ],
+          "musicSoundIntensityNow": 3,
+          "bodyAwarenessNow": 3,
+          "mentalClarityNow": 3,
+          "touchComfortNow": "very_pleasant",
+          "visualIntensityNow": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "c77ab20d-50d9-4b00-87b7-ae103d77cba4",
+    "participantCode": "P-SW-2849",
+    "baselineTimestamp": "2026-05-22T15:27:12.957Z",
+    "baseline": {
+      "timestamp": "2026-05-22T15:27:12.957Z",
+      "answers": {
+        "currentBodyState": [
+          "physically_heavy"
+        ],
+        "currentMentalClarity": 4,
+        "currentMood": "neutral",
+        "currentWakefulness": 3,
+        "currentHappiness": 3,
+        "currentSoundIntensity": 4,
+        "currentConnection": 3,
+        "currentCalmness": 3,
+        "currentTouchComfort": "neutral",
+        "currentVisualIntensity": 3,
+        "currentSociability": 4
+      }
+    },
+    "followups": [
+      {
+        "id": "89b8c515-a10b-47ec-8b26-a980966e4a50",
+        "timestamp": "2026-05-22T15:50:11.255Z",
+        "minutesSinceBaseline": 23,
+        "answers": {
+          "mentalClarityNow": 5,
+          "bodyAwarenessNow": 4,
+          "touchComfortNow": "neutral",
+          "musicSoundIntensityNow": 4,
+          "moodNow": "good",
+          "wakeUp": "no",
+          "talkingNeedNow": 4,
+          "wakefulnessNow": 3,
+          "movementNeedNow": 1,
+          "effectIntensity": 3,
+          "feltAltered": "sober",
+          "moodChangeCompared": "slightly_better",
+          "happinessNow": 4,
+          "pleasantness": "neutral",
+          "connectionNow": 3,
+          "timePerceptionNow": "faster",
+          "hallucinationIntensity": 0,
+          "visualIntensityNow": 2,
+          "noticedEffects": [
+            "changed_time_perception",
+            "increased_energy"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "b8172f9b-17bc-4204-8cbd-7467b1add1d4",
+    "participantCode": "P-XR-3588",
+    "baselineTimestamp": "2026-05-22T16:00:54.806Z",
+    "baseline": {
+      "timestamp": "2026-05-22T16:00:54.806Z",
+      "answers": {
+        "currentCalmness": 4,
+        "currentSociability": 2,
+        "currentHappiness": 3,
+        "currentMentalClarity": 3,
+        "currentMood": "good",
+        "currentBodyState": [
+          "other",
+          "relaxed",
+          "normal",
+          "physically_light"
+        ],
+        "currentSoundIntensity": 2,
+        "currentTouchComfort": "neutral",
+        "currentWakefulness": 1,
+        "currentVisualIntensity": 2,
+        "currentConnection": 2
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "80c9fb92-f60d-4935-b22e-8acdf71295e8",
+    "participantCode": "P-GP-9337",
+    "baselineTimestamp": "2026-05-22T16:06:25.656Z",
+    "baseline": {
+      "timestamp": "2026-05-22T16:06:25.656Z",
+      "answers": {
+        "currentMood": "neutral",
+        "currentBodyState": [
+          "restless",
+          "tense",
+          "tired"
+        ],
+        "currentConnection": 3,
+        "currentSociability": 3,
+        "currentVisualIntensity": 3,
+        "currentWakefulness": 4,
+        "currentCalmness": 1,
+        "currentSoundIntensity": 2,
+        "currentHappiness": 3,
+        "currentMentalClarity": 3,
+        "currentTouchComfort": "neutral"
+      }
+    },
+    "followups": [
+      {
+        "id": "8cafa47c-7d81-4236-8c38-5d34972dd8ab",
+        "timestamp": "2026-05-22T17:52:02.795Z",
+        "minutesSinceBaseline": 106,
+        "answers": {
+          "touchComfortNow": "neutral",
+          "talkingNeedNow": 4,
+          "wakefulnessNow": 4,
+          "timePerceptionNow": "unchanged",
+          "effectIntensity": 5,
+          "hallucinationIntensity": 2,
+          "pleasantness": "neutral",
+          "bodyAwarenessNow": 3,
+          "moodNow": "neutral",
+          "noticedEffects": [
+            "tiredness",
+            "tension",
+            "dry_mouth"
+          ],
+          "connectionNow": 3,
+          "musicSoundIntensityNow": 1,
+          "movementNeedNow": 5,
+          "mentalClarityNow": 2,
+          "feltAltered": "cannot_judge",
+          "visualIntensityNow": 3,
+          "wakeUp": "yes",
+          "happinessNow": 4,
+          "moodChangeCompared": "slightly_better"
+        }
+      }
+    ]
+  },
+  {
+    "id": "e3bc271e-a852-492f-bed2-0e1aa3a86c4c",
+    "participantCode": "P-QQ-7957",
+    "baselineTimestamp": "2026-05-22T17:46:27.840Z",
+    "baseline": {
+      "timestamp": "2026-05-22T17:46:27.840Z",
+      "answers": {
+        "currentSociability": 5,
+        "currentSoundIntensity": 2,
+        "currentHappiness": 3,
+        "currentMood": "good",
+        "currentBodyState": [
+          "restless"
+        ],
+        "currentWakefulness": 3,
+        "currentTouchComfort": "pleasant",
+        "currentConnection": 3,
+        "currentVisualIntensity": 3,
+        "currentCalmness": 3,
+        "currentMentalClarity": 2
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "c4170eaf-8407-4ea4-9ed2-c93fb4239197",
+    "participantCode": "P-BE-3485",
+    "baselineTimestamp": "2026-05-23T11:07:36.297Z",
+    "baseline": {
+      "timestamp": "2026-05-23T11:07:36.297Z",
+      "answers": {
+        "currentConnection": 4,
+        "currentCalmness": 3,
+        "currentSociability": 4,
+        "currentWakefulness": 2,
+        "currentMood": "good",
+        "currentBodyState": [
+          "normal",
+          "dizzy"
+        ],
+        "currentVisualIntensity": 3,
+        "currentTouchComfort": "pleasant",
+        "currentHappiness": 4,
+        "currentSoundIntensity": 3,
+        "currentMentalClarity": 3
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "2d493753-695d-4b31-b424-a5d1f51e745a",
+    "participantCode": "P-NA-8255",
+    "baselineTimestamp": "2026-05-23T11:07:36.313Z",
+    "baseline": {
+      "timestamp": "2026-05-23T11:07:36.313Z",
+      "answers": {
+        "currentConnection": 4,
+        "currentCalmness": 3,
+        "currentSociability": 4,
+        "currentWakefulness": 2,
+        "currentMood": "good",
+        "currentBodyState": [
+          "normal",
+          "dizzy"
+        ],
+        "currentVisualIntensity": 3,
+        "currentTouchComfort": "pleasant",
+        "currentHappiness": 4,
+        "currentSoundIntensity": 3,
+        "currentMentalClarity": 3
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "b143aac1-1dc3-4170-9075-98037fbee0ad",
+    "participantCode": "P-WW-2668",
+    "baselineTimestamp": "2026-05-23T11:15:07.123Z",
+    "baseline": {
+      "timestamp": "2026-05-23T11:15:07.123Z",
+      "answers": {
+        "currentVisualIntensity": 3,
+        "currentCalmness": 5,
+        "currentConnection": 5,
+        "currentMood": "good",
+        "currentWakefulness": 3,
+        "currentSociability": 3,
+        "currentHappiness": 3,
+        "currentBodyState": [
+          "physically_light",
+          "relaxed"
+        ],
+        "currentMentalClarity": 3,
+        "currentTouchComfort": "neutral",
+        "currentSoundIntensity": 3
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "aaa8542f-6096-4b2b-90b1-041f870ca884",
+    "participantCode": "P-AF-7279",
+    "baselineTimestamp": "2026-05-23T11:24:35.254Z",
+    "baseline": {
+      "timestamp": "2026-05-23T11:24:35.254Z",
+      "answers": {
+        "currentCalmness": 2,
+        "currentMentalClarity": 1,
+        "currentMood": "good",
+        "currentHappiness": 3,
+        "currentWakefulness": 3,
+        "currentSoundIntensity": 4,
+        "currentVisualIntensity": 4,
+        "currentConnection": 2,
+        "currentTouchComfort": "neutral",
+        "currentBodyState": [
+          "tense"
+        ],
+        "currentSociability": 3
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "cb8ce9d8-f1a8-45ee-85f8-faac70f17a5f",
+    "participantCode": "P-RU-3762",
+    "baselineTimestamp": "2026-05-23T11:47:33.048Z",
+    "baseline": {
+      "timestamp": "2026-05-23T11:47:33.048Z",
+      "answers": {
+        "currentCalmness": 4,
+        "currentWakefulness": 2,
+        "currentMood": "good",
+        "currentVisualIntensity": 4,
+        "currentSociability": 3,
+        "currentMentalClarity": 4,
+        "currentConnection": 5,
+        "currentTouchComfort": "very_pleasant",
+        "currentBodyState": [
+          "physically_light"
+        ],
+        "currentHappiness": 3,
+        "currentSoundIntensity": 5
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "ab3d0389-6e52-4b0b-bbaa-fd40ed5da112",
+    "participantCode": "P-DW-9649",
+    "baselineTimestamp": "2026-05-23T13:23:01.963Z",
+    "baseline": {
+      "timestamp": "2026-05-23T13:23:01.963Z",
+      "answers": {
+        "currentSoundIntensity": 2,
+        "currentSociability": 2,
+        "currentVisualIntensity": 2,
+        "currentWakefulness": 1,
+        "currentMentalClarity": 4,
+        "currentHappiness": 3,
+        "currentTouchComfort": "pleasant",
+        "currentConnection": 2,
+        "currentBodyState": [
+          "tired",
+          "normal"
+        ],
+        "currentMood": "neutral",
+        "currentCalmness": 4
+      }
+    },
+    "followups": []
+  },
+  {
+    "id": "0ce33295-3b4f-478a-8c88-220c6f723c30",
+    "participantCode": "P-AM-2425",
+    "baselineTimestamp": "2026-05-23T13:34:13.885Z",
+    "baseline": {
+      "timestamp": "2026-05-23T13:34:13.885Z",
+      "answers": {
+        "currentVisualIntensity": 1,
+        "currentConnection": 3,
+        "currentHappiness": 4,
+        "currentCalmness": 1,
+        "currentSociability": 3,
+        "currentMentalClarity": 5,
+        "currentBodyState": [
+          "normal",
+          "relaxed",
+          "tired",
+          "restless"
+        ],
+        "currentTouchComfort": "neutral",
+        "currentWakefulness": 2,
+        "currentSoundIntensity": 2,
+        "currentMood": "good"
+      }
+    },
+    "followups": [
+      {
+        "id": "f2eaf40f-0155-42b5-86ea-10f4f8bf4352",
+        "timestamp": "2026-05-23T14:18:01.072Z",
+        "minutesSinceBaseline": 44,
+        "answers": {
+          "bodyAwarenessNow": 4,
+          "pleasantness": "very_pleasant",
+          "wakeUp": "yes",
+          "timePerceptionNow": "unchanged",
+          "movementNeedNow": 3,
+          "visualIntensityNow": 2,
+          "talkingNeedNow": 4,
+          "mentalClarityNow": 4,
+          "musicSoundIntensityNow": 3,
+          "noticedEffects": [
+            "increased_energy",
+            "relaxation"
+          ],
+          "touchComfortNow": "pleasant",
+          "wakefulnessNow": 3,
+          "connectionNow": 3,
+          "hallucinationIntensity": 0,
+          "moodNow": "good",
+          "effectIntensity": 1,
+          "moodChangeCompared": "slightly_better",
+          "feltAltered": "cannot_judge",
+          "happinessNow": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "6bd9a001-97a3-4059-983c-0c7eb0066b48",
+    "participantCode": "P-EF-3659",
+    "baselineTimestamp": "2026-05-23T13:37:20.919Z",
+    "baseline": {
+      "timestamp": "2026-05-23T13:37:20.919Z",
+      "answers": {
+        "currentTouchComfort": "pleasant",
+        "currentHappiness": 4,
+        "currentWakefulness": 3,
+        "currentConnection": 4,
+        "currentMood": "good",
+        "currentBodyState": [
+          "tense"
+        ],
+        "currentSociability": 2,
+        "currentMentalClarity": 3,
+        "currentVisualIntensity": 5,
+        "currentSoundIntensity": 4,
+        "currentCalmness": 2
+      }
+    },
+    "followups": [
+      {
+        "id": "fbc04b15-0f9d-45e4-ac2b-a1c799542299",
+        "timestamp": "2026-05-23T14:22:05.712Z",
+        "minutesSinceBaseline": 45,
+        "answers": {
+          "pleasantness": "neutral",
+          "happinessNow": 4,
+          "visualIntensityNow": 5,
+          "hallucinationIntensity": 0,
+          "connectionNow": 4,
+          "touchComfortNow": "pleasant",
+          "timePerceptionNow": "unchanged",
+          "mentalClarityNow": 4,
+          "wakeUp": "yes",
+          "noticedEffects": [
+            "none"
+          ],
+          "effectIntensity": 0,
+          "wakefulnessNow": 4,
+          "bodyAwarenessNow": 2,
+          "musicSoundIntensityNow": 4,
+          "movementNeedNow": 3,
+          "moodChangeCompared": "slightly_better",
+          "moodNow": "good",
+          "talkingNeedNow": 3,
+          "feltAltered": "sober"
+        }
+      }
+    ]
+  },
+  {
+    "id": "4fd1f2dc-bdd5-4b9d-9cd1-fe9ec1f9d2c7",
+    "participantCode": "P-BV-3429",
+    "baselineTimestamp": "2026-05-23T14:23:50.814Z",
+    "baseline": {
+      "timestamp": "2026-05-23T14:23:50.814Z",
+      "answers": {
+        "currentTouchComfort": "neutral",
+        "currentVisualIntensity": 3,
+        "currentWakefulness": 3,
+        "currentCalmness": 2,
+        "currentMentalClarity": 4,
+        "currentHappiness": 4,
+        "currentConnection": 4,
+        "currentSoundIntensity": 4,
+        "currentBodyState": [
+          "physically_heavy",
+          "restless",
+          "normal"
+        ],
+        "currentMood": "good",
+        "currentSociability": 4
+      }
+    },
+    "followups": [
+      {
+        "id": "8e57614f-56f5-40ef-bab0-ef88d5d4e33d",
+        "timestamp": "2026-05-23T15:51:02.337Z",
+        "minutesSinceBaseline": 87,
+        "answers": {
+          "moodNow": "very_good",
+          "hallucinationIntensity": 0,
+          "noticedEffects": [
+            "warmth",
+            "restlessness",
+            "physical_lightness",
+            "increased_energy"
+          ],
+          "visualIntensityNow": 3,
+          "touchComfortNow": "pleasant",
+          "moodChangeCompared": "slightly_better",
+          "movementNeedNow": 3,
+          "talkingNeedNow": 4,
+          "wakefulnessNow": 4,
+          "musicSoundIntensityNow": 3,
+          "wakeUp": "yes",
+          "timePerceptionNow": "unclear",
+          "mentalClarityNow": 5,
+          "effectIntensity": 1,
+          "feltAltered": "slightly_altered",
+          "pleasantness": "pleasant",
+          "bodyAwarenessNow": 4,
+          "connectionNow": 4,
+          "happinessNow": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "ecc4ae7c-e5dd-41a4-b864-4d1e9716e1e0",
+    "participantCode": "P-YG-2635",
+    "baselineTimestamp": "2026-05-23T14:26:59.148Z",
+    "baseline": {
+      "timestamp": "2026-05-23T14:26:59.148Z",
+      "answers": {
+        "currentVisualIntensity": 2,
+        "currentSociability": 3,
+        "currentTouchComfort": "pleasant",
+        "currentMood": "neutral",
+        "currentConnection": 2,
+        "currentSoundIntensity": 4,
+        "currentCalmness": 2,
+        "currentWakefulness": 4,
+        "currentHappiness": 2,
+        "currentBodyState": [
+          "physically_heavy",
+          "normal",
+          "restless"
+        ],
+        "currentMentalClarity": 4
+      }
+    },
+    "followups": [
+      {
+        "id": "d3210e4e-cea3-4eaf-a5f4-bb6dc7d44a02",
+        "timestamp": "2026-05-23T15:54:05.896Z",
+        "minutesSinceBaseline": 87,
+        "answers": {
+          "moodChangeCompared": "much_better",
+          "visualIntensityNow": 5,
+          "happinessNow": 3,
+          "mentalClarityNow": 4,
+          "connectionNow": 4,
+          "noticedEffects": [
+            "warmth",
+            "increased_energy",
+            "other"
+          ],
+          "feltAltered": "clearly_altered",
+          "moodNow": "good",
+          "hallucinationIntensity": 0,
+          "touchComfortNow": "very_pleasant",
+          "wakeUp": "yes",
+          "pleasantness": "very_pleasant",
+          "talkingNeedNow": 4,
+          "timePerceptionNow": "faster",
+          "musicSoundIntensityNow": 4,
+          "wakefulnessNow": 4,
+          "effectIntensity": 3,
+          "movementNeedNow": 5,
+          "bodyAwarenessNow": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "e8e1ba39-4fc8-43c4-bcad-655078316d0a",
+    "participantCode": "P-MM-9457",
+    "baselineTimestamp": "2026-05-23T14:30:23.085Z",
+    "baseline": {
+      "timestamp": "2026-05-23T14:30:23.085Z",
+      "answers": {
+        "currentMentalClarity": 0,
+        "currentHappiness": 3,
+        "currentSociability": 3,
+        "currentWakefulness": 3,
+        "currentMood": "good",
+        "currentConnection": 3,
+        "currentVisualIntensity": 2,
+        "currentCalmness": 3,
+        "currentSoundIntensity": 4,
+        "currentBodyState": [
+          "physically_heavy",
+          "other"
+        ],
+        "currentTouchComfort": "pleasant"
+      }
+    },
+    "followups": [
+      {
+        "id": "d759b4bc-2dea-4c12-b63f-93a7be1175b2",
+        "timestamp": "2026-05-23T15:57:19.961Z",
+        "minutesSinceBaseline": 87,
+        "answers": {
+          "mentalClarityNow": 0,
+          "pleasantness": "very_pleasant",
+          "happinessNow": 3,
+          "wakeUp": "yes",
+          "musicSoundIntensityNow": 3,
+          "talkingNeedNow": 5,
+          "movementNeedNow": 3,
+          "noticedEffects": [
+            "mood_change",
+            "warmth",
+            "physical_lightness",
+            "changed_time_perception",
+            "visual_changes",
+            "increased_energy",
+            "dry_mouth",
+            "other"
+          ],
+          "feltAltered": "strongly_altered",
+          "touchComfortNow": "pleasant",
+          "visualIntensityNow": 5,
+          "effectIntensity": 5,
+          "wakefulnessNow": 5,
+          "hallucinationIntensity": 5,
+          "bodyAwarenessNow": 5,
+          "connectionNow": 5,
+          "timePerceptionNow": "faster",
+          "moodChangeCompared": "slightly_better",
+          "moodNow": "very_good"
+        }
+      }
+    ]
+  },
+  {
+    "id": "b1b08a93-4621-43bb-a3a8-68317504196d",
+    "participantCode": "P-FP-7769",
+    "baselineTimestamp": "2026-05-23T15:37:49.973Z",
+    "baseline": {
+      "timestamp": "2026-05-23T15:37:49.973Z",
+      "answers": {
+        "currentSoundIntensity": 3,
+        "currentSociability": 3,
+        "currentConnection": 2,
+        "currentWakefulness": 2,
+        "currentCalmness": 3,
+        "currentMentalClarity": 5,
+        "currentHappiness": 2,
+        "currentTouchComfort": "neutral",
+        "currentMood": "neutral",
+        "currentVisualIntensity": 3,
+        "currentBodyState": [
+          "tired"
+        ]
+      }
+    },
+    "followups": [
+      {
+        "id": "92078f1b-5b4b-4d7e-9094-fa0ee9b94d9e",
+        "timestamp": "2026-05-23T16:11:29.417Z",
+        "minutesSinceBaseline": 34,
+        "answers": {
+          "musicSoundIntensityNow": 3,
+          "talkingNeedNow": 2,
+          "wakeUp": "no",
+          "moodNow": "neutral",
+          "pleasantness": "neutral",
+          "visualIntensityNow": 2,
+          "connectionNow": 2,
+          "movementNeedNow": 2,
+          "bodyAwarenessNow": 3,
+          "wakefulnessNow": 3,
+          "feltAltered": "sober",
+          "touchComfortNow": "pleasant",
+          "noticedEffects": [
+            "other",
+            "restlessness"
+          ],
+          "effectIntensity": 2,
+          "mentalClarityNow": 4,
+          "moodChangeCompared": "no_change",
+          "hallucinationIntensity": 3,
+          "happinessNow": 2,
+          "timePerceptionNow": "unchanged"
+        }
+      }
+    ]
+  },
+  {
+    "id": "f232c775-fd8f-4d61-9f17-19e2e2d5fa00",
+    "participantCode": "P-DC-8647",
+    "baselineTimestamp": "2026-05-23T15:47:21.779Z",
+    "baseline": {
+      "timestamp": "2026-05-23T15:47:21.779Z",
+      "answers": {
+        "currentVisualIntensity": 3,
+        "currentTouchComfort": "neutral",
+        "currentCalmness": 4,
+        "currentSociability": 2,
+        "currentBodyState": [
+          "relaxed",
+          "tired"
+        ],
+        "currentConnection": 3,
+        "currentMentalClarity": 2,
+        "currentHappiness": 2,
+        "currentSoundIntensity": 2,
+        "currentMood": "good",
+        "currentWakefulness": 2
+      }
+    },
+    "followups": [
+      {
+        "id": "42dc9662-4603-494d-9d0d-23901885eb29",
+        "timestamp": "2026-05-23T16:42:42.042Z",
+        "minutesSinceBaseline": 55,
+        "answers": {
+          "connectionNow": 2,
+          "mentalClarityNow": 3,
+          "effectIntensity": 0,
+          "musicSoundIntensityNow": 1,
+          "touchComfortNow": "neutral",
+          "wakefulnessNow": 3,
+          "pleasantness": "neutral",
+          "noticedEffects": [
+            "other"
+          ],
+          "moodNow": "good",
+          "wakeUp": "no",
+          "timePerceptionNow": "unchanged",
+          "visualIntensityNow": 2,
+          "movementNeedNow": 2,
+          "bodyAwarenessNow": 3,
+          "feltAltered": "slightly_altered",
+          "moodChangeCompared": "slightly_better",
+          "happinessNow": 3,
+          "hallucinationIntensity": 0,
+          "talkingNeedNow": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "1dc57cc4-27c1-4736-90e6-f6d116f61705",
+    "participantCode": "P-LJ-6962",
+    "baselineTimestamp": "2026-05-23T16:50:56.436Z",
+    "baseline": {
+      "timestamp": "2026-05-23T16:50:56.436Z",
+      "answers": {
+        "currentConnection": 5,
+        "currentSoundIntensity": 2,
+        "currentTouchComfort": "neutral",
+        "currentCalmness": 5,
+        "currentBodyState": [
+          "tired",
+          "normal"
+        ],
+        "currentMood": "good",
+        "currentSociability": 5,
+        "currentMentalClarity": 4,
+        "currentHappiness": 5,
+        "currentWakefulness": 3,
+        "currentVisualIntensity": 3
+      }
+    },
+    "followups": []
+  }
+]

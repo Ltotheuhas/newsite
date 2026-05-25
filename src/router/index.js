@@ -128,6 +128,11 @@ const routes = [
     name: 'fuck spotify',
     component: () => import('../views/FuckSpotify.vue')
   },
+    {
+    path: '/pills',
+    name: 'pills',
+    component: () => import('../views/PillsView.vue')
+  },
   {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/FourOhFour.vue')
