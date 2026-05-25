@@ -61,7 +61,7 @@
 
                         <MetricBar label="Need to talk" :value="followup.answers?.talkingNeedNow" :max="10" />
 
-                        <MetricBar label="Sound / music intensity" :value="followup.answers?.musicSoundIntensityNow"
+                        <MetricBar label="Sound intensity" :value="followup.answers?.musicSoundIntensityNow"
                             :max="10" />
 
                         <MetricBar label="Visual intensity" :value="followup.answers?.visualIntensityNow" :max="10" />
