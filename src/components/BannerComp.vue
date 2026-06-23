@@ -503,7 +503,7 @@ const banners = ref([
     },
     {
         src: 'https://eraseer.info/images/violetbutton.gif',
-        url: 'https://eraseer.info/',
+        url: 'https://eraseer.info/', 
     },
 ])
 
