@@ -385,9 +385,6 @@ const banners = ref([
         src: 'https://cyber.dabamos.de/88x31/aponow.gif',
     },
     {
-        src: 'https://shroom.ink/images/bottom/oldmanyaoi.jpg',
-    },
-    {
         src: 'https://cyber.dabamos.de/88x31/thevoid.gif',
     },
     {
