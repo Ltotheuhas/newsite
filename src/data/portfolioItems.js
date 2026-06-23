@@ -330,7 +330,7 @@ export const portfolioItems = [
     year: "2020",
     category: ["clothes", "label"],
     primary: require("@/assets/grid/shirt2.png"),
-    secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/grid/virus.jpg")]
+    secondary: [require("@/assets/grid/shirt2_.png"), require("@/assets/grid/virus.jpg"), require("@/assets/grid/virus2.jpg")]
   },
   {
     name: "shirt3",

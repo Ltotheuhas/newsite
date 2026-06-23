@@ -488,7 +488,7 @@ const banners = ref([
         src: new URL('@/assets/banners/pharma.gif', import.meta.url).href,
         url: 'https://pharmakon.market/',
     },
-        {
+    {
         src: new URL('@/assets/banners/monochrome.png', import.meta.url).href,
         url: 'https://monochrome.tf/',
     },
@@ -503,6 +503,10 @@ const banners = ref([
     {
         src: 'https://www.kaossedgeofficial.com/img/Motherlode/Misc/IMG_3060.JPG',
         url: 'https://www.kaossedgeofficial.com/',
+    },
+    {
+        src: 'https://eraseer.info/images/violetbutton.gif',
+        url: 'https://eraseer.info/',
     },
 ])
 
