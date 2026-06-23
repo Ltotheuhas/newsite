@@ -466,9 +466,6 @@ const banners = ref([
         src: 'https://cyber.dabamos.de/88x31/banner2.gif',
     },
     {
-        src: 'https://cyber.dabamos.de/88x31/benis.gif',
-    },
-    {
         src: 'https://cyber.dabamos.de/88x31/asexuals_now.gif',
     },
     {
@@ -503,7 +500,7 @@ const banners = ref([
     },
     {
         src: 'https://eraseer.info/images/violetbutton.gif',
-        url: 'https://eraseer.info/', 
+        url: 'https://eraseer.info/',
     },
 ])
 
