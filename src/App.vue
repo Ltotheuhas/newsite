@@ -108,6 +108,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Play:wght@400;700&display=swap');
 
 @font-face {
   font-family: 'Cabazon';

@@ -139,7 +139,11 @@
         <v-col cols="12" lg="7" class="smallComments column">
             <v-card class="w-100">
                 <v-card-title>Comments (o≧∇≦)o</v-card-title>
-                <CommentComp />
+                <CommentCompDIY :comments="comments" :loading="commentsLoading" :current-page="commentsPage"
+                    :total-pages="commentsTotalPages" @submit="submitComment" @page-change="changeCommentPage" />
+                <p v-if="commentsError" style="color:#ff8f8f; margin-top:12px;">
+                    {{ commentsError }}
+                </p>
             </v-card>
         </v-col>
         <v-col v-if="shouldShowImage" cols="12" lg="5" class="smallComments column">
@@ -164,7 +168,8 @@
 
 <script>
 import BlogComp from '@/components/BlogComp.vue';
-import CommentComp from '@/components/CommentComp.vue';
+//import CommentComp from '@/components/CommentComp.vue';
+import CommentCompDIY from '@/components/CommentCompDIY.vue';
 import { portfolioItems } from '@/data/portfolioItems';
 import { getDailyMessages } from '../sanity';
 import RadioComp from '@/components/RadioComp.vue';
@@ -173,11 +178,17 @@ import BannerComp from '@/components/BannerComp.vue';
 import CoolP5Comp from '@/components/CoolP5Comp.vue';
 import CoolerP5Comp from '@/components/CoolerP5Comp.vue';
 
+const API_BASE =
+    window.location.hostname === 'localhost'
+        ? 'https://luh.as'
+        : '';
+
 export default {
     name: 'MySpace',
 
     components: {
-        CommentComp,
+        //CommentComp,
+        CommentCompDIY,
         BlogComp,
         RadioComp,
         StoreComp,
@@ -210,6 +221,13 @@ export default {
             currentUrl: window.location.hostname,
             presenceStatus: 'checking…',
             lastOnline: null,
+            comments: [],
+            commentsLoading: false,
+            commentsError: '',
+            commentsPage: 1,
+            commentsLimit: 10,
+            commentsTotalPages: 1,
+            commentsTotalItems: 0,
         };
     },
 
@@ -234,7 +252,7 @@ export default {
     },
 
     mounted() {
-        this.loadCommentBoxScript();
+        this.fetchComments();
         this.fetchDailyMessages();
         this.selectRandomMeImage();
         this.$nextTick(() => {
@@ -262,27 +280,6 @@ export default {
     },
 
     methods: {
-        loadCommentBoxScript() {
-            if (!window.hcb_user) {
-                window.hcb_user = {};
-            }
-
-            const cleanUrl = window.location.href.split('?')[0];
-            const s = document.createElement('script');
-            const l = window.hcb_user.PAGE || cleanUrl.replace(/'/g, "%27");
-            const h = "https://www.htmlcommentbox.com";
-
-            s.setAttribute("type", "text/javascript");
-            s.setAttribute(
-                "src",
-                `${h}/jread?page=${encodeURIComponent(l).replace("+", "%2B")}&mod=%241%24wq1rdBcg%24jJ44Z9Yty1bqAkTYA64Nz1&opts=16798&num=10&ts=${Date.now()}`
-            );
-
-            if (typeof s != "undefined") {
-                document.getElementsByTagName("head")[0].appendChild(s);
-            }
-        },
-
         async fetchDailyMessages() {
             try {
                 const messages = await getDailyMessages();
@@ -466,6 +463,96 @@ export default {
             const xmr =
                 '87Xeaf2iddZX59zxBLoQ9iZ2tZXbnJu1sBZ5sSUS9tN8goEjEyFLmx4Xp6HNy4aUmx2kdYuWXbvBw4j9pjPgX56L6q59b89';
             navigator.clipboard.writeText(xmr);
+        },
+
+        normalizeComment(comment) {
+            return {
+                ...comment,
+                imageUrl: comment.imageUrl ? `${API_BASE}${comment.imageUrl}` : null,
+                replies: (comment.replies || []).map(this.normalizeComment),
+            };
+        },
+
+        async fetchComments(page = this.commentsPage) {
+            this.commentsLoading = true;
+            this.commentsError = '';
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/api/comments?pageKey=guestbook&page=${page}&limit=${this.commentsLimit}`,
+                    { cache: 'no-store' }
+                );
+
+                if (!response.ok) {
+                    throw new Error('Failed to load comments');
+                }
+
+                const data = await response.json();
+
+                this.commentsPage = data.page;
+                this.commentsTotalPages = data.totalPages;
+                this.commentsTotalItems = data.totalItems;
+                this.comments = (data.items || []).map(this.normalizeComment);
+            } catch (error) {
+                console.error('Failed to fetch comments:', error);
+                this.commentsError = 'Failed to load comments';
+            } finally {
+                this.commentsLoading = false;
+            }
+        },
+
+        async submitComment({ authorName, body, image, parentId, resetForm }) {
+            this.commentsError = '';
+
+            try {
+                const formData = new FormData();
+                formData.append('pageKey', 'guestbook');
+                formData.append('authorName', authorName || '');
+                formData.append('body', body);
+
+                if (parentId) {
+                    formData.append('parentId', parentId);
+                }
+
+                if (image) {
+                    formData.append('image', image);
+                }
+
+                const response = await fetch(`${API_BASE}/api/comments`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.error || 'Failed to post comment');
+                }
+
+                resetForm();
+                await this.fetchComments(1);
+            } catch (error) {
+                console.error('Failed to submit comment:', error);
+                this.commentsError = error.message || 'Failed to post comment';
+            }
+        },
+
+        onReply(comment) {
+            console.log('reply later', comment);
+        },
+
+        changeCommentPage(page) {
+            if (page < 1 || page > this.commentsTotalPages || page === this.commentsPage) {
+                return;
+            }
+
+            this.fetchComments(page);
+
+            this.$nextTick(() => {
+                const el = document.querySelector('.comment-box');
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         },
     },
 };
@@ -686,19 +773,7 @@ a:hover {
 </style>
 
 <style>
-#HCB_comment_box .hcb-comment-tb button {
-    color: var(--dynamic-color) !important;
-}
-
-#HCB_comment_box .hcb-icon {
-    filter: grayscale(80%) brightness(120%) hue-rotate(var(--dynamic-hue-arrow));
-}
-
 .counter img {
     filter: grayscale(80%) brightness(80%) hue-rotate(var(--dynamic-hue-counter));
-}
-
-.hcb-wrapper {
-    max-width: 600px;
 }
 </style>
