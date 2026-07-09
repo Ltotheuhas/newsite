@@ -95,7 +95,7 @@ export default {
 
     computed: {
         canSubmit() {
-            return this.body.trim().length > 0;
+            return this.body.trim().length > 0 || !!this.image;
         },
 
         visiblePages() {
