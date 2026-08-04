@@ -480,7 +480,7 @@ const banners = ref([
     },
     {
         src: new URL('@/assets/banners/pharma.gif', import.meta.url).href,
-        url: 'https://pharmakon.market/',
+        url: 'https://pharmakonmarket.eth.limo/',
     },
     {
         src: new URL('@/assets/banners/monochrome.png', import.meta.url).href,
