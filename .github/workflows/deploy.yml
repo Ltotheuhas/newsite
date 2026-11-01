@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      HOST: 80.108.204.51
+      HOST: 90.146.208.200
       USER: servore
       REMOTE_DIR: /var/www/luhas.gratis
 
