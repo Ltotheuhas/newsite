@@ -3,8 +3,6 @@
         <div ref="playerFrame" class="player-frame">
             <video ref="video" controls playsinline @error="onVideoError" />
 
-            <div class="channel-logo">LUHAS TV</div>
-
             <div v-if="!started" class="overlay">
                 <button @click="tuneIn">TUNE IN</button>
             </div>
@@ -13,9 +11,6 @@
         <div class="controls">
             <button @click="goLive" :disabled="!started">
                 RETURN TO LIVE
-            </button>
-            <button @click="toggleFullscreen">
-                FULLSCREEN
             </button>
         </div>
 
