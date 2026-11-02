@@ -15,11 +15,14 @@
         </div>
 
         <p v-if="error" class="error">{{ error }}</p>
+
+        <TvGuide />
     </main>
 </template>
 
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
+import TvGuide from '@/components/TvGuide.vue'
 import Hls from 'hls.js'
 
 const STREAM_URL =
