@@ -151,12 +151,14 @@ onBeforeUnmount(destroyPlayer)
     aspect-ratio: 16 / 9;
     background: #000;
     overflow: hidden;
+    aspect-ratio: 4 / 3;
 }
 
 .player-frame video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     pointer-events: none;
 }
 
