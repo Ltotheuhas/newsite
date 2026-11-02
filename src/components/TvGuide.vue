@@ -9,7 +9,6 @@
         </p>
         <p v-if="next"><strong>Next:</strong> {{ next.title }} at {{ time(next.start) }}</p>
       </div>
-      <span class="live-label">● LIVE</span>
     </header>
 
     <p v-if="error" class="guide-message" role="alert">{{ error }}</p>
@@ -131,8 +130,6 @@ onBeforeUnmount(() => {
 <style scoped>
 .tv-guide {
   margin-top: 24px;
-  padding: 20px;
-  background: #15191e;
   color: #f1f3f5;
   border-radius: 13px;
   font-family: inherit;
