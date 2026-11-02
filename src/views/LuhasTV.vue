@@ -1,14 +1,14 @@
 <template>
     <main class="tv-page">
         <div ref="playerFrame" class="player-frame">
-            <video ref="video" controls playsinline @error="onVideoError" />
+            <video ref="video" playsinline tabindex="-1" @error="onVideoError" />
 
             <div v-if="!started" class="overlay">
                 <button @click="tuneIn">TUNE IN</button>
             </div>
         </div>
 
-        <div class="controls">
+        <div style="display: none;" class="controls">
             <button @click="goLive" :disabled="!started">
                 RETURN TO LIVE
             </button>
@@ -83,7 +83,8 @@ function tuneIn() {
     ) {
         element.src = STREAM_URL
         element.play().catch(() => {
-            error.value = 'Press Play to start.'
+            error.value = 'Click TUNE IN to start the broadcast.'
+            started.value = false
         })
     } else {
         error.value = 'Your browser does not support HLS.'
@@ -156,6 +157,7 @@ onBeforeUnmount(destroyPlayer)
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none;
 }
 
 .channel-logo {
