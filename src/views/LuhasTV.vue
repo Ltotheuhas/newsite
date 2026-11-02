@@ -106,10 +106,6 @@ function goLive() {
     element.play().catch(() => { })
 }
 
-function toggleFullscreen() {
-    playerFrame.value?.requestFullscreen?.()
-}
-
 function onVideoError() {
     if (!hls) {
         error.value = 'Video playback failed.'
